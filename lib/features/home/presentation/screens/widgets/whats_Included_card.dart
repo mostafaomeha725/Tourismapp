@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tourismapp/core/theme/styles.dart';
+import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/about_experience_card.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/include_item_row.dart';
+
+class WhatsIncludedCard extends StatelessWidget {
+  const WhatsIncludedCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(16.w),
+      decoration: commonDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppText(
+            "What's Included",
+            style: font18w700.copyWith(color: Colors.black87),
+          ),
+          SizedBox(height: 16.h),
+          IncludedItemRow(text: 'Professional Tour Guide'),
+          IncludedItemRow(text: 'Entrance Tickets'),
+          IncludedItemRow(text: 'Transportation'),
+          IncludedItemRow(text: 'Bottled Water'),
+          IncludedItemRow(text: 'Historical Insights'),
+        ],
+      ),
+    );
+  }
+}
