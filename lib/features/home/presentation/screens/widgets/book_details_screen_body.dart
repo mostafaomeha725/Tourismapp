@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tourismapp/core/constants/app_assets.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
+import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 
 import 'package:tourismapp/features/home/presentation/screens/widgets/about_experience_card.dart';
@@ -137,7 +138,11 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
           child: AppButton(
             text: 'book now - \$50',
             onPressed: () {
-              GoRouter.of(context).push(Routes.bookingsScreen);
+              if (AuthService.isLoggedIn) {
+                GoRouter.of(context).push(Routes.bookingsScreen);
+              } else {
+                GoRouter.of(context).push(Routes.authScreen);
+              }
             },
             color: Color(0xffdb6000),
             height: 50.h,

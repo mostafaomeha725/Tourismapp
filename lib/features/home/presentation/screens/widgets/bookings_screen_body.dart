@@ -150,19 +150,15 @@ class _BookingsScreenBodyState extends State<BookingsScreenBody> {
                   return;
                 }
 
-                if (AuthService.isLoggedIn) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Selected: ${_selectedDate!.toLocal().toIso8601String().split("T").first} at $_selectedTime',
-                      ),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Selected: ${_selectedDate!.toLocal().toIso8601String().split("T").first} at $_selectedTime',
                     ),
-                  );
-                  GoRouter.of(context).pop();
-                  GoRouter.of(context).pop();
-                } else {
-                  GoRouter.of(context).push(Routes.authScreen);
-                }
+                  ),
+                );
+                GoRouter.of(context).pop();
+                GoRouter.of(context).pop();
               },
               color: const Color(0xffdb6000),
             ),
