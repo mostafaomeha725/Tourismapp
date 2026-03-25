@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_divider.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_list_title.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/section_title.dart';
@@ -137,9 +139,7 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.logout,
                       title: "Log out",
                       onTap: () {
-                        GoRouter.of(
-                          context,
-                        ).pushReplacement(Routes.loginScreen);
+                        context.read<LogoutCubit>().logout();
                       },
                     ),
                     SizedBox(height: 6.h),

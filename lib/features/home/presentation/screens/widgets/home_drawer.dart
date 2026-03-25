@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key, this.onNavigateToTab});
@@ -65,7 +66,8 @@ class HomeDrawer extends StatelessWidget {
                   leading: const Icon(Icons.logout_outlined),
                   title: const AppText("Logout"),
                   onTap: () {
-                    GoRouter.of(context).pushReplacement(Routes.loginScreen);
+                    GoRouter.of(context).pop();
+                    context.read<LogoutCubit>().logout();
                   },
                 ),
               ],

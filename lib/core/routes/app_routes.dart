@@ -20,7 +20,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter createRouter() {
   return GoRouter(
-    initialLocation: Routes.splashScreen,
+    initialLocation: Routes.loginScreen,
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
     observers: [SentryNavigatorObserver()],

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -41,7 +42,7 @@ class NetworkService {
 
     dio.options.headers = {
       "Accept": "application/json",
-      "Accept-Encoding": "gzip, deflate, br",
+      "Accept-Encoding": "gzip, deflate",
 
       if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
     };
@@ -49,6 +50,10 @@ class NetworkService {
 
   void addToken(String token) {
     dio.options.headers['Authorization'] = "Bearer $token";
+  }
+
+  void removeToken() {
+    dio.options.headers.remove('Authorization');
   }
 
   Future<Either<Failure, dynamic>> postData({
@@ -84,8 +89,8 @@ class NetworkService {
       }
     } on SocketException {
       return const Left(Failure("No Internet Connection"));
-    } on FormatException {
-      return const Left(Failure("Format Exception"));
+    } on FormatException catch (e) {
+      return Left(Failure(_handleFormatException(e)));
     } on DioException catch (e) {
       return handleDioExceoptions(e);
     } catch (e) {
@@ -324,8 +329,61 @@ class NetworkService {
       return const Left(Failure("Check your connection"));
     } else if (e.type == DioExceptionType.receiveTimeout) {
       return const Left(Failure("Unable to connect to the server"));
+    } else if (e.type == DioExceptionType.unknown) {
+      final responseData = e.response?.data;
+      if (responseData is Map<String, dynamic>) {
+        final message = _extractErrorMessage(
+          responseData,
+          fallback: 'Unexpected network error',
+        );
+        return Left(Failure(message));
+      }
+
+      if (responseData is String) {
+        final parsed = _tryParseJsonObject(responseData);
+        if (parsed != null) {
+          final message = _extractErrorMessage(
+            parsed,
+            fallback: 'Unexpected network error',
+          );
+          return Left(Failure(message));
+        }
+
+        final trimmed = responseData.trim();
+        if (trimmed.startsWith('<!DOCTYPE html') ||
+            trimmed.startsWith('<html')) {
+          return const Left(
+            Failure('Server returned HTML instead of JSON response.'),
+          );
+        }
+
+        if (trimmed.isNotEmpty) {
+          return Left(Failure(trimmed));
+        }
+      }
+
+      final error = e.error;
+      if (error is SocketException) {
+        return const Left(Failure('No Internet Connection'));
+      }
+
+      if (error is HandshakeException || error is TlsException) {
+        return const Left(
+          Failure('Secure connection failed. Please try another network.'),
+        );
+      }
+
+      if (error is HttpException) {
+        return Left(Failure(error.message));
+      }
+
+      if (error != null) {
+        return Left(Failure(error.toString()));
+      }
+
+      return Left(Failure(e.message ?? 'Unexpected network error'));
     } else {
-      return Left(Failure(e.message ?? ""));
+      return Left(Failure(e.message ?? 'Unexpected network error'));
     }
   }
 
@@ -376,5 +434,29 @@ class NetworkService {
     }
 
     return fallback;
+  }
+
+  String _handleFormatException(FormatException exception) {
+    final message = exception.message.toLowerCase();
+    if (message.contains('unexpected character')) {
+      return 'Server returned invalid response format.';
+    }
+    return exception.message;
+  }
+
+  Map<String, dynamic>? _tryParseJsonObject(String value) {
+    final normalized = value.trim().replaceFirst('\uFEFF', '');
+    if (normalized.isEmpty) {
+      return null;
+    }
+
+    try {
+      final decoded = jsonDecode(normalized);
+      if (decoded is Map<String, dynamic>) {
+        return decoded;
+      }
+    } catch (_) {}
+
+    return null;
   }
 }

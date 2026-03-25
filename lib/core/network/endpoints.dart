@@ -1,8 +1,8 @@
 class EndPoints {
   /// Auth endpoints
-  static const String register = 'auth/register';
-  static const String login = 'auth/login';
-  static const String logout = 'auth/logout';
+  static const String register = 'register';
+  static const String login = 'login';
+  static const String logout = 'logout';
   static const String sendOtp = 'auth/send-otp';
   static const String verifyOtp = 'auth/verify-otp';
   static const String forgotPassword = 'auth/forgot-password';
