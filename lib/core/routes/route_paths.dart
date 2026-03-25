@@ -11,6 +11,7 @@ class Routes {
   static const visitedPlacesScreen = '/visitedPlacesScreen';
   static const editProfileScreen = '/editProfileScreen';
   static const bookDetailsScreen = '/bookDetailsScreen';
+  static String bookDetailsById(int id) => '$bookDetailsScreen/$id';
   static const privacyPolicyScreen = '/privacypolicyScreen';
   static const termsOfUseScreen = '/TermsOfUseScreen';
 }

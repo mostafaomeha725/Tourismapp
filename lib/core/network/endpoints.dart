@@ -15,6 +15,12 @@ class EndPoints {
   /// Services / Trips endpoints
   static const String services = 'services';
   static String serviceDetails(int id) => 'services/$id';
+  static const String packages = 'packages';
+  static String packageDetails(int id) => 'packages/$id';
+  static const String packagesPriceRange = 'packages-price-range';
+  static const String places = 'places';
+  static const String categories = 'categories';
+  static const String reviews = 'reviews';
 
   /// Bookings endpoints
   static const String bookings = 'bookings';

@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tourismapp/core/extensions/ext_theme.dart';
 
-import '/core/widgets/app_asset.dart';
-
 class AppImage extends StatefulWidget {
   const AppImage({
     super.key,
@@ -63,9 +61,13 @@ class _AppImageState extends State<AppImage> {
         },
         errorWidget: (context, url, error) {
           return Container(
-            color: Colors.black,
-            padding: EdgeInsets.all(5.h),
-            child: const AppAsset(assetName: 'divido'),
+            color: Colors.grey.shade200,
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.broken_image_outlined,
+              color: Colors.grey.shade500,
+              size: 28.h,
+            ),
           );
         },
       ),

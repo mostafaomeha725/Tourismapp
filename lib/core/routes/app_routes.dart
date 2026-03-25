@@ -20,7 +20,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter createRouter() {
   return GoRouter(
-    initialLocation: Routes.loginScreen,
+    initialLocation: Routes.splashScreen,
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
     observers: [SentryNavigatorObserver()],
@@ -66,8 +66,11 @@ GoRouter createRouter() {
         builder: (context, state) => const EditProfileScreen(),
       ),
       GoRoute(
-        path: Routes.bookDetailsScreen,
-        builder: (context, state) => const BookDetailsScreen(),
+        path: '${Routes.bookDetailsScreen}/:id',
+        builder: (context, state) {
+          final packageId = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+          return BookDetailsScreen(packageId: packageId);
+        },
       ),
       GoRoute(
         path: Routes.privacyPolicyScreen,

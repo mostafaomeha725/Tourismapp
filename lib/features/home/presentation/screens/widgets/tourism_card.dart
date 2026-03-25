@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
+import 'package:tourismapp/core/widgets/app_image.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/screens/rate_service_dialog.dart';
@@ -18,6 +19,10 @@ class TourismCard extends StatelessWidget {
   final bool isicon;
   final void Function()? onBook;
   final double? price;
+  final double? rating;
+  final int? reviewsCount;
+  final int? packageId;
+  final Future<void> Function()? onReviewSubmitted;
 
   const TourismCard({
     super.key,
@@ -31,6 +36,10 @@ class TourismCard extends StatelessWidget {
     this.isicon = false,
     this.onBook,
     this.price,
+    this.rating,
+    this.reviewsCount,
+    this.packageId,
+    this.onReviewSubmitted,
   });
 
   @override
@@ -60,12 +69,19 @@ class TourismCard extends StatelessWidget {
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(16.r),
                     ),
-                    child: AppAsset(
-                      assetName: imageUrl,
-                      width: double.infinity,
-                      height: 180.h,
-                      fit: BoxFit.cover,
-                    ),
+                    child: imageUrl.startsWith('http')
+                        ? AppImage(
+                            imageUrl: imageUrl,
+                            width: double.infinity,
+                            height: 180.h,
+                            fit: BoxFit.cover,
+                          )
+                        : AppAsset(
+                            assetName: imageUrl,
+                            width: double.infinity,
+                            height: 180.h,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Positioned(
                     top: 8.h,
@@ -152,7 +168,7 @@ class TourismCard extends StatelessWidget {
                                   Row(
                                     children: [
                                       AppText(
-                                        "(124)",
+                                        "(${reviewsCount ?? 0})",
                                         style: font12w400.copyWith(
                                           color: Colors.grey,
                                         ),
@@ -160,7 +176,10 @@ class TourismCard extends StatelessWidget {
 
                                       SizedBox(width: 4),
 
-                                      AppText("4.8", style: font16w600),
+                                      AppText(
+                                        (rating ?? 0).toStringAsFixed(1),
+                                        style: font16w600,
+                                      ),
 
                                       SizedBox(width: 3),
 
@@ -181,12 +200,23 @@ class TourismCard extends StatelessWidget {
                                     child: AppButton.icon(
                                       text: 'evaluate',
 
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              const RateServiceDialog(),
-                                        );
+                                      onPressed: () async {
+                                        if (packageId == null) {
+                                          return;
+                                        }
+                                        final didSubmit =
+                                            await showDialog<bool>(
+                                              context: context,
+                                              builder: (context) =>
+                                                  RateServiceDialog(
+                                                    packageId: packageId!,
+                                                    title: title,
+                                                  ),
+                                            );
+
+                                        if (didSubmit == true) {
+                                          await onReviewSubmitted?.call();
+                                        }
                                       },
                                       height: 42.h,
                                       borderColor: Colors.grey,

@@ -9,11 +9,17 @@ import 'package:tourismapp/features/home/presentation/screens/widgets/filter_opt
 class FilterBottomSheet extends StatefulWidget {
   final FilterOptions initialOptions;
   final ValueChanged<FilterOptions> onApply;
+  final List<Map<String, dynamic>> places;
+  final double minBudget;
+  final double maxBudget;
 
   const FilterBottomSheet({
     super.key,
     required this.initialOptions,
     required this.onApply,
+    required this.places,
+    required this.minBudget,
+    required this.maxBudget,
   });
 
   @override
@@ -24,22 +30,29 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   late String? _selectedCity;
   late RangeValues _budgetRange;
 
-  static const double _minBudget = 0;
-  static const double _maxBudget = 300;
-
-  final List<Map<String, dynamic>> _cities = [
-    {'name': 'Giza', 'icon': Icons.account_balance_outlined},
-    {'name': 'Alexandria', 'icon': Icons.waves},
-    {'name': 'Luxor', 'icon': Icons.account_balance},
-    {'name': 'Aswan', 'icon': Icons.sailing},
-    {'name': 'Sharm El Sheikh', 'icon': Icons.beach_access},
-  ];
+  late double _minBudget;
+  late double _maxBudget;
 
   @override
   void initState() {
     super.initState();
+    _minBudget = widget.minBudget;
+    _maxBudget = widget.maxBudget <= widget.minBudget
+        ? widget.minBudget + 1
+        : widget.maxBudget;
     _selectedCity = widget.initialOptions.selectedCity;
-    _budgetRange = widget.initialOptions.budgetRange;
+    final start = widget.initialOptions.budgetRange.start.clamp(
+      _minBudget,
+      _maxBudget,
+    );
+    final end = widget.initialOptions.budgetRange.end.clamp(
+      _minBudget,
+      _maxBudget,
+    );
+    _budgetRange = RangeValues(
+      start.toDouble(),
+      end.toDouble() < start.toDouble() ? start.toDouble() : end.toDouble(),
+    );
   }
 
   @override
@@ -75,7 +88,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 onTap: () {
                   setState(() {
                     _selectedCity = null;
-                    _budgetRange = const RangeValues(_minBudget, _maxBudget);
+                    _budgetRange = RangeValues(_minBudget, _maxBudget);
                   });
                 },
                 child: AppText(
@@ -94,7 +107,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           Wrap(
             spacing: 8.w,
             runSpacing: 8.h,
-            children: _cities.map((city) {
+            children: widget.places.map((city) {
               final bool isSelected = _selectedCity == city['name'];
               return GestureDetector(
                 onTap: () {
@@ -170,7 +183,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               values: _budgetRange,
               min: _minBudget,
               max: _maxBudget,
-              divisions: 30,
+              divisions: (_maxBudget - _minBudget).toInt().clamp(1, 100),
               onChanged: (values) {
                 setState(() {
                   _budgetRange = values;

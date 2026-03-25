@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
+import 'package:tourismapp/core/widgets/app_image.dart';
 
 class DetailsImageHeader extends StatelessWidget {
   final List<String> images;
@@ -35,7 +36,11 @@ class DetailsImageHeader extends StatelessWidget {
                 itemCount: images.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return AppAsset(assetName: images[index], fit: BoxFit.cover);
+                  final image = images[index];
+                  if (image.startsWith('http')) {
+                    return AppImage(imageUrl: image, fit: BoxFit.cover);
+                  }
+                  return AppAsset(assetName: image, fit: BoxFit.cover);
                 },
               ),
             ),

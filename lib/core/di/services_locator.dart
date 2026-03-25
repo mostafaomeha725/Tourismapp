@@ -12,6 +12,24 @@ import 'package:tourismapp/features/auth/domain/usecases/register_usecase.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:tourismapp/features/home/data/datasources/packages_remote_data_source.dart';
+import 'package:tourismapp/features/home/data/datasources/places_remote_data_source.dart';
+import 'package:tourismapp/features/home/data/datasources/categories_remote_data_source.dart';
+import 'package:tourismapp/features/home/data/repositories/categories_repository_impl.dart';
+import 'package:tourismapp/features/home/data/repositories/packages_repository_impl.dart';
+import 'package:tourismapp/features/home/data/repositories/places_repository_impl.dart';
+import 'package:tourismapp/features/home/domain/repositories/categories_repository.dart';
+import 'package:tourismapp/features/home/domain/repositories/packages_repository.dart';
+import 'package:tourismapp/features/home/domain/repositories/places_repository.dart';
+import 'package:tourismapp/features/home/domain/usecases/get_categories_usecase.dart';
+import 'package:tourismapp/features/home/domain/usecases/get_package_by_id_usecase.dart';
+import 'package:tourismapp/features/home/domain/usecases/get_packages_price_range_usecase.dart';
+import 'package:tourismapp/features/home/domain/usecases/get_packages_usecase.dart';
+import 'package:tourismapp/features/home/domain/usecases/get_places_usecase.dart';
+import 'package:tourismapp/features/home/domain/usecases/submit_review_usecase.dart';
+import 'package:tourismapp/features/home/presentation/cubit/package_details_cubit.dart';
+import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
+import 'package:tourismapp/features/home/presentation/cubit/submit_review_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -20,6 +38,7 @@ class ServiceLocator {
     await _initStorage();
     _initDio();
     _initAuth();
+    _initHome();
   }
 
   /// =============================
@@ -75,6 +94,83 @@ class ServiceLocator {
 
     if (!sl.isRegistered<LogoutCubit>()) {
       sl.registerFactory(() => LogoutCubit(sl()));
+    }
+  }
+
+  /// =============================
+  /// HOME
+  /// =============================
+  void _initHome() {
+    if (!sl.isRegistered<PackagesRemoteDataSource>()) {
+      sl.registerLazySingleton<PackagesRemoteDataSource>(
+        () => PackagesRemoteDataSourceImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<PlacesRemoteDataSource>()) {
+      sl.registerLazySingleton<PlacesRemoteDataSource>(
+        () => PlacesRemoteDataSourceImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<CategoriesRemoteDataSource>()) {
+      sl.registerLazySingleton<CategoriesRemoteDataSource>(
+        () => CategoriesRemoteDataSourceImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<PackagesRepository>()) {
+      sl.registerLazySingleton<PackagesRepository>(
+        () => PackagesRepositoryImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<PlacesRepository>()) {
+      sl.registerLazySingleton<PlacesRepository>(
+        () => PlacesRepositoryImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<CategoriesRepository>()) {
+      sl.registerLazySingleton<CategoriesRepository>(
+        () => CategoriesRepositoryImpl(sl()),
+      );
+    }
+
+    if (!sl.isRegistered<GetPackagesUseCase>()) {
+      sl.registerLazySingleton(() => GetPackagesUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<GetPackagesPriceRangeUseCase>()) {
+      sl.registerLazySingleton(() => GetPackagesPriceRangeUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<GetPackageByIdUseCase>()) {
+      sl.registerLazySingleton(() => GetPackageByIdUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<GetPlacesUseCase>()) {
+      sl.registerLazySingleton(() => GetPlacesUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<SubmitReviewUseCase>()) {
+      sl.registerLazySingleton(() => SubmitReviewUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<GetCategoriesUseCase>()) {
+      sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
+    }
+
+    if (!sl.isRegistered<PackagesCubit>()) {
+      sl.registerFactory(() => PackagesCubit(sl(), sl(), sl(), sl()));
+    }
+
+    if (!sl.isRegistered<PackageDetailsCubit>()) {
+      sl.registerFactory(() => PackageDetailsCubit(sl()));
+    }
+
+    if (!sl.isRegistered<SubmitReviewCubit>()) {
+      sl.registerFactory(() => SubmitReviewCubit(sl()));
     }
   }
 }

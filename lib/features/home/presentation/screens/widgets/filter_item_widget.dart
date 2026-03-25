@@ -19,28 +19,28 @@ class FilterItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          padding: isSelected ? EdgeInsets.symmetric(vertical: 8.h) : null,
-          decoration: isSelected
-              ? BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                  boxShadow: [
-                    BoxShadow(
-                      // ignore: deprecated_member_use
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4.r,
-                      offset: Offset(0, 2.h),
-                    ),
-                  ],
-                )
-              : null,
-          child: _buildContent(),
-        ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        padding: isSelected
+            ? EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h)
+            : EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        decoration: isSelected
+            ? BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.r),
+                boxShadow: [
+                  BoxShadow(
+                    // ignore: deprecated_member_use
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 4.r,
+                    offset: Offset(0, 2.h),
+                  ),
+                ],
+              )
+            : null,
+        child: _buildContent(),
       ),
     );
   }

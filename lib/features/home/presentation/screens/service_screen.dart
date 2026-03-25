@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tourismapp/core/routes/route_paths.dart';
-import 'package:tourismapp/core/theme/styles.dart';
-import 'package:tourismapp/core/widgets/custom_text.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/active_chip.dart';
+import 'package:tourismapp/core/extensions/request_state.dart';
+import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/filter_bottom_sheet.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/filter_option.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/filter_tap.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/open_map.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/service_item.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/service_filters_section.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/service_results_section.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/service_screen_header_section.dart';
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key});
@@ -24,27 +21,50 @@ class _ServiceScreenState extends State<ServiceScreen> {
   FilterOptions _filterOptions = const FilterOptions(
     budgetRange: RangeValues(0, 300),
   );
+  bool _didSetInitialRange = false;
 
-  bool get _hasActiveFilters =>
-      _filterOptions.selectedCity != null ||
-      _filterOptions.budgetRange.start > 0 ||
-      _filterOptions.budgetRange.end < 300;
-
-  List<ServiceItem> get _filteredList {
-    return allServices.where((item) {
-      final matchCategory =
-          _selectedFilter == "All" || item.category == _selectedFilter;
-      final matchCity =
-          _filterOptions.selectedCity == null ||
-          item.city == _filterOptions.selectedCity;
-      final matchBudget =
-          item.price >= _filterOptions.budgetRange.start &&
-          item.price <= _filterOptions.budgetRange.end;
-      return matchCategory && matchCity && matchBudget;
-    }).toList();
+  bool _hasActiveFilters(double minPrice, double maxPrice) {
+    return _filterOptions.selectedCity != null ||
+        _selectedFilter != 'All' ||
+        _filterOptions.budgetRange.start > minPrice ||
+        _filterOptions.budgetRange.end < maxPrice;
   }
 
-  void _openFilterSheet() {
+  Future<void> _loadPackagesWithFilters(
+    PackagesState state,
+    PackagesCubit cubit, {
+    int page = 1,
+  }) async {
+    final categoryId = _selectedFilter == 'All'
+        ? null
+        : state.categories
+              .where((category) => category.name == _selectedFilter)
+              .map((category) => category.id)
+              .cast<int?>()
+              .firstWhere((id) => id != null, orElse: () => null);
+
+    final placeId = _filterOptions.selectedCity == null
+        ? null
+        : state.places
+              .where((place) => place.title == _filterOptions.selectedCity)
+              .map((place) => place.id)
+              .cast<int?>()
+              .firstWhere((id) => id != null, orElse: () => null);
+
+    await cubit.getPackages(
+      categoryId: categoryId,
+      placeId: placeId,
+      minPrice: _filterOptions.budgetRange.start,
+      maxPrice: _filterOptions.budgetRange.end,
+      page: page,
+    );
+  }
+
+  void _openFilterSheet(
+    BuildContext context,
+    double minPrice,
+    double maxPrice,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -55,8 +75,26 @@ class _ServiceScreenState extends State<ServiceScreen> {
         ),
         child: FilterBottomSheet(
           initialOptions: _filterOptions,
-          onApply: (options) {
+          places: context
+              .read<PackagesCubit>()
+              .state
+              .places
+              .map((place) => place.title)
+              .where((title) => title.isNotEmpty)
+              .toSet()
+              .map(
+                (title) => {'name': title, 'icon': Icons.location_on_outlined},
+              )
+              .toList(),
+          minBudget: minPrice,
+          maxBudget: maxPrice,
+          onApply: (options) async {
             setState(() => _filterOptions = options);
+            await _loadPackagesWithFilters(
+              context.read<PackagesCubit>().state,
+              context.read<PackagesCubit>(),
+              page: 1,
+            );
           },
         ),
       ),
@@ -65,170 +103,115 @@ class _ServiceScreenState extends State<ServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filtered = _filteredList;
+    return BlocConsumer<PackagesCubit, PackagesState>(
+      listener: (context, state) {
+        if (!_didSetInitialRange && state.status.isSuccess) {
+          _didSetInitialRange = true;
+          setState(() {
+            _filterOptions = _filterOptions.copyWith(
+              budgetRange: RangeValues(state.minPrice, state.maxPrice),
+            );
+          });
+        }
+      },
+      builder: (context, state) {
+        final minPrice = state.minPrice;
+        final maxPrice = state.maxPrice;
+        final hasActiveFilters = _hasActiveFilters(minPrice, maxPrice);
+        final filters = [
+          'All',
+          ...state.categories
+              .map((category) => category.name)
+              .where((name) => name.isNotEmpty)
+              .toSet(),
+        ];
 
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.w),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 16.h),
-
-              AppText(
-                'Distinctive tourism services',
-                style: font20w700,
-                overflow: TextOverflow.visible,
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 22.w),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ServiceScreenHeaderSection(),
+                  ServiceFiltersSection(
+                    hasActiveFilters: hasActiveFilters,
+                    selectedFilter: _selectedFilter,
+                    filterOptions: _filterOptions,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    filters: filters,
+                    onOpenFilter: () =>
+                        _openFilterSheet(context, minPrice, maxPrice),
+                    onRemoveCategory: () async {
+                      setState(() => _selectedFilter = 'All');
+                      await _loadPackagesWithFilters(
+                        state,
+                        context.read<PackagesCubit>(),
+                        page: 1,
+                      );
+                    },
+                    onRemovePlace: () async {
+                      setState(() {
+                        _filterOptions = _filterOptions.copyWith(
+                          clearCity: true,
+                        );
+                      });
+                      await _loadPackagesWithFilters(
+                        state,
+                        context.read<PackagesCubit>(),
+                        page: 1,
+                      );
+                    },
+                    onRemoveBudget: () async {
+                      setState(() {
+                        _filterOptions = _filterOptions.copyWith(
+                          budgetRange: RangeValues(minPrice, maxPrice),
+                        );
+                      });
+                      await _loadPackagesWithFilters(
+                        state,
+                        context.read<PackagesCubit>(),
+                        page: 1,
+                      );
+                    },
+                    onFilterChanged: (newFilter) async {
+                      setState(() => _selectedFilter = newFilter);
+                      await _loadPackagesWithFilters(
+                        state,
+                        context.read<PackagesCubit>(),
+                        page: 1,
+                      );
+                    },
+                  ),
+                  ServiceResultsSection(
+                    status: state.status,
+                    errorMessage: state.errorMessage,
+                    packages: state.packages,
+                    currentPage: state.currentPage,
+                    totalPages: state.totalPages,
+                    onPageChanged: (page) async {
+                      await _loadPackagesWithFilters(
+                        state,
+                        context.read<PackagesCubit>(),
+                        page: page,
+                      );
+                    },
+                    onReviewSubmitted: () async {
+                      final cubit = context.read<PackagesCubit>();
+                      final latestState = cubit.state;
+                      await _loadPackagesWithFilters(
+                        latestState,
+                        cubit,
+                        page: latestState.currentPage,
+                      );
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 4.h),
-              AppText(
-                'Book guides, photographers, and tours',
-                overflow: TextOverflow.visible,
-                style: font14w400.copyWith(color: Colors.grey[600]),
-              ),
-              SizedBox(height: 12.h),
-              GestureDetector(
-                onTap: _openFilterSheet,
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 12.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _hasActiveFilters
-                        ? const Color(0xffdb6000)
-                        : const Color(0xFFF3F4F6),
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.tune_rounded,
-                        size: 18.sp,
-                        color: _hasActiveFilters
-                            ? Colors.white
-                            : Colors.black87,
-                      ),
-                      SizedBox(width: 8.w),
-                      AppText(
-                        'Filter',
-                        style: font14w700.copyWith(
-                          color: _hasActiveFilters
-                              ? Colors.white
-                              : Colors.black87,
-                        ),
-                      ),
-                      if (_hasActiveFilters) ...[
-                        SizedBox(width: 6.w),
-                        Container(
-                          width: 8.w,
-                          height: 8.w,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 16.h),
-
-              if (_hasActiveFilters) ...[
-                SizedBox(
-                  width: double.infinity,
-                  child: Wrap(
-                    spacing: 8.w,
-                    runSpacing: 6.h,
-                    children: [
-                      if (_filterOptions.selectedCity != null)
-                        ActiveChip(
-                          label: _filterOptions.selectedCity!,
-                          icon: Icons.location_on_outlined,
-                          onRemove: () => setState(() {
-                            _filterOptions = _filterOptions.copyWith(
-                              clearCity: true,
-                            );
-                          }),
-                        ),
-                      if (_filterOptions.budgetRange.start > 0 ||
-                          _filterOptions.budgetRange.end < 300)
-                        ActiveChip(
-                          label:
-                              '\$${_filterOptions.budgetRange.start.toInt()} – \$${_filterOptions.budgetRange.end.toInt()}',
-                          icon: Icons.attach_money,
-                          onRemove: () => setState(() {
-                            _filterOptions = _filterOptions.copyWith(
-                              budgetRange: const RangeValues(0, 300),
-                            );
-                          }),
-                        ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12.h),
-              ],
-
-              FilterTabs(
-                selectedFilter: _selectedFilter,
-                onFilterChanged: (newFilter) {
-                  setState(() => _selectedFilter = newFilter);
-                },
-              ),
-
-              SizedBox(height: 16.h),
-
-              if (filtered.isEmpty)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 60.h),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.search_off_rounded,
-                        size: 56.sp,
-                        color: Colors.grey[400],
-                      ),
-                      SizedBox(height: 12.h),
-                      AppText(
-                        'No results found',
-                        style: font16w700.copyWith(color: Colors.grey[500]),
-                        alignment: AlignmentDirectional.center,
-                      ),
-                      SizedBox(height: 6.h),
-                      AppText(
-                        'Try adjusting your filters',
-                        style: font14w400.copyWith(color: Colors.grey[400]),
-                        alignment: AlignmentDirectional.center,
-                      ),
-                    ],
-                  ),
-                )
-              else
-                ...filtered.map((item) {
-                  return TourismCard(
-                    text: item.category,
-                    imageUrl: item.imageUrl,
-                    title: item.title,
-                    description: item.description,
-                    location: item.location,
-                    isicon: true,
-                    icon: item.icon,
-                    price: item.price,
-                    onViewMap: () => openLocationLink(item.mapUrl),
-                    onBook: () =>
-                        GoRouter.of(context).push(Routes.bookDetailsScreen),
-                  );
-                }),
-
-              SizedBox(height: 20.h),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

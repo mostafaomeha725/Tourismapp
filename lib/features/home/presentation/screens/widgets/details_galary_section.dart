@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tourismapp/core/widgets/app_image.dart';
 
 class DetailsGallerySection extends StatelessWidget {
   final List<String> images;
@@ -34,16 +35,31 @@ class DetailsGallerySection extends StatelessWidget {
                   border: isSelected
                       ? Border.all(color: const Color(0xFFE87306), width: 2.w)
                       : null,
-                  image: DecorationImage(
-                    image: AssetImage(images[index]),
-                    fit: BoxFit.cover,
-                    colorFilter: isSelected
-                        ? null
-                        : const ColorFilter.mode(
-                            Colors.grey,
-                            BlendMode.saturation,
-                          ),
-                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: ColorFiltered(
+                  colorFilter: isSelected
+                      ? const ColorFilter.mode(
+                          Colors.transparent,
+                          BlendMode.multiply,
+                        )
+                      : const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.saturation,
+                        ),
+                  child: images[index].startsWith('http')
+                      ? AppImage(
+                          imageUrl: images[index],
+                          width: 70.w,
+                          height: 70.h,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          images[index],
+                          width: 70.w,
+                          height: 70.h,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             );

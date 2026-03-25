@@ -9,6 +9,7 @@ import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/utils/easy_loading.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 import 'package:tourismapp/features/home/presentation/screens/helper_screen.dart';
+import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
 
 import 'package:tourismapp/features/home/presentation/screens/home_screen.dart';
 import 'package:tourismapp/features/home/presentation/screens/service_screen.dart';
@@ -42,7 +43,10 @@ class _CustomNavBarState extends State<CustomNavBar>
 
     _screens.addAll([
       HomeScreen(onNavigateToTab: (index) => _onItemTapped(index)),
-      const ServiceScreen(),
+      BlocProvider(
+        create: (_) => sl<PackagesCubit>()..loadInitialData(),
+        child: const ServiceScreen(),
+      ),
       const HelperScreen(),
       const ProfileScreen(),
     ]);
