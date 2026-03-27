@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
+import 'package:tourismapp/core/widgets/app_asset.dart';
+import 'package:tourismapp/core/widgets/app_image.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 
 class VisitedPlaceCard extends StatelessWidget {
@@ -19,6 +21,8 @@ class VisitedPlaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filledStars = rating.clamp(0, 5).round();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -46,10 +50,15 @@ class VisitedPlaceCard extends StatelessWidget {
                   topLeft: Radius.circular(12.r),
                   bottomLeft: Radius.circular(12.r),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(image),
-                  fit: BoxFit.cover,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
                 ),
+                child: image.startsWith('http')
+                    ? AppImage(imageUrl: image, fit: BoxFit.cover)
+                    : AppAsset(assetName: image, fit: BoxFit.cover),
               ),
             ),
             Expanded(
@@ -75,7 +84,9 @@ class VisitedPlaceCard extends StatelessWidget {
                       children: List.generate(5, (index) {
                         return Icon(
                           Icons.star_rounded,
-                          color: const Color(0xFFFFC107),
+                          color: index < filledStars
+                              ? const Color(0xFFFFC107)
+                              : Colors.grey.shade300,
                           size: 18.sp,
                         );
                       }),

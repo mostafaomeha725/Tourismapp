@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:tourismapp/core/error/failure.dart';
 import 'package:tourismapp/features/home/data/datasources/packages_remote_data_source.dart';
+import 'package:tourismapp/features/home/domain/entities/favorite_toggle_result_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/packages_page_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/price_range_entity.dart';
@@ -31,6 +32,18 @@ class PackagesRepositoryImpl implements PackagesRepository {
     SubmitReviewParams params,
   ) async {
     return packagesRemoteDataSource.submitReview(params);
+  }
+
+  @override
+  Future<Either<Failure, FavoriteToggleResultEntity>> toggleFavorite(
+    int packageId,
+  ) async {
+    return packagesRemoteDataSource.toggleFavorite(packageId);
+  }
+
+  @override
+  Future<Either<Failure, PackagesPageEntity>> getFavorites({int? page}) async {
+    return packagesRemoteDataSource.getFavorites(page: page);
   }
 
   @override

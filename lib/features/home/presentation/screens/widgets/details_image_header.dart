@@ -8,14 +8,18 @@ class DetailsImageHeader extends StatelessWidget {
   final List<String> images;
   final PageController pageController;
   final ValueChanged<int> onPageChanged;
-  final VoidCallback onShareTap;
+  final VoidCallback onFavoriteTap;
+  final bool isFavorite;
+  final bool isFavoriteLoading;
 
   const DetailsImageHeader({
     super.key,
     required this.images,
     required this.pageController,
     required this.onPageChanged,
-    required this.onShareTap,
+    required this.onFavoriteTap,
+    required this.isFavorite,
+    required this.isFavoriteLoading,
   });
 
   @override
@@ -48,7 +52,18 @@ class DetailsImageHeader extends StatelessWidget {
           Positioned(
             top: 30.h,
             right: 20.w,
-            child: _buildCircleIcon(Icons.share, onShareTap),
+            child: _buildCircleIcon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              onFavoriteTap,
+              iconColor: isFavorite ? Colors.red : Colors.black87,
+              child: isFavoriteLoading
+                  ? SizedBox(
+                      width: 18.w,
+                      height: 18.w,
+                      child: const CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : null,
+            ),
           ),
           Positioned(
             top: 30.h,
@@ -62,7 +77,12 @@ class DetailsImageHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildCircleIcon(IconData icon, VoidCallback onTap) {
+  Widget _buildCircleIcon(
+    IconData icon,
+    VoidCallback onTap, {
+    Color iconColor = Colors.black87,
+    Widget? child,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -78,7 +98,7 @@ class DetailsImageHeader extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(icon, size: 22.sp, color: Colors.black87),
+        child: child ?? Icon(icon, size: 22.sp, color: iconColor),
       ),
     );
   }

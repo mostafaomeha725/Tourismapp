@@ -14,6 +14,7 @@ class PackageEntity extends Equatable {
   final String placeTitle;
   final String mainImage;
   final List<String> imageUrls;
+  final bool isFavorite;
   final double averageRating;
   final int reviewsCount;
 
@@ -31,6 +32,7 @@ class PackageEntity extends Equatable {
     required this.placeTitle,
     required this.mainImage,
     required this.imageUrls,
+    required this.isFavorite,
     required this.averageRating,
     required this.reviewsCount,
   });
@@ -50,6 +52,7 @@ class PackageEntity extends Equatable {
     placeTitle,
     mainImage,
     imageUrls,
+    isFavorite,
     averageRating,
     reviewsCount,
   ];

@@ -59,7 +59,7 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: Routes.visitedPlacesScreen,
-        builder: (context, state) => const VisitedPlacesScreen(),
+        builder: (context, state) => const FavouritePlacesScreen(),
       ),
       GoRoute(
         path: Routes.editProfileScreen,

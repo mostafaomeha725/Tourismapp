@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tourismapp/core/constants/app_assets.dart';
+import 'package:tourismapp/core/extensions/request_state.dart';
+import 'package:tourismapp/features/home/domain/entities/packages_page_entity.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/pagination_widget.dart';
+import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
+import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_state.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/visited_places_card.dart';
 
 class VisitedPlacesScreenBody extends StatelessWidget {
@@ -8,67 +13,66 @@ class VisitedPlacesScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> visitedPlaces = [
-      {
-        "title": "The Pyramids of Giza",
-        "date": "Nov 10, 2024",
-        "image": Assets.egyptsplash,
-        "rating": 5.0,
-      },
-      {
-        "title": "Louvre Museum",
-        "date": "Oct 15, 2024",
-        "image": Assets.karnak,
-        "rating": 3.0,
-      },
-      {
-        "title": "Burj Khalifa",
-        "date": "Sep 01, 2024",
-        "image": Assets.egyptsplash,
-        "rating": 5.0,
-      },
-      {
-        "title": "The Pyramids of Giza",
-        "date": "Nov 10, 2024",
-        "image": Assets.egyptsplash,
-        "rating": 5.0,
-      },
-      {
-        "title": "Louvre Museum",
-        "date": "Oct 15, 2024",
-        "image": Assets.karnak,
-        "rating": 3.0,
-      },
-      {
-        "title": "Burj Khalifa",
-        "date": "Sep 01, 2024",
-        "image": Assets.egyptsplash,
-        "rating": 5.0,
-      },
-      {
-        "title": "The Pyramids of Giza",
-        "date": "Nov 10, 2024",
-        "image": Assets.egyptsplash,
-        "rating": 5.0,
-      },
-    ];
+    return BlocBuilder<FavouritePlacesCubit, FavouritePlacesState>(
+      builder: (context, state) {
+        if (state.status == RequestState.loading ||
+            state.status == RequestState.init) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      child: ListView.separated(
-        // physics: const BouncingScrollPhysics(),
-        itemCount: visitedPlaces.length,
-        separatorBuilder: (context, index) => SizedBox(height: 22.h),
-        itemBuilder: (context, index) {
-          final place = visitedPlaces[index];
-          return VisitedPlaceCard(
-            title: place['title'],
-            date: place['date'],
-            image: place['image'],
-            rating: place['rating'],
+        if (state.status == RequestState.error) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Text(
+                state.errorMessage ?? 'Failed to load favorites',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
           );
-        },
-      ),
+        }
+
+        final PackagesPageEntity? page = state.favoritesPage;
+        final favorites = page?.items ?? const [];
+        final totalPages = page?.lastPage ?? 1;
+        final currentPage = state.currentPage;
+
+        if (favorites.isEmpty) {
+          return const Center(child: Text('No favorite places yet'));
+        }
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: favorites.length,
+                  separatorBuilder: (context, index) => SizedBox(height: 22.h),
+                  itemBuilder: (context, index) {
+                    final place = favorites[index];
+                    return VisitedPlaceCard(
+                      title: place.title,
+                      date: place.placeTitle,
+                      image: place.mainImage,
+                      rating: place.averageRating,
+                    );
+                  },
+                ),
+              ),
+              if (totalPages > 1)
+                PaginationWidget(
+                  totalPages: totalPages,
+                  currentPage: currentPage,
+                  onPageChanged: (page) {
+                    context.read<FavouritePlacesCubit>().onPageChanged(page);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

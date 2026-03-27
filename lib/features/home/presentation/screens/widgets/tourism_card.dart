@@ -23,6 +23,7 @@ class TourismCard extends StatelessWidget {
   final int? reviewsCount;
   final int? packageId;
   final Future<void> Function()? onReviewSubmitted;
+  final bool showMapButton;
 
   const TourismCard({
     super.key,
@@ -40,6 +41,7 @@ class TourismCard extends StatelessWidget {
     this.reviewsCount,
     this.packageId,
     this.onReviewSubmitted,
+    this.showMapButton = true,
   });
 
   @override
@@ -263,16 +265,17 @@ class TourismCard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 16.h),
-                              AppButton(
-                                text: 'View on map',
-                                textSize: 16.sp,
-                                color: Color(0xffdb6000),
-                                onPressed: onViewMap,
-
-                                height: 50.h,
-                                radius: 22.r,
-                              ),
+                              if (showMapButton) ...[
+                                SizedBox(height: 16.h),
+                                AppButton(
+                                  text: 'View on map',
+                                  textSize: 16.sp,
+                                  color: const Color(0xffdb6000),
+                                  onPressed: onViewMap,
+                                  height: 50.h,
+                                  radius: 22.r,
+                                ),
+                              ],
                             ],
                           ),
                     SizedBox(height: 8.h),

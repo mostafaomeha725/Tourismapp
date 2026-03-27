@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tourismapp/core/cache/preferences_storage.dart';
+import 'package:tourismapp/core/di/services_locator.dart';
+import 'package:tourismapp/core/enums/app_enums.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/theme/styles.dart';
@@ -10,11 +13,34 @@ import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_d
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_list_title.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/section_title.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  Future<void> _openEditProfile() async {
+    await GoRouter.of(context).push(Routes.editProfileScreen);
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final prefs = sl<PreferencesStorage>();
+    final displayName =
+        prefs.getString(key: PreferencesKeys.name)?.trim().isNotEmpty == true
+        ? prefs.getString(key: PreferencesKeys.name)!.trim()
+        : 'Guest User';
+    final displayEmail =
+        prefs.getString(key: PreferencesKeys.email)?.trim().isNotEmpty == true
+        ? prefs.getString(key: PreferencesKeys.email)!.trim()
+        : 'No email';
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -44,15 +70,13 @@ class ProfileScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText("Mostafa Hussein", style: font16w600),
-                      AppText("mostafa.hussein@gmail.com", style: font10w400),
+                      AppText(displayName, style: font16w600),
+                      AppText(displayEmail, style: font10w400),
                     ],
                   ),
                   Spacer(),
                   IconButton(
-                    onPressed: () {
-                      GoRouter.of(context).push(Routes.editProfileScreen);
-                    },
+                    onPressed: _openEditProfile,
                     icon: Icon(Icons.edit, color: Color(0xff134FA2)),
                   ),
                 ],
@@ -87,20 +111,20 @@ class ProfileScreen extends StatelessWidget {
                     SectionTitle(title: "Preference"),
                     SizedBox(height: 12.h),
 
-                    CustomListTile(
-                      icon: Icons.calendar_month,
-                      title: "Bookings",
-                      onTap: () {
-                        GoRouter.of(context).push(Routes.bookingsListScreen);
-                      },
-                    ),
-                    SizedBox(height: 6.h),
-                    CustomDivider(),
+                    // CustomListTile(
+                    //   icon: Icons.calendar_month,
+                    //   title: "Bookings",
+                    //   onTap: () {
+                    //     GoRouter.of(context).push(Routes.bookingsListScreen);
+                    //   },
+                    // ),
+                    // SizedBox(height: 6.h),
+                    // CustomDivider(),
 
-                    SizedBox(height: 12.h),
+                    // SizedBox(height: 12.h),
                     CustomListTile(
                       icon: Icons.location_on_outlined,
-                      title: "Visited Places",
+                      title: "Favourite Places",
                       onTap: () {
                         GoRouter.of(context).push(Routes.visitedPlacesScreen);
                       },

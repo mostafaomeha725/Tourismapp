@@ -5,22 +5,26 @@ import 'package:tourismapp/core/widgets/custom_text.dart';
 
 class EditableTextField extends StatelessWidget {
   final String label;
-  final String initialValue;
+  final String? initialValue;
   final IconData icon;
   final TextInputType? inputType;
   final VoidCallback onEditTap;
   final bool isEditable;
   final FocusNode focusNode;
+  final TextEditingController? controller;
+  final bool obscureText;
 
   const EditableTextField({
     super.key,
     required this.label,
-    required this.initialValue,
+    this.initialValue,
     required this.icon,
     required this.onEditTap,
     required this.isEditable,
     required this.focusNode,
     this.inputType,
+    this.controller,
+    this.obscureText = false,
   });
 
   @override
@@ -31,10 +35,12 @@ class EditableTextField extends StatelessWidget {
         AppText(label, style: font14w700.copyWith(color: Colors.grey[700])),
         SizedBox(height: 8.h),
         TextFormField(
-          initialValue: initialValue,
+          controller: controller,
+          initialValue: controller == null ? initialValue : null,
           keyboardType: inputType,
           focusNode: focusNode,
           readOnly: !isEditable,
+          obscureText: obscureText,
           style: font16w500.copyWith(
             color: isEditable ? Colors.black87 : Colors.black54,
           ),

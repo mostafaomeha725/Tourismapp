@@ -10,9 +10,10 @@ import 'package:tourismapp/core/utils/easy_loading.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 import 'package:tourismapp/features/home/presentation/screens/helper_screen.dart';
 import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
+import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
 
-import 'package:tourismapp/features/home/presentation/screens/home_screen.dart';
 import 'package:tourismapp/features/home/presentation/screens/service_screen.dart';
+import 'package:tourismapp/features/home/presentation/screens/tourism_place_screen.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/home_appbar.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/home_drawer.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/nav_bar_item.dart';
@@ -42,7 +43,12 @@ class _CustomNavBarState extends State<CustomNavBar>
     super.initState();
 
     _screens.addAll([
-      HomeScreen(onNavigateToTab: (index) => _onItemTapped(index)),
+      BlocProvider(
+        create: (_) => sl<PlacesCubit>()..loadPlaces(),
+        child: TourismPlaceScreen(
+          onNavigateToTab: (index) => _onItemTapped(index),
+        ),
+      ),
       BlocProvider(
         create: (_) => sl<PackagesCubit>()..loadInitialData(),
         child: const ServiceScreen(),

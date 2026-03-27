@@ -2,9 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:tourismapp/core/error/failure.dart';
 import 'package:tourismapp/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:tourismapp/features/auth/domain/entities/register_result_entity.dart';
+import 'package:tourismapp/features/auth/domain/entities/update_profile_result_entity.dart';
 import 'package:tourismapp/features/auth/domain/repositories/auth_repository.dart';
 import 'package:tourismapp/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tourismapp/features/auth/domain/usecases/register_usecase.dart';
+import 'package:tourismapp/features/auth/domain/usecases/update_profile_usecase.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -28,5 +30,12 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, String>> logout() async {
     return authRemoteDataSource.logout();
+  }
+
+  @override
+  Future<Either<Failure, UpdateProfileResultEntity>> updateProfile(
+    UpdateProfileParams params,
+  ) async {
+    return authRemoteDataSource.updateProfile(params);
   }
 }

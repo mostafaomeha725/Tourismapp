@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:tourismapp/core/error/failure.dart';
+import 'package:tourismapp/features/home/domain/entities/favorite_toggle_result_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/packages_page_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/price_range_entity.dart';
@@ -17,6 +18,12 @@ abstract class PackagesRepository {
   Future<Either<Failure, SubmitReviewResultEntity>> submitReview(
     SubmitReviewParams params,
   );
+
+  Future<Either<Failure, FavoriteToggleResultEntity>> toggleFavorite(
+    int packageId,
+  );
+
+  Future<Either<Failure, PackagesPageEntity>> getFavorites({int? page});
 
   Future<Either<Failure, PriceRangeEntity>> getPackagesPriceRange();
 }

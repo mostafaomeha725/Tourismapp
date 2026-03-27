@@ -5,6 +5,8 @@ import 'package:tourismapp/core/network/network_service.dart';
 import 'package:tourismapp/features/auth/data/models/register_response_model.dart';
 import 'package:tourismapp/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tourismapp/features/auth/domain/usecases/register_usecase.dart';
+import 'package:tourismapp/features/auth/data/models/update_profile_response_model.dart';
+import 'package:tourismapp/features/auth/domain/usecases/update_profile_usecase.dart';
 
 abstract class AuthRemoteDataSource {
   Future<Either<Failure, RegisterResponseModel>> register(
@@ -14,6 +16,10 @@ abstract class AuthRemoteDataSource {
   Future<Either<Failure, RegisterResponseModel>> login(LoginParams params);
 
   Future<Either<Failure, String>> logout();
+
+  Future<Either<Failure, UpdateProfileResponseModel>> updateProfile(
+    UpdateProfileParams params,
+  );
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -72,6 +78,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return Right(message);
       }
       return const Right('Logged out successfully.');
+    });
+  }
+
+  @override
+  Future<Either<Failure, UpdateProfileResponseModel>> updateProfile(
+    UpdateProfileParams params,
+  ) async {
+    final payload = <String, dynamic>{
+      'name': params.name,
+      'phone': params.phone,
+      'email': params.email,
+      if (params.password != null && params.password!.isNotEmpty)
+        'password': params.password,
+      if (params.passwordConfirmation != null &&
+          params.passwordConfirmation!.isNotEmpty)
+        'password_confirmation': params.passwordConfirmation,
+    };
+
+    final response = await networkService.postData(
+      endPoint: EndPoints.updateProfile,
+      data: payload,
+    );
+
+    return response.fold(Left.new, (data) {
+      if (data is Map<String, dynamic>) {
+        return Right(UpdateProfileResponseModel.fromJson(data));
+      }
+      return const Left(Failure('Unexpected response format'));
     });
   }
 }

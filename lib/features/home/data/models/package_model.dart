@@ -15,6 +15,7 @@ class PackageModel extends PackageEntity {
     required super.placeTitle,
     required super.mainImage,
     required super.imageUrls,
+    required super.isFavorite,
     required super.averageRating,
     required super.reviewsCount,
   });
@@ -55,6 +56,7 @@ class PackageModel extends PackageEntity {
       placeTitle: (place['title'] ?? '').toString(),
       mainImage: mainImage,
       imageUrls: imageUrls,
+      isFavorite: json['is_favorite'] == true,
       averageRating: (json['average_rating'] is num)
           ? (json['average_rating'] as num).toDouble()
           : double.tryParse((json['average_rating'] ?? '0').toString()) ?? 0,

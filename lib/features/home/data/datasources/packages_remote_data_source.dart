@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tourismapp/core/error/failure.dart';
 import 'package:tourismapp/core/network/endpoints.dart';
 import 'package:tourismapp/core/network/network_service.dart';
+import 'package:tourismapp/features/home/data/models/favorite_toggle_result_model.dart';
 import 'package:tourismapp/features/home/data/models/package_model.dart';
 import 'package:tourismapp/features/home/data/models/packages_page_model.dart';
 import 'package:tourismapp/features/home/data/models/price_range_model.dart';
@@ -19,6 +20,12 @@ abstract class PackagesRemoteDataSource {
   Future<Either<Failure, SubmitReviewResultModel>> submitReview(
     SubmitReviewParams params,
   );
+
+  Future<Either<Failure, FavoriteToggleResultModel>> toggleFavorite(
+    int packageId,
+  );
+
+  Future<Either<Failure, PackagesPageModel>> getFavorites({int? page});
 
   Future<Either<Failure, PriceRangeModel>> getPackagesPriceRange();
 }
@@ -75,6 +82,38 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
     return response.fold(Left.new, (data) {
       if (data is Map<String, dynamic>) {
         return Right(SubmitReviewResultModel.fromJson(data));
+      }
+      return const Left(Failure('Unexpected response format'));
+    });
+  }
+
+  @override
+  Future<Either<Failure, FavoriteToggleResultModel>> toggleFavorite(
+    int packageId,
+  ) async {
+    final response = await networkService.postData(
+      endPoint: EndPoints.favoritesToggle,
+      data: {'package_id': packageId},
+    );
+
+    return response.fold(Left.new, (data) {
+      if (data is Map<String, dynamic>) {
+        return Right(FavoriteToggleResultModel.fromJson(data));
+      }
+      return const Left(Failure('Unexpected response format'));
+    });
+  }
+
+  @override
+  Future<Either<Failure, PackagesPageModel>> getFavorites({int? page}) async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.favorites,
+      queryParameters: {if (page != null) 'page': page},
+    );
+
+    return response.fold(Left.new, (data) {
+      if (data is Map<String, dynamic>) {
+        return Right(PackagesPageModel.fromJson(data));
       }
       return const Left(Failure('Unexpected response format'));
     });

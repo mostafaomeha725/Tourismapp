@@ -1,12 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:tourismapp/core/constants/app_assets.dart';
+import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/core/extensions/request_state.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/services/auth_service.dart';
@@ -15,6 +12,7 @@ import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
+import 'package:tourismapp/features/home/domain/usecases/toggle_favorite_usecase.dart';
 import 'package:tourismapp/features/home/presentation/cubit/package_details_cubit.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/about_experience_card.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/details_galary_section.dart';
@@ -45,6 +43,9 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
 
   int _currentIndex = 0;
   late PageController _pageController;
+  bool _isFavorite = false;
+  bool _favoriteInitialized = false;
+  bool _isFavoriteLoading = false;
 
   @override
   void initState() {
@@ -75,36 +76,41 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
     });
   }
 
-  Future<void> _shareSelectedImage() async {
-    try {
-      final package = context.read<PackageDetailsCubit>().state.package;
-      final images = _resolveImages(package);
-      if (images.isEmpty) {
-        throw Exception('No image available');
-      }
-
-      final String imagePath = images[_currentIndex];
-      if (imagePath.startsWith('http')) {
-        // ignore: deprecated_member_use
-        await Share.share(imagePath);
-        return;
-      }
-
-      final ByteData byteData = await rootBundle.load(imagePath);
-      final Uint8List list = byteData.buffer.asUint8List();
-      final tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/shared_image.png');
-      await file.writeAsBytes(list);
-
-      // ignore: deprecated_member_use
-      await Share.shareXFiles([XFile(file.path)]);
-    } catch (e) {
-      debugPrint('Error sharing image: $e');
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to share image')));
+  Future<void> _toggleFavorite() async {
+    if (!AuthService.isLoggedIn) {
+      if (!mounted) return;
+      GoRouter.of(context).push(Routes.authScreen);
+      return;
     }
+
+    if (_isFavoriteLoading) return;
+
+    setState(() => _isFavoriteLoading = true);
+
+    final result = await sl<ToggleFavoriteUseCase>().call(
+      ToggleFavoriteParams(packageId: widget.packageId),
+    );
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        setState(() => _isFavoriteLoading = false);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(failure.message)));
+      },
+      (response) {
+        setState(() {
+          _isFavoriteLoading = false;
+          _favoriteInitialized = true;
+          _isFavorite = response.isFavorite;
+        });
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(response.message)));
+      },
+    );
   }
 
   List<String> _resolveImages(PackageEntity? package) {
@@ -138,6 +144,10 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
 
         final package = state.package!;
         final images = _resolveImages(package);
+        if (!_favoriteInitialized) {
+          _isFavorite = package.isFavorite;
+          _favoriteInitialized = true;
+        }
 
         if (_currentIndex >= images.length) {
           _currentIndex = 0;
@@ -154,7 +164,9 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
                     images: images,
                     pageController: _pageController,
                     onPageChanged: _onPageChanged,
-                    onShareTap: _shareSelectedImage,
+                    onFavoriteTap: _toggleFavorite,
+                    isFavorite: _isFavorite,
+                    isFavoriteLoading: _isFavoriteLoading,
                   ),
 
                   SizedBox(height: 16.h),

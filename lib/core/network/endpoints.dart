@@ -21,6 +21,8 @@ class EndPoints {
   static const String places = 'places';
   static const String categories = 'categories';
   static const String reviews = 'reviews';
+  static const String favorites = 'favorites';
+  static const String favoritesToggle = 'favorites/toggle';
 
   /// Bookings endpoints
   static const String bookings = 'bookings';
