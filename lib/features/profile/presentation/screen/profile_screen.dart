@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/cache/preferences_storage.dart';
+import 'package:tourismapp/core/constants/app_assets.dart';
 import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/core/enums/app_enums.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
+import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
@@ -22,6 +24,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _openEditProfile() async {
+    if (!AuthService.isLoggedIn) {
+      GoRouter.of(context).push(Routes.authScreen);
+      return;
+    }
+
     await GoRouter.of(context).push(Routes.editProfileScreen);
     if (!mounted) {
       return;
@@ -65,7 +72,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Row(
                 children: [
-                  CircleAvatar(radius: 28.r, backgroundColor: Colors.grey),
+                  CircleAvatar(
+                    radius: 28.r,
+                    backgroundImage: const AssetImage(Assets.avatar),
+                    backgroundColor: Colors.transparent,
+                  ),
                   SizedBox(width: 12.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,6 +137,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.location_on_outlined,
                       title: "Favourite Places",
                       onTap: () {
+                        if (!AuthService.isLoggedIn) {
+                          GoRouter.of(context).push(Routes.authScreen);
+                          return;
+                        }
                         GoRouter.of(context).push(Routes.visitedPlacesScreen);
                       },
                     ),
@@ -163,6 +178,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.logout,
                       title: "Log out",
                       onTap: () {
+                        if (!AuthService.isLoggedIn) {
+                          GoRouter.of(context).push(Routes.authScreen);
+                          return;
+                        }
                         context.read<LogoutCubit>().logout();
                       },
                     ),

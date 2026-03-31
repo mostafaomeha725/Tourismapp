@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:tourismapp/core/routes/route_paths.dart';
+import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/app_image.dart';
@@ -203,6 +206,13 @@ class TourismCard extends StatelessWidget {
                                       text: 'evaluate',
 
                                       onPressed: () async {
+                                        if (!AuthService.isLoggedIn) {
+                                          GoRouter.of(
+                                            context,
+                                          ).push(Routes.authScreen);
+                                          return;
+                                        }
+
                                         if (packageId == null) {
                                           return;
                                         }

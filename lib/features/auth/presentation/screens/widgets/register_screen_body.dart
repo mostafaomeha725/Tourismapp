@@ -7,10 +7,10 @@ import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/utils/easy_loading.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
-import 'package:tourismapp/core/widgets/app_form_field.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:tourismapp/features/auth/presentation/screens/widgets/register_form_fields.dart';
 
 class RegisterScreenBody extends StatefulWidget {
   const RegisterScreenBody({super.key});
@@ -113,171 +113,26 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                   ),
                   SizedBox(height: 26.h),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppFormField(
-                          maxLines: 1,
-                          controller: firstNameController,
-                          hintText: 'First name',
-                          autovalidateMode: hasSubmitted
-                              ? AutovalidateMode.onUserInteraction
-                              : AutovalidateMode.disabled,
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 16.h, right: 6.h),
-                            child: const Icon(Icons.person),
-                          ),
-                          radius: 22.r,
-                          validator: (value) {
-                            if ((value ?? '').trim().isEmpty) {
-                              return 'First name is required';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: AppFormField(
-                          controller: lastNameController,
-                          maxLines: 1,
-                          hintText: 'Last name',
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 16.h, right: 6.h),
-                            child: const Icon(Icons.person),
-                          ),
-                          radius: 22.r,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  AppFormField(
-                    maxLines: 1,
-                    controller: phoneController,
-                    hintText: 'Phone Number',
-                    autovalidateMode: hasSubmitted
-                        ? AutovalidateMode.onUserInteraction
-                        : AutovalidateMode.disabled,
-                    keyboardType: TextInputType.phone,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(right: 6.h, left: 16.h),
-                      child: const Icon(Icons.phone),
-                    ),
-                    radius: 22.r,
-                    validator: (value) {
-                      if ((value ?? '').trim().isEmpty) {
-                        return 'Phone number is required';
-                      }
-                      return null;
+                  RegisterFormFields(
+                    firstNameController: firstNameController,
+                    lastNameController: lastNameController,
+                    phoneController: phoneController,
+                    emailController: emailController,
+                    passwordController: passwordController,
+                    confirmPasswordController: confirmPasswordController,
+                    hasSubmitted: hasSubmitted,
+                    obscurePassword: obscurePassword,
+                    obscureConfirmPassword: obscureConfirmPassword,
+                    onTogglePassword: () {
+                      setState(() {
+                        obscurePassword = !obscurePassword;
+                      });
                     },
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  AppFormField(
-                    maxLines: 1,
-                    controller: emailController,
-                    hintText: 'Email Address',
-                    autovalidateMode: hasSubmitted
-                        ? AutovalidateMode.onUserInteraction
-                        : AutovalidateMode.disabled,
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(right: 6.h, left: 16.h),
-                      child: const Icon(Icons.email),
-                    ),
-                    radius: 22.r,
-                    validator: (value) {
-                      final email = (value ?? '').trim();
-                      if (email.isEmpty) {
-                        return 'Email is required';
-                      }
-                      if (!email.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
+                    onToggleConfirmPassword: () {
+                      setState(() {
+                        obscureConfirmPassword = !obscureConfirmPassword;
+                      });
                     },
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  AppFormField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    maxLines: 1,
-                    autovalidateMode: hasSubmitted
-                        ? AutovalidateMode.onUserInteraction
-                        : AutovalidateMode.disabled,
-                    obsecureText: obscurePassword,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(left: 16.h, right: 6.h),
-                      child: const Icon(Icons.lock),
-                    ),
-                    radius: 22.r,
-                    validator: (value) {
-                      if ((value ?? '').isEmpty) {
-                        return 'Password is required';
-                      }
-                      if ((value ?? '').length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        size: 22.sp,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          obscurePassword = !obscurePassword;
-                        });
-                      },
-                    ),
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  AppFormField(
-                    controller: confirmPasswordController,
-                    hintText: 'Re-write password',
-                    autovalidateMode: hasSubmitted
-                        ? AutovalidateMode.onUserInteraction
-                        : AutovalidateMode.disabled,
-                    obsecureText: obscureConfirmPassword,
-                    maxLines: 1,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(left: 16.h, right: 6.h),
-                      child: const Icon(Icons.lock),
-                    ),
-                    radius: 22.r,
-                    validator: (value) {
-                      if ((value ?? '').isEmpty) {
-                        return 'Password confirmation is required';
-                      }
-                      if (value != passwordController.text) {
-                        return 'Please make sure your passwords match';
-                      }
-                      return null;
-                    },
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        obscureConfirmPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        size: 22.sp,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          obscureConfirmPassword = !obscureConfirmPassword;
-                        });
-                      },
-                    ),
                   ),
 
                   if (errorMessage != null) ...[

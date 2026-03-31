@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tourismapp/core/routes/route_paths.dart';
+import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
@@ -58,6 +60,11 @@ class HomeDrawer extends StatelessWidget {
                   leading: const Icon(Icons.person_outline),
                   title: const AppText("Profile"),
                   onTap: () {
+                    if (!AuthService.isLoggedIn) {
+                      GoRouter.of(context).pop();
+                      GoRouter.of(context).push(Routes.authScreen);
+                      return;
+                    }
                     GoRouter.of(context).pop();
                     onNavigateToTab?.call(3);
                   },
@@ -66,6 +73,11 @@ class HomeDrawer extends StatelessWidget {
                   leading: const Icon(Icons.logout_outlined),
                   title: const AppText("Logout"),
                   onTap: () {
+                    if (!AuthService.isLoggedIn) {
+                      GoRouter.of(context).pop();
+                      GoRouter.of(context).push(Routes.authScreen);
+                      return;
+                    }
                     GoRouter.of(context).pop();
                     context.read<LogoutCubit>().logout();
                   },

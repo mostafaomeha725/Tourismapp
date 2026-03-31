@@ -17,6 +17,7 @@ class EndPoints {
   static String serviceDetails(int id) => 'services/$id';
   static const String packages = 'packages';
   static String packageDetails(int id) => 'packages/$id';
+  static String packageReviews(int id) => 'packages/$id/reviews';
   static const String packagesPriceRange = 'packages-price-range';
   static const String places = 'places';
   static const String categories = 'categories';

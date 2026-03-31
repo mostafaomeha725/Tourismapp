@@ -44,32 +44,33 @@ class VisitedPlacesScreenBody extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemCount: favorites.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 22.h),
-                  itemBuilder: (context, index) {
-                    final place = favorites[index];
-                    return VisitedPlaceCard(
-                      title: place.title,
-                      date: place.placeTitle,
-                      image: place.mainImage,
-                      rating: place.averageRating,
-                    );
-                  },
-                ),
-              ),
-              if (totalPages > 1)
-                PaginationWidget(
+          child: ListView.separated(
+            itemCount: favorites.length + (totalPages > 1 ? 1 : 0),
+            separatorBuilder: (context, index) => SizedBox(height: 22.h),
+            itemBuilder: (context, index) {
+              final isPaginationItem =
+                  totalPages > 1 && index == favorites.length;
+              if (isPaginationItem) {
+                return PaginationWidget(
                   totalPages: totalPages,
                   currentPage: currentPage,
                   onPageChanged: (page) {
                     context.read<FavouritePlacesCubit>().onPageChanged(page);
                   },
-                ),
-            ],
+                );
+              }
+
+              final place = favorites[index];
+              return VisitedPlaceCard(
+                title: place.title,
+                description: place.description.trim().isEmpty
+                    ? 'No description available'
+                    : place.description,
+                image: place.mainImage,
+                rating: place.averageRating,
+                price: place.price,
+              );
+            },
           ),
         );
       },

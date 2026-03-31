@@ -167,8 +167,8 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             children: [
-              EditableProfileImage(image: Assets.egyptsplash, onEditTap: () {}),
-              SizedBox(height: 32.h),
+              // EditableProfileImage(image: Assets.egyptsplash, onEditTap: () {}),
+              SizedBox(height: 16.h),
               EditableTextField(
                 label: 'Full Name',
                 controller: _nameController,

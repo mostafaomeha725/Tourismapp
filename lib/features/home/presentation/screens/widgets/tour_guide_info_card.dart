@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
+import 'package:tourismapp/core/utils/rating_formatter.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/core/widgets/rating_stars.dart';
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/info_item_card.dart';
 
@@ -9,48 +11,6 @@ class TourGuideInfoCard extends StatelessWidget {
   final PackageEntity package;
 
   const TourGuideInfoCard({super.key, required this.package});
-
-  String _formatRating(double rating) {
-    final formatted = rating.toStringAsFixed(2);
-    return formatted
-        .replaceFirst(RegExp(r'0+$'), '')
-        .replaceFirst(RegExp(r'\.$'), '');
-  }
-
-  Widget _buildRatingStars(double rating) {
-    const maxStars = 5;
-    final clampedRating = rating.clamp(0, maxStars).toDouble();
-
-    return Row(
-      children: List.generate(maxStars, (index) {
-        final starFill = (clampedRating - index).clamp(0.0, 1.0);
-
-        return Padding(
-          padding: EdgeInsets.only(right: 2.w),
-          child: Stack(
-            children: [
-              Icon(
-                Icons.star_border_rounded,
-                color: const Color(0xFFFFC107),
-                size: 20.sp,
-              ),
-              ClipRect(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: starFill,
-                  child: Icon(
-                    Icons.star_rounded,
-                    color: const Color(0xFFFFC107),
-                    size: 20.sp,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      }),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +35,7 @@ class TourGuideInfoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppText(
-              '${package.providerName} - Tour Guide',
+              package.providerName,
               style: font18w700.copyWith(color: Colors.black87),
             ),
 
@@ -83,10 +43,17 @@ class TourGuideInfoCard extends StatelessWidget {
 
             Row(
               children: [
-                _buildRatingStars(package.averageRating),
+                RatingStars(
+                  rating: package.averageRating,
+                  size: 20,
+                  spacing: 2,
+                  allowPartial: true,
+                  activeColor: const Color(0xFFFFC107),
+                  inactiveColor: const Color(0xFFFFC107),
+                ),
                 SizedBox(width: 8.w),
                 AppText(
-                  '(${_formatRating(package.averageRating)} • ${package.reviewsCount} reviews)',
+                  '(${formatRatingCompact(package.averageRating)} • ${package.reviewsCount} reviews)',
                   style: font14w500.copyWith(color: Colors.grey),
                 ),
               ],
@@ -115,24 +82,11 @@ class TourGuideInfoCard extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            Row(
-              children: [
-                Expanded(
-                  child: InfoItemCard(
-                    icon: Icons.location_on_outlined,
-                    title: 'Location',
-                    value: package.placeTitle,
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: InfoItemCard(
-                    icon: Icons.access_time_rounded,
-                    title: 'Duration',
-                    value: 'N/A',
-                  ),
-                ),
-              ],
+            InfoItemCard(
+              icon: Icons.location_on_outlined,
+              title: 'Location',
+              value: package.placeTitle,
+              widthFactor: 0.5,
             ),
           ],
         ),

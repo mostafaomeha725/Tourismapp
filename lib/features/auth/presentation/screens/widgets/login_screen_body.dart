@@ -70,13 +70,13 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         final isLoading = state is LoginLoading;
 
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 48.w),
+          padding: EdgeInsets.symmetric(horizontal: 22.w),
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 36.h),
+                  SizedBox(height: 104.h),
 
                   AppAsset(assetName: Assets.logo, height: 180.h),
                   SizedBox(height: 4.h),

@@ -4,24 +4,27 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/app_image.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/core/widgets/rating_stars.dart';
 
 class VisitedPlaceCard extends StatelessWidget {
   const VisitedPlaceCard({
     super.key,
     required this.title,
+    required this.description,
     required this.image,
-    required this.date,
+    required this.price,
     this.rating = 5.0,
   });
 
   final String title;
+  final String description;
   final String image;
-  final String date;
+  final double price;
   final double rating;
 
   @override
   Widget build(BuildContext context) {
-    final filledStars = rating.clamp(0, 5).round();
+    final normalizedRating = rating.clamp(0, 5).toDouble();
 
     return Container(
       decoration: BoxDecoration(
@@ -66,7 +69,7 @@ class VisitedPlaceCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppText(
                       title,
@@ -76,20 +79,30 @@ class VisitedPlaceCard extends StatelessWidget {
                     ),
                     SizedBox(height: 6.h),
                     AppText(
-                      date,
+                      description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: font12w500.copyWith(color: Colors.grey.shade600),
                     ),
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 10.h),
                     Row(
-                      children: List.generate(5, (index) {
-                        return Icon(
-                          Icons.star_rounded,
-                          color: index < filledStars
-                              ? const Color(0xFFFFC107)
-                              : Colors.grey.shade300,
-                          size: 18.sp,
-                        );
-                      }),
+                      children: [
+                        RatingStars(
+                          rating: normalizedRating,
+                          size: 16,
+                          spacing: 1,
+                          activeColor: const Color(0xFFFFC107),
+                          inactiveColor: Colors.grey,
+                        ),
+
+                        const Spacer(),
+                        AppText(
+                          '\$${price.toStringAsFixed(0)}',
+                          style: font14w700.copyWith(
+                            color: const Color(0xffdb6000),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

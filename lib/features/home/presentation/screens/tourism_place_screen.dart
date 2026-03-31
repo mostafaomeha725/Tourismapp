@@ -72,7 +72,7 @@ class TourismPlaceScreen extends StatelessWidget {
                           place.lat != null && place.lng != null;
 
                       return TourismCard(
-                        text: 'وجهة سياحية',
+                        text: 'Wander Places',
                         imageUrl: imageUrl,
                         title: place.title,
                         description: description,

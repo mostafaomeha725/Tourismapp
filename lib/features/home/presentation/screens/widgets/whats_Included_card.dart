@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/about_experience_card.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/details_card_decoration.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/include_item_row.dart';
 
 class WhatsIncludedCard extends StatelessWidget {
@@ -13,7 +13,7 @@ class WhatsIncludedCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
-      decoration: commonDecoration(),
+      decoration: detailsCardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -1,6 +1,7 @@
 class Assets {
   Assets._();
 
+  static const String avatar = 'assets/avatar.png';
   static const String egyptsplash = 'assets/egypt-header.jpg';
   static const String logonew = 'assets/logonew.png';
   static const String logo = 'assets/logo.png';

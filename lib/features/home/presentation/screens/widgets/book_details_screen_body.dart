@@ -8,7 +8,6 @@ import 'package:tourismapp/core/extensions/request_state.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
-import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
@@ -17,6 +16,7 @@ import 'package:tourismapp/features/home/presentation/cubit/package_details_cubi
 import 'package:tourismapp/features/home/presentation/screens/widgets/about_experience_card.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/details_galary_section.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/details_image_header.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/package_reviews_card.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/tour_guide_info_card.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/whats_Included_card.dart';
 
@@ -184,7 +184,9 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: AboutExperienceCard(),
+                    child: AboutExperienceCard(
+                      description: package.description,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),
@@ -193,27 +195,34 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: WhatsIncludedCard(),
                   ),
+
+                  SizedBox(height: 20.h),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: PackageReviewsCard(packageId: widget.packageId),
+                  ),
                 ],
               ),
             ),
 
-            Positioned(
-              bottom: 30.h,
-              right: 20.w,
-              left: 20.w,
-              child: AppButton(
-                text: 'book now - \$${package.price.toInt()}',
-                onPressed: () {
-                  if (AuthService.isLoggedIn) {
-                    GoRouter.of(context).push(Routes.bookingsScreen);
-                  } else {
-                    GoRouter.of(context).push(Routes.authScreen);
-                  }
-                },
-                color: Color(0xffdb6000),
-                height: 50.h,
-              ),
-            ),
+            // Positioned(
+            //   bottom: 30.h,
+            //   right: 20.w,
+            //   left: 20.w,
+            //   child: AppButton(
+            //     text: 'book now - \$${package.price.toInt()}',
+            //     onPressed: () {
+            //       if (AuthService.isLoggedIn) {
+            //         GoRouter.of(context).push(Routes.bookingsScreen);
+            //       } else {
+            //         GoRouter.of(context).push(Routes.authScreen);
+            //       }
+            //     },
+            //     color: Color(0xffdb6000),
+            //     height: 50.h,
+            //   ),
+            // ),
           ],
         );
       },

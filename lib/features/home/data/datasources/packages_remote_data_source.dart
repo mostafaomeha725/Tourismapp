@@ -6,6 +6,7 @@ import 'package:tourismapp/features/home/data/models/favorite_toggle_result_mode
 import 'package:tourismapp/features/home/data/models/package_model.dart';
 import 'package:tourismapp/features/home/data/models/packages_page_model.dart';
 import 'package:tourismapp/features/home/data/models/price_range_model.dart';
+import 'package:tourismapp/features/home/data/models/reviews_page_model.dart';
 import 'package:tourismapp/features/home/data/models/submit_review_result_model.dart';
 import 'package:tourismapp/features/home/domain/usecases/get_packages_usecase.dart';
 import 'package:tourismapp/features/home/domain/usecases/submit_review_usecase.dart';
@@ -20,6 +21,11 @@ abstract class PackagesRemoteDataSource {
   Future<Either<Failure, SubmitReviewResultModel>> submitReview(
     SubmitReviewParams params,
   );
+
+  Future<Either<Failure, ReviewsPageModel>> getPackageReviews(
+    int packageId, {
+    int? page,
+  });
 
   Future<Either<Failure, FavoriteToggleResultModel>> toggleFavorite(
     int packageId,
@@ -84,6 +90,25 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
         return Right(SubmitReviewResultModel.fromJson(data));
       }
       return const Left(Failure('Unexpected response format'));
+    });
+  }
+
+  @override
+  Future<Either<Failure, ReviewsPageModel>> getPackageReviews(
+    int packageId, {
+    int? page,
+  }) async {
+    final response = await networkService.getData(
+      endPoint: EndPoints.packageReviews(packageId),
+      queryParameters: {if (page != null) 'page': page},
+    );
+
+    return response.fold(Left.new, (data) {
+      if (data is! Map<String, dynamic>) {
+        return const Left(Failure('Unexpected response format'));
+      }
+
+      return Right(ReviewsPageModel.fromJson(data));
     });
   }
 
