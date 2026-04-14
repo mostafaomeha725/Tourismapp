@@ -14,6 +14,8 @@ class TourGuideInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasLocation = package.placeTitle.trim().isNotEmpty;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
@@ -78,16 +80,16 @@ class TourGuideInfoCard extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            Divider(color: Colors.grey.shade200, thickness: 1),
-
-            SizedBox(height: 16.h),
-
-            InfoItemCard(
-              icon: Icons.location_on_outlined,
-              title: 'Location',
-              value: package.placeTitle,
-              widthFactor: 0.5,
-            ),
+            if (hasLocation) ...[
+              Divider(color: Colors.grey.shade200, thickness: 1),
+              SizedBox(height: 16.h),
+              InfoItemCard(
+                icon: Icons.location_on_outlined,
+                title: 'Location',
+                value: package.placeTitle,
+                widthFactor: 0.5,
+              ),
+            ],
           ],
         ),
       ),

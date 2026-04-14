@@ -54,11 +54,19 @@ class TourismCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final normalizedImageUrl = imageUrl.trim();
     final lowerImageValue = normalizedImageUrl.toLowerCase();
+    final normalizedLocation = location.trim();
+    final lowerLocationValue = normalizedLocation.toLowerCase();
     final hasValidImage =
         normalizedImageUrl.isNotEmpty &&
         lowerImageValue != 'null' &&
         lowerImageValue != 'undefined' &&
         lowerImageValue != 'n/a';
+    final hasLocation =
+        normalizedLocation.isNotEmpty &&
+        lowerLocationValue != 'null' &&
+        lowerLocationValue != 'undefined' &&
+        lowerLocationValue != 'n/a' &&
+        lowerLocationValue != 'unknown location';
     final isNetworkImage =
         normalizedImageUrl.startsWith('http://') ||
         normalizedImageUrl.startsWith('https://');
@@ -134,34 +142,35 @@ class TourismCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 8.h,
-                    left: 8.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 12.sp,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 4.w),
-                          AppText(
-                            location,
-                            style: font12w700.copyWith(color: Colors.white),
-                          ),
-                        ],
+                  if (hasLocation)
+                    Positioned(
+                      top: 8.h,
+                      left: 8.w,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              size: 12.sp,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 4.w),
+                            AppText(
+                              normalizedLocation,
+                              style: font12w700.copyWith(color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               Padding(
@@ -283,21 +292,26 @@ class TourismCard extends StatelessWidget {
                           )
                         : Column(
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AppText(location, style: font12w700),
+                              if (hasLocation) ...[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppText(
+                                      normalizedLocation,
+                                      style: font12w700,
+                                    ),
 
-                                  Icon(
-                                    Icons.location_on_outlined,
-                                    size: 18.sp,
-                                    color: Colors.orange,
-                                  ),
-                                ],
-                              ),
-                              if (showMapButton) ...[
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      size: 18.sp,
+                                      color: Colors.orange,
+                                    ),
+                                  ],
+                                ),
                                 SizedBox(height: 16.h),
+                              ],
+                              if (showMapButton)
                                 AppButton(
                                   text: 'View on map',
                                   textSize: 16.sp,
@@ -306,7 +320,6 @@ class TourismCard extends StatelessWidget {
                                   height: 50.h,
                                   radius: 22.r,
                                 ),
-                              ],
                             ],
                           ),
                     SizedBox(height: 8.h),
