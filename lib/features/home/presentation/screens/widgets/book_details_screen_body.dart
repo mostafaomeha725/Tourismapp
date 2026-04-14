@@ -44,7 +44,7 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
   int _currentIndex = 0;
   late PageController _pageController;
   bool _isFavorite = false;
-  bool _favoriteInitialized = false;
+  int? _favoriteSyncedPackageId;
   bool _isFavoriteLoading = false;
 
   @override
@@ -57,6 +57,18 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant BookDetailsScreenBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.packageId != widget.packageId) {
+      _currentIndex = 0;
+      _favoriteSyncedPackageId = null;
+      _isFavorite = false;
+      _isFavoriteLoading = false;
+      _pageController.jumpToPage(0);
+    }
   }
 
   void _onThumbnailTapped(int index) {
@@ -103,7 +115,7 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
       (response) {
         setState(() {
           _isFavoriteLoading = false;
-          _favoriteInitialized = true;
+          _favoriteSyncedPackageId = widget.packageId;
           _isFavorite = response.isFavorite;
         });
         ScaffoldMessenger.of(
@@ -144,9 +156,9 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
 
         final package = state.package!;
         final images = _resolveImages(package);
-        if (!_favoriteInitialized) {
+        if (_favoriteSyncedPackageId != package.id) {
           _isFavorite = package.isFavorite;
-          _favoriteInitialized = true;
+          _favoriteSyncedPackageId = package.id;
         }
 
         if (_currentIndex >= images.length) {
@@ -193,7 +205,9 @@ class _BookDetailsScreenBodyState extends State<BookDetailsScreenBody> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: WhatsIncludedCard(),
+                    child: WhatsIncludedCard(
+                      whatsIncluded: package.whatsIncluded,
+                    ),
                   ),
 
                   SizedBox(height: 20.h),

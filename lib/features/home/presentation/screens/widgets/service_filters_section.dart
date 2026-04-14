@@ -8,6 +8,7 @@ import 'package:tourismapp/features/home/presentation/screens/widgets/filter_tap
 
 class ServiceFiltersSection extends StatelessWidget {
   final bool hasActiveFilters;
+  final bool showAppliedBudgetChip;
   final String selectedFilter;
   final FilterOptions filterOptions;
   final double minPrice;
@@ -22,6 +23,7 @@ class ServiceFiltersSection extends StatelessWidget {
   const ServiceFiltersSection({
     super.key,
     required this.hasActiveFilters,
+    required this.showAppliedBudgetChip,
     required this.selectedFilter,
     required this.filterOptions,
     required this.minPrice,
@@ -99,7 +101,8 @@ class ServiceFiltersSection extends StatelessWidget {
                     icon: Icons.location_on_outlined,
                     onRemove: onRemovePlace,
                   ),
-                if (filterOptions.budgetRange.start > minPrice ||
+                if (showAppliedBudgetChip ||
+                    filterOptions.budgetRange.start > minPrice ||
                     filterOptions.budgetRange.end < maxPrice)
                   ActiveChip(
                     label:

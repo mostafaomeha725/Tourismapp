@@ -12,6 +12,9 @@ import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/screens/rate_service_dialog.dart';
 
 class TourismCard extends StatelessWidget {
+  static const String _noImagePlaceholderUrl =
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/640px-No_image_available.svg.png';
+
   final String imageUrl;
   final String title;
   final String description;
@@ -49,6 +52,17 @@ class TourismCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normalizedImageUrl = imageUrl.trim();
+    final lowerImageValue = normalizedImageUrl.toLowerCase();
+    final hasValidImage =
+        normalizedImageUrl.isNotEmpty &&
+        lowerImageValue != 'null' &&
+        lowerImageValue != 'undefined' &&
+        lowerImageValue != 'n/a';
+    final isNetworkImage =
+        normalizedImageUrl.startsWith('http://') ||
+        normalizedImageUrl.startsWith('https://');
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       child: GestureDetector(
@@ -74,15 +88,22 @@ class TourismCard extends StatelessWidget {
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(16.r),
                     ),
-                    child: imageUrl.startsWith('http')
+                    child: !hasValidImage
                         ? AppImage(
-                            imageUrl: imageUrl,
+                            imageUrl: _noImagePlaceholderUrl,
+                            width: double.infinity,
+                            height: 180.h,
+                            fit: BoxFit.cover,
+                          )
+                        : isNetworkImage
+                        ? AppImage(
+                            imageUrl: normalizedImageUrl,
                             width: double.infinity,
                             height: 180.h,
                             fit: BoxFit.cover,
                           )
                         : AppAsset(
-                            assetName: imageUrl,
+                            assetName: normalizedImageUrl,
                             width: double.infinity,
                             height: 180.h,
                             fit: BoxFit.cover,

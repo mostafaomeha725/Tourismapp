@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/extensions/request_state.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
+import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/domain/entities/package_entity.dart';
@@ -99,8 +100,13 @@ class ServiceResultsSection extends StatelessWidget {
                 openLocationLink(url);
               }
             },
-            onBook: () =>
-                GoRouter.of(context).push(Routes.bookDetailsById(item.id)),
+            onBook: () {
+              if (!AuthService.isLoggedIn) {
+                GoRouter.of(context).push(Routes.authScreen);
+                return;
+              }
+              GoRouter.of(context).push(Routes.bookDetailsById(item.id));
+            },
           );
         }),
         if (status.isSuccess && totalPages > 1)

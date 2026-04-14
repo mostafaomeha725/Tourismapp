@@ -50,7 +50,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     });
 
     final packagesResult = await getPackagesUseCase(
-      GetPackagesParams(minPrice: minPrice, maxPrice: maxPrice, page: 1),
+      const GetPackagesParams(page: 1),
     );
 
     packagesResult.fold(
@@ -97,8 +97,8 @@ class PackagesCubit extends Cubit<PackagesState> {
         categoryId: categoryId,
         providerId: providerId,
         placeId: placeId,
-        minPrice: minPrice ?? state.minPrice,
-        maxPrice: maxPrice ?? state.maxPrice,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
         page: page,
       ),
     );

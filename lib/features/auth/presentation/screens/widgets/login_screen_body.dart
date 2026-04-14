@@ -20,6 +20,8 @@ class LoginScreenBody extends StatefulWidget {
 }
 
 class _LoginScreenBodyState extends State<LoginScreenBody> {
+  static const Color _highlightColor = Color(0xff134FA2);
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
@@ -100,6 +102,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       child: Icon(Icons.email, size: 24.sp),
                     ),
                     radius: 22.r,
+                    maxLines: 1,
                     validator: (value) {
                       final email = (value ?? '').trim();
                       if (email.isEmpty) {
@@ -173,7 +176,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         },
                         child: AppText(
                           'Register now',
-                          style: font14w700.copyWith(color: Colors.grey),
+                          style: font14w700.copyWith(
+                            color: _highlightColor,
+                            decoration: TextDecoration.underline,
+                            decorationColor: _highlightColor,
+                          ),
                         ),
                       ),
                     ],

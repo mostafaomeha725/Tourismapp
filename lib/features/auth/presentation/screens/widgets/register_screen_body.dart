@@ -20,6 +20,8 @@ class RegisterScreenBody extends StatefulWidget {
 }
 
 class _RegisterScreenBodyState extends State<RegisterScreenBody> {
+  static const Color _highlightColor = Color(0xff134FA2);
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -163,10 +165,16 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                         style: font14w500.copyWith(color: Colors.grey),
                       ),
                       GestureDetector(
-                        onTap: () => GoRouter.of(context).pop(),
+                        onTap: () {
+                          GoRouter.of(context).pop();
+                        },
                         child: AppText(
                           'Sign in',
-                          style: font14w700.copyWith(color: Colors.grey),
+                          style: font14w700.copyWith(
+                            color: _highlightColor,
+                            decoration: TextDecoration.underline,
+                            decorationColor: _highlightColor,
+                          ),
                         ),
                       ),
                     ],

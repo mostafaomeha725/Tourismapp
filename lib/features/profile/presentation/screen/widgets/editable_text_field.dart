@@ -13,6 +13,7 @@ class EditableTextField extends StatelessWidget {
   final FocusNode focusNode;
   final TextEditingController? controller;
   final bool obscureText;
+  final String? placeholderText;
 
   const EditableTextField({
     super.key,
@@ -25,6 +26,7 @@ class EditableTextField extends StatelessWidget {
     this.inputType,
     this.controller,
     this.obscureText = false,
+    this.placeholderText,
   });
 
   @override
@@ -45,6 +47,7 @@ class EditableTextField extends StatelessWidget {
             color: isEditable ? Colors.black87 : Colors.black54,
           ),
           decoration: InputDecoration(
+            hintText: placeholderText,
             prefixIcon: Icon(icon, size: 22.sp),
             suffixIcon: IconButton(
               onPressed: onEditTap,

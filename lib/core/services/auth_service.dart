@@ -3,6 +3,10 @@ class AuthService {
 
   static bool get isLoggedIn => _isLoggedIn;
 
+  static void initializeFromToken(String? token) {
+    _isLoggedIn = token != null && token.isNotEmpty;
+  }
+
   static void login() {
     _isLoggedIn = true;
   }

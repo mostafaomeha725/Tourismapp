@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/cache/preferences_storage.dart';
-import 'package:tourismapp/core/constants/app_assets.dart';
 import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/core/enums/app_enums.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_snack_bar.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/update_profile_cubit.dart';
-import 'package:tourismapp/features/profile/presentation/screen/widgets/editable_profile_image.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/editable_text_field.dart';
 
 class EditProfileScreenBody extends StatefulWidget {
@@ -228,6 +226,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
                 isEditable: _isPasswordEditable,
                 focusNode: _passwordFocus,
                 obscureText: true,
+                placeholderText: '...........',
                 onEditTap: () {
                   setState(() {
                     _isPasswordEditable = !_isPasswordEditable;
@@ -246,6 +245,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
                 isEditable: _isPasswordConfirmationEditable,
                 focusNode: _passwordConfirmationFocus,
                 obscureText: true,
+                placeholderText: '...........',
                 onEditTap: () {
                   setState(() {
                     _isPasswordConfirmationEditable =

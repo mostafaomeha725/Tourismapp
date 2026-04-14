@@ -1,32 +1,46 @@
 part of 'helper_chat_cubit.dart';
 
-class HelperChatState extends Equatable {
-  final List<HelperChatMessageEntity> messages;
-  final bool isSending;
-  final String? error;
+class HelperChatUiMessage extends Equatable {
+  final String text;
+  final bool isFromUser;
+  final DateTime createdAt;
 
-  const HelperChatState({
-    required this.messages,
-    required this.isSending,
-    this.error,
+  const HelperChatUiMessage({
+    required this.text,
+    required this.isFromUser,
+    required this.createdAt,
   });
 
-  factory HelperChatState.initial(List<HelperChatMessageEntity> initial) {
-    return HelperChatState(messages: initial, isSending: false, error: null);
-  }
+  @override
+  List<Object?> get props => [text, isFromUser, createdAt];
+}
 
-  HelperChatState copyWith({
-    List<HelperChatMessageEntity>? messages,
-    bool? isSending,
-    String? error,
-  }) {
-    return HelperChatState(
-      messages: messages ?? this.messages,
-      isSending: isSending ?? this.isSending,
-      error: error,
-    );
-  }
+abstract class HelperChatState extends Equatable {
+  final List<HelperChatUiMessage> messages;
+
+  const HelperChatState({required this.messages});
 
   @override
-  List<Object?> get props => [messages, isSending, error];
+  List<Object?> get props => [messages];
+}
+
+class HelperChatEmpty extends HelperChatState {
+  const HelperChatEmpty() : super(messages: const []);
+}
+
+class HelperChatLoading extends HelperChatState {
+  const HelperChatLoading({required super.messages});
+}
+
+class HelperChatSuccess extends HelperChatState {
+  const HelperChatSuccess({required super.messages});
+}
+
+class HelperChatError extends HelperChatState {
+  final String errorMessage;
+
+  const HelperChatError({required super.messages, required this.errorMessage});
+
+  @override
+  List<Object?> get props => [...super.props, errorMessage];
 }

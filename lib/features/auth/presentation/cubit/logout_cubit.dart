@@ -21,7 +21,7 @@ class LogoutCubit extends Cubit<LogoutState> {
     result.fold((failure) => emit(LogoutFailure(failure.message)), (
       message,
     ) async {
-      await sl<PreferencesStorage>().deleteUserToken();
+      await sl<PreferencesStorage>().clearUserSessionData();
       sl<NetworkService>().removeToken();
       AuthService.logout();
       emit(LogoutSuccess(message));

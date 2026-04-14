@@ -24,6 +24,7 @@ class EndPoints {
   static const String reviews = 'reviews';
   static const String favorites = 'favorites';
   static const String favoritesToggle = 'favorites/toggle';
+  static const String chatbot = 'chatbot';
 
   /// Bookings endpoints
   static const String bookings = 'bookings';

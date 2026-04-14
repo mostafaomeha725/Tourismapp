@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:tourismapp/core/extensions/request_state.dart';
 import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/filter_bottom_sheet.dart';
@@ -18,16 +19,31 @@ class ServiceScreen extends StatefulWidget {
 
 class _ServiceScreenState extends State<ServiceScreen> {
   String _selectedFilter = "All";
-  FilterOptions _filterOptions = const FilterOptions(
-    budgetRange: RangeValues(0, 300),
-  );
+  late FilterOptions _filterOptions;
   bool _didSetInitialRange = false;
+  bool _isBudgetApplied = false;
+
+  bool _isBudgetFilterActive(double minPrice, double maxPrice) {
+    const epsilon = 0.0001;
+    return (_filterOptions.budgetRange.start - minPrice).abs() > epsilon ||
+        (_filterOptions.budgetRange.end - maxPrice).abs() > epsilon;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<PackagesCubit>().state;
+    _filterOptions = FilterOptions(
+      budgetRange: RangeValues(state.minPrice, state.maxPrice),
+    );
+    _didSetInitialRange = state.status.isSuccess;
+  }
 
   bool _hasActiveFilters(double minPrice, double maxPrice) {
     return _filterOptions.selectedCity != null ||
         _selectedFilter != 'All' ||
-        _filterOptions.budgetRange.start > minPrice ||
-        _filterOptions.budgetRange.end < maxPrice;
+        _isBudgetFilterActive(minPrice, maxPrice) ||
+        _isBudgetApplied;
   }
 
   Future<void> _loadPackagesWithFilters(
@@ -35,6 +51,17 @@ class _ServiceScreenState extends State<ServiceScreen> {
     PackagesCubit cubit, {
     int page = 1,
   }) async {
+    final hasBudgetFilter = _isBudgetFilterActive(
+      state.minPrice,
+      state.maxPrice,
+    );
+    final effectiveMinPrice = hasBudgetFilter
+        ? _filterOptions.budgetRange.start
+        : state.minPrice;
+    final effectiveMaxPrice = hasBudgetFilter
+        ? _filterOptions.budgetRange.end
+        : state.maxPrice;
+
     final categoryId = _selectedFilter == 'All'
         ? null
         : state.categories
@@ -54,8 +81,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
     await cubit.getPackages(
       categoryId: categoryId,
       placeId: placeId,
-      minPrice: _filterOptions.budgetRange.start,
-      maxPrice: _filterOptions.budgetRange.end,
+      minPrice: effectiveMinPrice,
+      maxPrice: effectiveMaxPrice,
       page: page,
     );
   }
@@ -89,7 +116,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
           minBudget: minPrice,
           maxBudget: maxPrice,
           onApply: (options) async {
-            setState(() => _filterOptions = options);
+            setState(() {
+              _filterOptions = options;
+              _isBudgetApplied = true;
+            });
             await _loadPackagesWithFilters(
               context.read<PackagesCubit>().state,
               context.read<PackagesCubit>(),
@@ -135,6 +165,9 @@ class _ServiceScreenState extends State<ServiceScreen> {
                   const ServiceScreenHeaderSection(),
                   ServiceFiltersSection(
                     hasActiveFilters: hasActiveFilters,
+                    showAppliedBudgetChip:
+                        _isBudgetApplied ||
+                        _isBudgetFilterActive(minPrice, maxPrice),
                     selectedFilter: _selectedFilter,
                     filterOptions: _filterOptions,
                     minPrice: minPrice,
@@ -164,6 +197,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                     },
                     onRemoveBudget: () async {
                       setState(() {
+                        _isBudgetApplied = false;
                         _filterOptions = _filterOptions.copyWith(
                           budgetRange: RangeValues(minPrice, maxPrice),
                         );

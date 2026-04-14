@@ -1,74 +1,70 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tourismapp/features/home/domain/entities/helper_chat_message_entity.dart';
 import 'package:tourismapp/features/home/domain/usecases/send_helper_chat_message_usecase.dart';
 
 part 'helper_chat_state.dart';
 
 class HelperChatCubit extends Cubit<HelperChatState> {
+  static const String _welcomeMessage =
+      'Welcome! I am your Egypt Tourism Assistant. Ask me about places, itineraries, costs, and transport.';
+
   final SendHelperChatMessageUseCase sendHelperChatMessageUseCase;
 
   HelperChatCubit(this.sendHelperChatMessageUseCase)
     : super(
-        HelperChatState.initial([
-          HelperChatMessageEntity(
-            text:
-                'Welcome! I am your Egypt Tourism Assistant. Ask me about places, itineraries, costs, and transport.',
-            isFromUser: false,
-            createdAt: DateTime.now(),
-          ),
-        ]),
+        HelperChatSuccess(
+          messages: [
+            HelperChatUiMessage(
+              text: _welcomeMessage,
+              isFromUser: false,
+              createdAt: DateTime.now(),
+            ),
+          ],
+        ),
       );
 
   Future<void> sendMessage(String input) async {
-    final text = input.trim();
-    if (text.isEmpty || state.isSending) {
+    if (state is HelperChatLoading) {
       return;
     }
 
-    final userMessage = HelperChatMessageEntity(
+    final text = input.trim();
+    if (text.isEmpty) {
+      return;
+    }
+
+    final userMessage = HelperChatUiMessage(
       text: text,
       isFromUser: true,
       createdAt: DateTime.now(),
     );
 
     final currentMessages = [...state.messages, userMessage];
-    emit(
-      state.copyWith(messages: currentMessages, isSending: true, error: null),
-    );
+    emit(HelperChatLoading(messages: currentMessages));
 
-    final result = await sendHelperChatMessageUseCase(
-      SendHelperChatMessageParams(message: text, history: currentMessages),
-    );
+    final result = await sendHelperChatMessageUseCase(text);
 
     result.fold(
       (failure) {
-        final errorReply = HelperChatMessageEntity(
+        final errorReply = HelperChatUiMessage(
           text: failure.message,
           isFromUser: false,
           createdAt: DateTime.now(),
         );
         emit(
-          state.copyWith(
+          HelperChatError(
             messages: [...currentMessages, errorReply],
-            isSending: false,
-            error: failure.message,
+            errorMessage: failure.message,
           ),
         );
       },
       (reply) {
-        final botReply = HelperChatMessageEntity(
+        final botReply = HelperChatUiMessage(
           text: reply,
           isFromUser: false,
           createdAt: DateTime.now(),
         );
-        emit(
-          state.copyWith(
-            messages: [...currentMessages, botReply],
-            isSending: false,
-            error: null,
-          ),
-        );
+        emit(HelperChatSuccess(messages: [...currentMessages, botReply]));
       },
     );
   }

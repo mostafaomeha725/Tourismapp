@@ -6,7 +6,9 @@ import 'package:tourismapp/features/home/presentation/screens/widgets/details_ca
 import 'package:tourismapp/features/home/presentation/screens/widgets/include_item_row.dart';
 
 class WhatsIncludedCard extends StatelessWidget {
-  const WhatsIncludedCard({super.key});
+  final List<String> whatsIncluded;
+
+  const WhatsIncludedCard({super.key, required this.whatsIncluded});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,13 @@ class WhatsIncludedCard extends StatelessWidget {
             style: font18w700.copyWith(color: Colors.black87),
           ),
           SizedBox(height: 16.h),
-          IncludedItemRow(text: 'Professional Tour Guide'),
-          IncludedItemRow(text: 'Entrance Tickets'),
-          IncludedItemRow(text: 'Transportation'),
-          IncludedItemRow(text: 'Bottled Water'),
-          IncludedItemRow(text: 'Historical Insights'),
+          if (whatsIncluded.isEmpty)
+            AppText(
+              'No included items provided yet',
+              style: font14w500.copyWith(color: Colors.black54),
+            )
+          else
+            ...whatsIncluded.map((item) => IncludedItemRow(text: item)),
         ],
       ),
     );

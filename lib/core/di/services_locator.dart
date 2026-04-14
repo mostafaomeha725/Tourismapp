@@ -142,7 +142,7 @@ class ServiceLocator {
 
     if (!sl.isRegistered<HelperChatRemoteDataSource>()) {
       sl.registerLazySingleton<HelperChatRemoteDataSource>(
-        () => HelperChatRemoteDataSourceImpl(),
+        () => HelperChatRemoteDataSourceImpl(sl()),
       );
     }
 

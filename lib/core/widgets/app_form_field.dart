@@ -106,7 +106,7 @@ class _AppFormFieldState extends State<AppFormField> {
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: widget.hintText,
-        // hintStyle: font16w500,
+        hintStyle: font14w500,
         filled: true,
         fillColor: widget.fillColor,
         contentPadding: widget.contentPadding ?? EdgeInsets.all(15.h),

@@ -48,6 +48,15 @@ class PreferencesStorage {
     await _preferences.remove(PreferencesKeys.userToken.name);
   }
 
+  Future<void> clearUserSessionData() async {
+    await _preferences.remove(PreferencesKeys.userToken.name);
+    await _preferences.remove(PreferencesKeys.name.name);
+    await _preferences.remove(PreferencesKeys.email.name);
+    await _preferences.remove(PreferencesKeys.phone.name);
+    await _preferences.remove(PreferencesKeys.picture.name);
+    await _preferences.remove(PreferencesKeys.userIsAdmin.name);
+  }
+
   /// ================= USER ROLE =================
   Future<void> saveUserRole(bool isAdmin) async {
     await _preferences.setBool(PreferencesKeys.userIsAdmin.name, isAdmin);
