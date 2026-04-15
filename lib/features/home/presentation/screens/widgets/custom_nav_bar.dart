@@ -8,18 +8,12 @@ import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/utils/easy_loading.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/helper_chat_cubit.dart';
-import 'package:tourismapp/features/home/presentation/screens/helper_screen.dart';
-import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
-
-import 'package:tourismapp/features/home/presentation/screens/service_screen.dart';
-import 'package:tourismapp/features/home/presentation/screens/tourism_place_screen.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/home_appbar.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/custom_nav_bar_body_stack.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/custom_nav_bar_bottom_bar.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/custom_nav_bar_screens.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/home_drawer.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/nav_bar_item.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/show_emergency_sheet.dart';
-import 'package:tourismapp/features/profile/presentation/screen/profile_screen.dart';
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -43,23 +37,7 @@ class _CustomNavBarState extends State<CustomNavBar>
   void initState() {
     super.initState();
 
-    _screens.addAll([
-      BlocProvider(
-        create: (_) => sl<PlacesCubit>()..loadPlaces(),
-        child: TourismPlaceScreen(
-          onNavigateToTab: (index) => _onItemTapped(index),
-        ),
-      ),
-      BlocProvider(
-        create: (_) => sl<PackagesCubit>()..loadInitialData(),
-        child: const ServiceScreen(),
-      ),
-      BlocProvider(
-        create: (_) => sl<HelperChatCubit>(),
-        child: const HelperScreen(),
-      ),
-      const ProfileScreen(),
-    ]);
+    _screens.addAll(buildCustomNavBarScreens(_onItemTapped));
 
     _fabController = AnimationController(
       vsync: this,
@@ -102,9 +80,6 @@ class _CustomNavBarState extends State<CustomNavBar>
 
   @override
   Widget build(BuildContext context) {
-    bool isProfileScreen = _selectedIndex == 3;
-
-    // ignore: deprecated_member_use
     return BlocProvider(
       create: (_) => sl<LogoutCubit>(),
       child: BlocListener<LogoutCubit, LogoutState>(
@@ -133,83 +108,15 @@ class _CustomNavBarState extends State<CustomNavBar>
                 ),
               ),
             ),
-            body: Stack(
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: _screens[_selectedIndex],
-                ),
-
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                  bottom: isProfileScreen ? -100.h : 40.h,
-                  left: 22.w,
-                  child: GestureDetector(
-                    onTap: () => showEmergencySheet(context),
-                    child: AnimatedBuilder(
-                      animation: _fabPulse,
-                      builder: (context, child) {
-                        return Opacity(
-                          opacity: _fabPulse.value,
-                          child: Container(
-                            padding: EdgeInsets.all(16.h),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 8.r,
-                                ),
-                              ],
-                            ),
-                            child: Icon(
-                              Icons.error_outline,
-                              color: Colors.white,
-                              size: 20.sp,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+            body: CustomNavBarBodyStack(
+              selectedIndex: _selectedIndex,
+              screens: _screens,
+              fabPulse: _fabPulse,
+              onEmergencyTap: () => showEmergencySheet(context),
             ),
-            bottomNavigationBar: BottomAppBar(
-              color: Colors.white,
-              height: 80.h,
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  NavBarItem(
-                    icon: Icons.place_outlined,
-                    isSelected: _selectedIndex == 0,
-                    onTap: () => _onItemTapped(0),
-                    label: 'Tourist places',
-                  ),
-                  NavBarItem(
-                    icon: Icons.design_services_outlined,
-                    isSelected: _selectedIndex == 1,
-                    onTap: () => _onItemTapped(1),
-                    label: 'Services',
-                  ),
-                  NavBarItem(
-                    icon: Icons.chat_bubble_outline,
-                    isSelected: _selectedIndex == 2,
-                    onTap: () => _onItemTapped(2),
-                    label: 'Helper',
-                  ),
-                  NavBarItem(
-                    icon: Icons.person_outline,
-                    isSelected: _selectedIndex == 3,
-                    onTap: () => _onItemTapped(3),
-                    label: 'profile',
-                  ),
-                ],
-              ),
+            bottomNavigationBar: CustomNavBarBottomBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
             ),
           ),
         ),

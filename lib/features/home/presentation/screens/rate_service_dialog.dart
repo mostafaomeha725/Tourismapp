@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/di/services_locator.dart';
-import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/utils/easy_loading.dart';
-import 'package:tourismapp/core/widgets/custom_button.dart';
-import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/cubit/submit_review_cubit.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/rate_service_dialog_actions.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/rate_service_dialog_comment_section.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/rate_service_dialog_header.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/rate_service_dialog_rating_section.dart';
 
 class RateServiceDialog extends StatefulWidget {
   final int packageId;
@@ -86,136 +87,35 @@ class _RateServiceDialogState extends State<RateServiceDialog> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Stack(
-                        children: [
-                          Center(
-                            child: Column(
-                              children: [
-                                AppText(
-                                  "Rate Service",
-                                  style: font20w700,
-                                  alignment: AlignmentDirectional.center,
-                                ),
-                                SizedBox(height: 8.h),
-                                AppText(
-                                  widget.title,
-                                  alignment: AlignmentDirectional.center,
-                                  style: font14w400.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: GestureDetector(
-                              onTap: () => Navigator.of(dialogContext).pop(),
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.grey,
-                                size: 24.sp,
-                              ),
-                            ),
-                          ),
-                        ],
+                      RateServiceDialogHeader(
+                        title: widget.title,
+                        onClose: () => Navigator.of(dialogContext).pop(),
                       ),
 
                       SizedBox(height: 25.h),
 
-                      AppText(
-                        "Choose your rating",
-                        alignment: AlignmentDirectional.center,
-                        style: font14w500.copyWith(color: Colors.black54),
-                      ),
-                      SizedBox(height: 10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(5, (index) {
-                          return IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _rating = index + 1;
-                              });
-                            },
-                            icon: Icon(
-                              index < _rating
-                                  ? Icons.star_rounded
-                                  : Icons.star_outline_rounded,
-                              color: Colors.amber,
-                              size: 40.sp,
-                            ),
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                          );
-                        }),
+                      RateServiceDialogRatingSection(
+                        rating: _rating,
+                        onRatingChanged: (value) {
+                          setState(() {
+                            _rating = value;
+                          });
+                        },
                       ),
 
                       SizedBox(height: 20.h),
 
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: AppText(
-                          "Notes (Optional)",
-                          style: font14w700.copyWith(
-                            color: Colors.grey.shade700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F6F8),
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: TextField(
-                          controller: _commentController,
-                          maxLines: 3,
-                          style: TextStyle(fontSize: 14.sp),
-                          decoration: InputDecoration(
-                            hintText:
-                                "Share your experience with this service...",
-                            hintStyle: font12w400.copyWith(
-                              color: Colors.grey.shade400,
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(15.w),
-                          ),
-                        ),
+                      RateServiceDialogCommentSection(
+                        controller: _commentController,
                       ),
 
                       SizedBox(height: 25.h),
 
-                      SizedBox(
-                        width: double.infinity,
-                        child: AppButton(
-                          text: 'Submit Review',
-                          onPressed: () => _submitReview(dialogContext),
-                          height: 48.h,
-                          color: Colors.orange,
-                          textSize: 16.sp,
-                          textWeight: FontWeight.bold,
-                          textColor: Colors.white,
-                        ),
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      SizedBox(
-                        width: double.infinity,
-                        child: AppButton(
-                          text: 'Cancel',
-                          onPressed: () {
-                            Navigator.of(dialogContext).pop();
-                          },
-                          height: 48.h,
-                          textColor: Colors.black,
-                          borderColor: Colors.grey,
-                          color: Colors.white,
-                          textSize: 16.sp,
-                          textWeight: FontWeight.w500,
-                        ),
+                      RateServiceDialogActions(
+                        onSubmit: () => _submitReview(dialogContext),
+                        onCancel: () {
+                          Navigator.of(dialogContext).pop();
+                        },
                       ),
                     ],
                   ),

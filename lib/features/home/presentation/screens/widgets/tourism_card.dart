@@ -4,12 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/services/auth_service.dart';
-import 'package:tourismapp/core/theme/styles.dart';
-import 'package:tourismapp/core/widgets/app_asset.dart';
-import 'package:tourismapp/core/widgets/app_image.dart';
-import 'package:tourismapp/core/widgets/custom_button.dart';
-import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/screens/rate_service_dialog.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card_body.dart';
+import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card_header.dart';
 
 class TourismCard extends StatelessWidget {
   static const String _noImagePlaceholderUrl =
@@ -49,6 +46,27 @@ class TourismCard extends StatelessWidget {
     this.onReviewSubmitted,
     this.showMapButton = true,
   });
+
+  Future<void> _onEvaluatePressed(BuildContext context) async {
+    if (!AuthService.isLoggedIn) {
+      GoRouter.of(context).push(Routes.authScreen);
+      return;
+    }
+
+    if (packageId == null) {
+      return;
+    }
+
+    final didSubmit = await showDialog<bool>(
+      context: context,
+      builder: (context) =>
+          RateServiceDialog(packageId: packageId!, title: title),
+    );
+
+    if (didSubmit == true) {
+      await onReviewSubmitted?.call();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,241 +108,30 @@ class TourismCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(16.r),
-                    ),
-                    child: !hasValidImage
-                        ? AppImage(
-                            imageUrl: _noImagePlaceholderUrl,
-                            width: double.infinity,
-                            height: 180.h,
-                            fit: BoxFit.cover,
-                          )
-                        : isNetworkImage
-                        ? AppImage(
-                            imageUrl: normalizedImageUrl,
-                            width: double.infinity,
-                            height: 180.h,
-                            fit: BoxFit.cover,
-                          )
-                        : AppAsset(
-                            assetName: normalizedImageUrl,
-                            width: double.infinity,
-                            height: 180.h,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  Positioned(
-                    top: 8.h,
-                    right: 8.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Row(
-                        children: [
-                          AppText(
-                            text,
-                            style: font12w700.copyWith(color: Colors.white),
-                          ),
-                          SizedBox(width: 4.w),
-                          if (isicon)
-                            Icon(icon, size: 16.sp, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (hasLocation)
-                    Positioned(
-                      top: 8.h,
-                      left: 8.w,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 4.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              size: 12.sp,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 4.w),
-                            AppText(
-                              normalizedLocation,
-                              style: font12w700.copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                ],
+              TourismCardHeader(
+                normalizedImageUrl: normalizedImageUrl,
+                placeholderImageUrl: _noImagePlaceholderUrl,
+                hasValidImage: hasValidImage,
+                isNetworkImage: isNetworkImage,
+                text: text,
+                isicon: isicon,
+                icon: icon,
+                hasLocation: hasLocation,
+                normalizedLocation: normalizedLocation,
               ),
-              Padding(
-                padding: EdgeInsets.all(22.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(title, style: font16w700),
-                    SizedBox(height: 8.h),
-                    AppText(
-                      description,
-                      overflow: TextOverflow.visible,
-                      style: font12w400.copyWith(color: Colors.grey[600]),
-                    ),
-                    SizedBox(height: 32.h),
-                    isicon
-                        ? Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AppText(
-                                    price != null ? "\$${price!.toInt()}" : "—",
-                                    style: font18w700.copyWith(
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-
-                                  Row(
-                                    children: [
-                                      AppText(
-                                        "(${reviewsCount ?? 0})",
-                                        style: font12w400.copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-
-                                      SizedBox(width: 4),
-
-                                      AppText(
-                                        (rating ?? 0).toStringAsFixed(1),
-                                        style: font16w600,
-                                      ),
-
-                                      SizedBox(width: 3),
-
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.orange,
-                                        size: 20.sp,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16.h),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 10,
-                                    child: AppButton.icon(
-                                      text: 'evaluate',
-
-                                      onPressed: () async {
-                                        if (!AuthService.isLoggedIn) {
-                                          GoRouter.of(
-                                            context,
-                                          ).push(Routes.authScreen);
-                                          return;
-                                        }
-
-                                        if (packageId == null) {
-                                          return;
-                                        }
-                                        final didSubmit =
-                                            await showDialog<bool>(
-                                              context: context,
-                                              builder: (context) =>
-                                                  RateServiceDialog(
-                                                    packageId: packageId!,
-                                                    title: title,
-                                                  ),
-                                            );
-
-                                        if (didSubmit == true) {
-                                          await onReviewSubmitted?.call();
-                                        }
-                                      },
-                                      height: 42.h,
-                                      borderColor: Colors.grey,
-                                      color: Colors.white,
-                                      textColor: Colors.black,
-                                      textSize: 14.sp,
-                                      textWeight: FontWeight.w500,
-                                      child: Icon(
-                                        Icons.star_border_outlined,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 12.w),
-
-                                  Expanded(
-                                    flex: 10,
-                                    child: AppButton(
-                                      text: 'book',
-                                      onPressed: onBook,
-                                      height: 42.h,
-                                      color: Colors.orange,
-                                      textColor: Colors.white,
-                                      textSize: 16.sp,
-                                      textWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              if (hasLocation) ...[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppText(
-                                      normalizedLocation,
-                                      style: font12w700,
-                                    ),
-
-                                    Icon(
-                                      Icons.location_on_outlined,
-                                      size: 18.sp,
-                                      color: Colors.orange,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 16.h),
-                              ],
-                              if (showMapButton)
-                                AppButton(
-                                  text: 'View on map',
-                                  textSize: 16.sp,
-                                  color: const Color(0xffdb6000),
-                                  onPressed: onViewMap,
-                                  height: 50.h,
-                                  radius: 22.r,
-                                ),
-                            ],
-                          ),
-                    SizedBox(height: 8.h),
-                  ],
-                ),
+              TourismCardBody(
+                title: title,
+                description: description,
+                isicon: isicon,
+                hasLocation: hasLocation,
+                normalizedLocation: normalizedLocation,
+                showMapButton: showMapButton,
+                onViewMap: onViewMap,
+                onEvaluate: () => _onEvaluatePressed(context),
+                onBook: onBook,
+                price: price,
+                rating: rating,
+                reviewsCount: reviewsCount,
               ),
             ],
           ),
