@@ -1,4 +1,4 @@
-﻿import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourismapp/core/cache/preferences_storage.dart';
@@ -14,34 +14,35 @@ import 'package:tourismapp/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/logout_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/update_profile_cubit.dart';
-import 'package:tourismapp/features/home/data/datasources/packages_remote_data_source.dart';
-import 'package:tourismapp/features/home/data/datasources/places_remote_data_source.dart';
-import 'package:tourismapp/features/home/data/datasources/categories_remote_data_source.dart';
-import 'package:tourismapp/features/home/data/datasources/helper_chat_remote_data_source.dart';
-import 'package:tourismapp/features/home/data/repositories/categories_repository_impl.dart';
-import 'package:tourismapp/features/home/data/repositories/helper_chat_repository_impl.dart';
-import 'package:tourismapp/features/home/data/repositories/packages_repository_impl.dart';
+import 'package:tourismapp/features/service/data/data_sources/packages_remote_data_source.dart';
+import 'package:tourismapp/features/home/data/data_sources/places_remote_data_source.dart';
+import 'package:tourismapp/features/service/data/data_sources/categories_remote_data_source.dart';
+import 'package:tourismapp/features/helper/data/data_sources/helper_chat_remote_data_source.dart';
+import 'package:tourismapp/features/service/data/repositories/categories_repository_impl.dart';
+import 'package:tourismapp/features/helper/data/repositories/helper_chat_repository_impl.dart';
+import 'package:tourismapp/features/service/data/repositories/packages_repository_impl.dart';
 import 'package:tourismapp/features/home/data/repositories/places_repository_impl.dart';
-import 'package:tourismapp/features/home/domain/repositories/categories_repository.dart';
-import 'package:tourismapp/features/home/domain/repositories/helper_chat_repository.dart';
-import 'package:tourismapp/features/home/domain/repositories/packages_repository.dart';
+import 'package:tourismapp/features/service/domain/repositories/categories_repository.dart';
+import 'package:tourismapp/features/helper/domain/repositories/helper_chat_repository.dart';
+import 'package:tourismapp/features/service/domain/repositories/packages_repository.dart';
 import 'package:tourismapp/features/home/domain/repositories/places_repository.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_categories_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_favorites_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_package_by_id_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_packages_price_range_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_packages_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_package_reviews_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_categories_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_favorites_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_package_by_id_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_packages_price_range_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_packages_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_package_reviews_usecase.dart';
 import 'package:tourismapp/features/home/domain/usecases/get_places_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/send_helper_chat_message_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/submit_review_usecase.dart';
-import 'package:tourismapp/features/home/domain/usecases/toggle_favorite_usecase.dart';
-import 'package:tourismapp/features/home/presentation/cubit/helper_chat_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/package_details_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/package_reviews_cubit.dart';
+import 'package:tourismapp/features/service/domain/usecases/resolve_package_booking_link_usecase.dart';
+import 'package:tourismapp/features/helper/domain/usecases/send_helper_chat_message_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/submit_review_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/toggle_favorite_usecase.dart';
+import 'package:tourismapp/features/helper/presentation/cubit/helper_chat_cubit.dart';
+import 'package:tourismapp/features/service/presentation/cubit/package_details_cubit.dart';
+import 'package:tourismapp/features/service/presentation/cubit/package_reviews_cubit.dart';
 import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/packages_cubit.dart';
-import 'package:tourismapp/features/home/presentation/cubit/submit_review_cubit.dart';
+import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.dart';
+import 'package:tourismapp/features/service/presentation/cubit/submit_review_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
 
 final sl = GetIt.instance;
@@ -206,12 +207,16 @@ class ServiceLocator {
       sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
     }
 
+    if (!sl.isRegistered<ResolvePackageBookingLinkUseCase>()) {
+      sl.registerLazySingleton(() => ResolvePackageBookingLinkUseCase());
+    }
+
     if (!sl.isRegistered<SendHelperChatMessageUseCase>()) {
       sl.registerLazySingleton(() => SendHelperChatMessageUseCase(sl()));
     }
 
     if (!sl.isRegistered<PackagesCubit>()) {
-      sl.registerFactory(() => PackagesCubit(sl(), sl(), sl(), sl()));
+      sl.registerFactory(() => PackagesCubit(sl(), sl(), sl(), sl(), sl()));
     }
 
     if (!sl.isRegistered<PlacesCubit>()) {
@@ -219,7 +224,7 @@ class ServiceLocator {
     }
 
     if (!sl.isRegistered<PackageDetailsCubit>()) {
-      sl.registerFactory(() => PackageDetailsCubit(sl()));
+      sl.registerFactory(() => PackageDetailsCubit(sl(), sl()));
     }
 
     if (!sl.isRegistered<PackageReviewsCubit>()) {

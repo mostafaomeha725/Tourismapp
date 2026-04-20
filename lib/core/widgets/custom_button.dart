@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '/core/theme/dimensions.dart';
 import '/core/widgets/custom_text.dart';
 
-import '../extensions/ext.dart';
 import '../theme/light_colors.dart';
 import 'bouncing_widgets.dart';
 

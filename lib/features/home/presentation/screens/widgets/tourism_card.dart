@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/services/auth_service.dart';
-import 'package:tourismapp/features/home/presentation/screens/rate_service_dialog.dart';
+import 'package:tourismapp/features/service/presentation/screens/rate_service_dialog.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card_body.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card_header.dart';
 
@@ -20,6 +20,7 @@ class TourismCard extends StatelessWidget {
   final String text;
   final IconData? icon;
   final bool isicon;
+  final void Function()? onCardTap;
   final void Function()? onBook;
   final double? price;
   final double? rating;
@@ -38,6 +39,7 @@ class TourismCard extends StatelessWidget {
     required this.text,
     this.icon,
     this.isicon = false,
+    this.onCardTap,
     this.onBook,
     this.price,
     this.rating,
@@ -92,7 +94,7 @@ class TourismCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       child: GestureDetector(
-        onTap: onBook,
+        onTap: onCardTap,
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

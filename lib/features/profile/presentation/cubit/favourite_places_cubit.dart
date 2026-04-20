@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:tourismapp/core/extensions/request_state.dart';
-import 'package:tourismapp/features/home/domain/usecases/get_favorites_usecase.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_favorites_usecase.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_state.dart';
 
 class FavouritePlacesCubit extends Cubit<FavouritePlacesState> {

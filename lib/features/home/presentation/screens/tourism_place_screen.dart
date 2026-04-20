@@ -8,7 +8,7 @@ import 'package:tourismapp/core/constants/app_assets.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
-import 'package:tourismapp/features/home/presentation/screens/widgets/open_map.dart';
+import 'package:tourismapp/core/utils/open_map.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card.dart';
 
 part 'widgets/tourism_place_screen_query.dart';

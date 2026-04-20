@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tourismapp/core/extensions/request_state.dart';
-import 'package:tourismapp/features/home/domain/entities/packages_page_entity.dart';
+import 'package:tourismapp/features/service/domain/entities/packages_page_entity.dart';
 
 class FavouritePlacesState extends Equatable {
   final RequestState status;

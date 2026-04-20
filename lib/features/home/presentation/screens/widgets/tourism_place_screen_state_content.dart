@@ -13,6 +13,7 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
             state.message,
             style: font14w400.copyWith(color: Colors.red),
             alignment: AlignmentDirectional.center,
+            overflow: TextOverflow.visible,
           ),
           SizedBox(height: 10.h),
           TextButton(

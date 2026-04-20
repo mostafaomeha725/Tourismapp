@@ -226,7 +226,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
                 isEditable: _isPasswordEditable,
                 focusNode: _passwordFocus,
                 obscureText: true,
-                placeholderText: '...........',
+                placeholderText: '••••••••', // 👈 كده هيظهر نقط
                 onEditTap: () {
                   setState(() {
                     _isPasswordEditable = !_isPasswordEditable;
@@ -245,7 +245,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
                 isEditable: _isPasswordConfirmationEditable,
                 focusNode: _passwordConfirmationFocus,
                 obscureText: true,
-                placeholderText: '...........',
+                placeholderText: '••••••••',
                 onEditTap: () {
                   setState(() {
                     _isPasswordConfirmationEditable =
