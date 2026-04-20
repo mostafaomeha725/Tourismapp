@@ -98,6 +98,11 @@ class PackageModel extends PackageEntity {
         rawLocationLink == null || rawLocationLink.isEmpty
         ? unavailableLocationLinkToken
         : rawLocationLink;
+    final rawBookingLink = json['link']?.toString().trim();
+    final normalizedBookingLink =
+        rawBookingLink == null || rawBookingLink.isEmpty
+        ? unavailableBookingLinkToken
+        : rawBookingLink;
     final packageTitle = (json['title'] ?? '').toString();
     final providerDisplayName = _resolveProviderDisplayName(
       rawProviderName: provider['name']?.toString(),
@@ -111,7 +116,7 @@ class PackageModel extends PackageEntity {
       price: (json['price'] is num)
           ? (json['price'] as num).toDouble()
           : double.tryParse((json['price'] ?? '0').toString()) ?? 0,
-      link: json['link']?.toString(),
+      link: normalizedBookingLink,
       locationLink: normalizedLocationLink,
       categoryId: category['id'] is int ? category['id'] as int : 0,
       categoryName: (category['name'] ?? '').toString(),

@@ -4,8 +4,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 Future<void> openLocationLink(String url) async {
   final normalizedUrl = url.trim();
-  if (normalizedUrl.isEmpty || normalizedUrl == unavailableLocationLinkToken) {
-    showError('Package location link is not available yet.');
+  if (normalizedUrl.isEmpty ||
+      normalizedUrl == unavailableLocationLinkToken ||
+      normalizedUrl == unavailableBookingLinkToken) {
+    showError('Link is not available for this package yet.');
     return;
   }
 

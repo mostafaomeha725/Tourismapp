@@ -19,6 +19,7 @@ class ServiceResultsSection extends StatelessWidget {
   final int totalPages;
   final ValueChanged<int> onPageChanged;
   final Future<void> Function() onReviewSubmitted;
+  final Future<void> Function() onRetry;
 
   const ServiceResultsSection({
     super.key,
@@ -29,6 +30,7 @@ class ServiceResultsSection extends StatelessWidget {
     required this.totalPages,
     required this.onPageChanged,
     required this.onReviewSubmitted,
+    required this.onRetry,
   });
 
   @override
@@ -50,13 +52,22 @@ class ServiceResultsSection extends StatelessWidget {
     }
 
     if (status.isError) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 60.h),
-        child: AppText(
-          errorMessage ?? 'Something went wrong',
-          style: font14w500.copyWith(color: Colors.red),
-          alignment: AlignmentDirectional.center,
-        ),
+      return Column(
+        children: [
+          AppText(
+            errorMessage ?? 'An error occurred. Please try again later.',
+            style: font14w400.copyWith(color: Colors.red),
+            alignment: AlignmentDirectional.center,
+            overflow: TextOverflow.visible,
+          ),
+          SizedBox(height: 10.h),
+          TextButton(
+            onPressed: () {
+              onRetry();
+            },
+            child: const Text('Retry'),
+          ),
+        ],
       );
     }
 

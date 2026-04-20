@@ -41,6 +41,7 @@ import 'package:tourismapp/features/helper/presentation/cubit/helper_chat_cubit.
 import 'package:tourismapp/features/service/presentation/cubit/package_details_cubit.dart';
 import 'package:tourismapp/features/service/presentation/cubit/package_reviews_cubit.dart';
 import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
+import 'package:tourismapp/features/home/presentation/cubit/drawer_navigation_cubit.dart';
 import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/service/presentation/cubit/submit_review_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
@@ -221,6 +222,10 @@ class ServiceLocator {
 
     if (!sl.isRegistered<PlacesCubit>()) {
       sl.registerFactory(() => PlacesCubit(sl()));
+    }
+
+    if (!sl.isRegistered<DrawerNavigationCubit>()) {
+      sl.registerFactory(() => DrawerNavigationCubit());
     }
 
     if (!sl.isRegistered<PackageDetailsCubit>()) {

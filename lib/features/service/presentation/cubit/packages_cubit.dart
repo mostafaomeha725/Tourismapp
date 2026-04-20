@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tourismapp/core/extensions/request_state.dart';
+import 'package:tourismapp/core/utils/easy_loading.dart';
 import 'package:tourismapp/features/service/domain/entities/category_entity.dart';
 import 'package:tourismapp/features/service/domain/entities/package_entity.dart';
 import 'package:tourismapp/features/home/domain/entities/place_entity.dart';
@@ -22,6 +23,9 @@ class PackagesCubit extends Cubit<PackagesState> {
   String? _inFlightRequestKey;
   int _latestGetPackagesRequestId = 0;
   bool _isLoadingInitialData = false;
+  bool _isEasyLoadingVisible = false;
+  GetPackagesParams _lastRequestedParams = const GetPackagesParams(page: 1);
+  bool _hasRequestedPackages = false;
 
   PackagesCubit(
     this.getPackagesUseCase,
@@ -30,6 +34,27 @@ class PackagesCubit extends Cubit<PackagesState> {
     this.getCategoriesUseCase,
     this.resolvePackageBookingLinkUseCase,
   ) : super(const PackagesState.initial());
+
+  void _showServicesLoading() {
+    if (_isEasyLoadingVisible) {
+      return;
+    }
+    _isEasyLoadingVisible = true;
+    showLoading(status: 'Loading services...');
+  }
+
+  void _hideServicesLoading() {
+    if (!_isEasyLoadingVisible) {
+      return;
+    }
+    _isEasyLoadingVisible = false;
+    hideLoading();
+  }
+
+  void _showServicesError(String message) {
+    _isEasyLoadingVisible = false;
+    showError(message);
+  }
 
   String _buildRequestKey(GetPackagesParams params) {
     final normalizedSearch = params.search?.trim();
@@ -108,6 +133,29 @@ class PackagesCubit extends Cubit<PackagesState> {
     );
   }
 
+  Future<void> retryLastPackagesRequest() async {
+    if (state.status.isLoading) {
+      return;
+    }
+
+    if (_hasRequestedPackages) {
+      final params = _lastRequestedParams;
+      await getPackages(
+        search: params.search,
+        categoryId: params.categoryId,
+        providerId: params.providerId,
+        placeId: params.placeId,
+        minPrice: params.minPrice,
+        maxPrice: params.maxPrice,
+        page: params.page ?? 1,
+        forceRefresh: true,
+      );
+      return;
+    }
+
+    await loadInitialData(forceRefresh: true);
+  }
+
   Future<void> loadInitialData({bool forceRefresh = false}) async {
     if (_isLoadingInitialData) {
       return;
@@ -124,8 +172,11 @@ class PackagesCubit extends Cubit<PackagesState> {
     }
 
     _isLoadingInitialData = true;
+    var didShowBlockingLoading = false;
     try {
       if (state.packages.isEmpty) {
+        _showServicesLoading();
+        didShowBlockingLoading = true;
         emit(
           state.copyWith(
             status: RequestState.loading,
@@ -172,6 +223,9 @@ class PackagesCubit extends Cubit<PackagesState> {
 
       packagesResult.fold(
         (failure) {
+          if (didShowBlockingLoading) {
+            _showServicesError(failure.message);
+          }
           final fallbackStatus = state.packages.isEmpty
               ? RequestState.error
               : RequestState.success;
@@ -189,6 +243,9 @@ class PackagesCubit extends Cubit<PackagesState> {
           emit(nextState);
         },
         (packagesPage) {
+          if (didShowBlockingLoading) {
+            _hideServicesLoading();
+          }
           final nextState = state.copyWith(
             status: RequestState.success,
             packages: packagesPage.items,
@@ -230,6 +287,9 @@ class PackagesCubit extends Cubit<PackagesState> {
       page: page,
     );
 
+    _lastRequestedParams = params;
+    _hasRequestedPackages = true;
+
     final requestKey = _buildRequestKey(params);
     final isPaginationRequest = page >= 1;
     final shouldShowPaginationLoading =
@@ -243,7 +303,10 @@ class PackagesCubit extends Cubit<PackagesState> {
 
     final shouldBlockWithLoading =
         state.packages.isEmpty || state.status.isError;
+    var didShowBlockingLoading = false;
     if (shouldBlockWithLoading) {
+      _showServicesLoading();
+      didShowBlockingLoading = true;
       emit(
         state.copyWith(
           status: RequestState.loading,
@@ -282,6 +345,9 @@ class PackagesCubit extends Cubit<PackagesState> {
     result.fold(
       (failure) {
         if (shouldBlockWithLoading) {
+          if (didShowBlockingLoading) {
+            _showServicesError(failure.message);
+          }
           final nextState = state.copyWith(
             status: RequestState.error,
             isPageChangeLoading: false,
@@ -300,6 +366,9 @@ class PackagesCubit extends Cubit<PackagesState> {
         emit(nextState);
       },
       (packagesPage) {
+        if (didShowBlockingLoading) {
+          _hideServicesLoading();
+        }
         final nextState = state.copyWith(
           status: RequestState.success,
           packages: packagesPage.items,

@@ -10,7 +10,8 @@ class ResolvePackageBookingLinkUseCase {
     final normalizedLink = rawLink?.trim();
     if (normalizedLink == null ||
         normalizedLink.isEmpty ||
-        normalizedLink == unavailableLocationLinkToken) {
+        normalizedLink == unavailableLocationLinkToken ||
+        normalizedLink == unavailableBookingLinkToken) {
       return const Left(Failure(unavailableLinkMessage));
     }
 

@@ -24,6 +24,7 @@ class ServiceScreenBody extends StatelessWidget {
   final Future<void> Function(String newFilter) onFilterChanged;
   final Future<void> Function(int page) onPageChanged;
   final Future<void> Function() onReviewSubmitted;
+  final Future<void> Function() onRetry;
 
   const ServiceScreenBody({
     super.key,
@@ -43,6 +44,7 @@ class ServiceScreenBody extends StatelessWidget {
     required this.onFilterChanged,
     required this.onPageChanged,
     required this.onReviewSubmitted,
+    required this.onRetry,
   });
 
   @override
@@ -87,6 +89,7 @@ class ServiceScreenBody extends StatelessWidget {
                   onPageChanged(page);
                 },
                 onReviewSubmitted: onReviewSubmitted,
+                onRetry: onRetry,
               ),
             ],
           ),

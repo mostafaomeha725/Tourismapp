@@ -123,6 +123,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
           onFilterChanged: (newFilter) => _onFilterChanged(state, newFilter),
           onPageChanged: (page) => _onPageChanged(state, page),
           onReviewSubmitted: _onReviewSubmitted,
+          onRetry: _onRetry,
         );
       },
     );

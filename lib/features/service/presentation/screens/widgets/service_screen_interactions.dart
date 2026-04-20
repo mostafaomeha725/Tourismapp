@@ -65,4 +65,8 @@ extension _ServiceScreenInteractions on _ServiceScreenState {
       page: latestState.currentPage,
     );
   }
+
+  Future<void> _onRetry() async {
+    await context.read<PackagesCubit>().retryLastPackagesRequest();
+  }
 }

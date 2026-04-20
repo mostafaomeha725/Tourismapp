@@ -60,11 +60,6 @@ class HomeDrawer extends StatelessWidget {
                   leading: const Icon(Icons.person_outline),
                   title: const AppText("Profile"),
                   onTap: () {
-                    if (!AuthService.isLoggedIn) {
-                      GoRouter.of(context).pop();
-                      GoRouter.of(context).push(Routes.authScreen);
-                      return;
-                    }
                     GoRouter.of(context).pop();
                     onNavigateToTab?.call(3);
                   },
