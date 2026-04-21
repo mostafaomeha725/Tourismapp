@@ -21,6 +21,7 @@ class ServiceScreenBody extends StatelessWidget {
   final Future<void> Function() onRemoveCategory;
   final Future<void> Function() onRemovePlace;
   final Future<void> Function() onRemoveBudget;
+  final Future<void> Function() onRemoveSort;
   final Future<void> Function(String newFilter) onFilterChanged;
   final Future<void> Function(int page) onPageChanged;
   final Future<void> Function() onReviewSubmitted;
@@ -41,6 +42,7 @@ class ServiceScreenBody extends StatelessWidget {
     required this.onRemoveCategory,
     required this.onRemovePlace,
     required this.onRemoveBudget,
+    required this.onRemoveSort,
     required this.onFilterChanged,
     required this.onPageChanged,
     required this.onReviewSubmitted,
@@ -74,6 +76,9 @@ class ServiceScreenBody extends StatelessWidget {
                 },
                 onRemoveBudget: () {
                   onRemoveBudget();
+                },
+                onRemoveSort: () {
+                  onRemoveSort();
                 },
                 onFilterChanged: (newFilter) {
                   onFilterChanged(newFilter);

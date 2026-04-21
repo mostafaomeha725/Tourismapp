@@ -4,6 +4,17 @@ import 'package:tourismapp/core/error/failure.dart';
 import 'package:tourismapp/features/service/domain/entities/packages_page_entity.dart';
 import 'package:tourismapp/features/service/domain/repositories/packages_repository.dart';
 
+enum PackagesSortOption {
+  newest('newest'),
+  priceAsc('price_asc'),
+  priceDesc('price_desc'),
+  alphabetical('alphabetical');
+
+  final String apiValue;
+
+  const PackagesSortOption(this.apiValue);
+}
+
 class GetPackagesUseCase {
   final PackagesRepository packagesRepository;
 
@@ -21,6 +32,7 @@ class GetPackagesParams extends Equatable {
   final int? placeId;
   final double? minPrice;
   final double? maxPrice;
+  final PackagesSortOption? sort;
   final int? page;
 
   const GetPackagesParams({
@@ -30,6 +42,7 @@ class GetPackagesParams extends Equatable {
     this.placeId,
     this.minPrice,
     this.maxPrice,
+    this.sort,
     this.page,
   });
 
@@ -41,6 +54,7 @@ class GetPackagesParams extends Equatable {
       if (placeId != null) 'place_id': placeId,
       if (minPrice != null) 'min_price': minPrice!.toInt(),
       if (maxPrice != null) 'max_price': maxPrice!.toInt(),
+      if (sort != null) 'sort': sort!.apiValue,
       if (page != null) 'page': page,
     };
   }
@@ -53,6 +67,7 @@ class GetPackagesParams extends Equatable {
     placeId,
     minPrice,
     maxPrice,
+    sort,
     page,
   ];
 }

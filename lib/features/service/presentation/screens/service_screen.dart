@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tourismapp/core/extensions/request_state.dart';
 import 'package:tourismapp/core/utils/easy_loading.dart';
+import 'package:tourismapp/features/service/domain/usecases/get_packages_usecase.dart';
 import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
@@ -120,6 +121,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
           onRemoveCategory: () => _onRemoveCategory(state),
           onRemovePlace: () => _onRemovePlace(state),
           onRemoveBudget: () => _onRemoveBudget(state, minPrice, maxPrice),
+          onRemoveSort: () => _onRemoveSort(state),
           onFilterChanged: (newFilter) => _onFilterChanged(state, newFilter),
           onPageChanged: (page) => _onPageChanged(state, page),
           onReviewSubmitted: _onReviewSubmitted,

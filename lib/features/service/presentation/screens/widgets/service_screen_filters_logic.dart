@@ -5,7 +5,8 @@ extension _ServiceScreenFiltersLogic on _ServiceScreenState {
     return _filterOptions.selectedCity != null ||
         _selectedFilter != 'All' ||
         _isBudgetFilterActive(minPrice, maxPrice) ||
-        _isBudgetApplied;
+        _isBudgetApplied ||
+        _filterOptions.sort != PackagesSortOption.newest;
   }
 
   Future<void> _loadPackagesWithFilters(
@@ -51,6 +52,7 @@ extension _ServiceScreenFiltersLogic on _ServiceScreenState {
       placeId: placeId,
       minPrice: effectiveMinPrice,
       maxPrice: effectiveMaxPrice,
+      sort: _filterOptions.sort,
       page: page,
     );
   }
@@ -102,9 +104,13 @@ extension _ServiceScreenFiltersLogic on _ServiceScreenState {
               minBudget: minPrice,
               maxBudget: maxPrice,
               onApply: (options) async {
+                const epsilon = 0.0001;
+                final hasAppliedBudget =
+                    (options.budgetRange.start - minPrice).abs() > epsilon ||
+                    (options.budgetRange.end - maxPrice).abs() > epsilon;
                 _withStateUpdate(() {
                   _filterOptions = options;
-                  _isBudgetApplied = true;
+                  _isBudgetApplied = hasAppliedBudget;
                 });
                 await _loadPackagesWithFilters(
                   packagesCubit.state,

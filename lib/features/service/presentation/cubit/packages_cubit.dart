@@ -24,7 +24,10 @@ class PackagesCubit extends Cubit<PackagesState> {
   int _latestGetPackagesRequestId = 0;
   bool _isLoadingInitialData = false;
   bool _isEasyLoadingVisible = false;
-  GetPackagesParams _lastRequestedParams = const GetPackagesParams(page: 1);
+  GetPackagesParams _lastRequestedParams = const GetPackagesParams(
+    page: 1,
+    sort: PackagesSortOption.newest,
+  );
   bool _hasRequestedPackages = false;
 
   PackagesCubit(
@@ -67,6 +70,7 @@ class PackagesCubit extends Cubit<PackagesState> {
       params.placeId?.toString() ?? '',
       params.minPrice?.toStringAsFixed(2) ?? '',
       params.maxPrice?.toStringAsFixed(2) ?? '',
+      params.sort?.apiValue ?? '',
       (params.page ?? 1).toString(),
     ].join('|');
   }
@@ -147,6 +151,7 @@ class PackagesCubit extends Cubit<PackagesState> {
         placeId: params.placeId,
         minPrice: params.minPrice,
         maxPrice: params.maxPrice,
+        sort: params.sort ?? PackagesSortOption.newest,
         page: params.page ?? 1,
         forceRefresh: true,
       );
@@ -218,7 +223,7 @@ class PackagesCubit extends Cubit<PackagesState> {
       });
 
       final packagesResult = await getPackagesUseCase(
-        const GetPackagesParams(page: 1),
+        const GetPackagesParams(page: 1, sort: PackagesSortOption.newest),
       );
 
       packagesResult.fold(
@@ -274,6 +279,7 @@ class PackagesCubit extends Cubit<PackagesState> {
     int? placeId,
     double? minPrice,
     double? maxPrice,
+    PackagesSortOption sort = PackagesSortOption.newest,
     int page = 1,
     bool forceRefresh = false,
   }) async {
@@ -284,6 +290,7 @@ class PackagesCubit extends Cubit<PackagesState> {
       placeId: placeId,
       minPrice: minPrice,
       maxPrice: maxPrice,
+      sort: sort,
       page: page,
     );
 
