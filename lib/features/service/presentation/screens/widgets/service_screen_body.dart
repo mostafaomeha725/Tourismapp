@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:tourismapp/features/service/domain/usecases/get_packages_usecase.dart';
 import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/service_filters_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/service_results_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/service_screen_header_section.dart';
+import 'package:tourismapp/features/service/presentation/screens/widgets/service_sort_section.dart';
 
 class ServiceScreenBody extends StatelessWidget {
   final PackagesState state;
@@ -21,7 +23,7 @@ class ServiceScreenBody extends StatelessWidget {
   final Future<void> Function() onRemoveCategory;
   final Future<void> Function() onRemovePlace;
   final Future<void> Function() onRemoveBudget;
-  final Future<void> Function() onRemoveSort;
+  final Future<void> Function(PackagesSortOption sort) onSortChanged;
   final Future<void> Function(String newFilter) onFilterChanged;
   final Future<void> Function(int page) onPageChanged;
   final Future<void> Function() onReviewSubmitted;
@@ -42,7 +44,7 @@ class ServiceScreenBody extends StatelessWidget {
     required this.onRemoveCategory,
     required this.onRemovePlace,
     required this.onRemoveBudget,
-    required this.onRemoveSort,
+    required this.onSortChanged,
     required this.onFilterChanged,
     required this.onPageChanged,
     required this.onReviewSubmitted,
@@ -77,11 +79,14 @@ class ServiceScreenBody extends StatelessWidget {
                 onRemoveBudget: () {
                   onRemoveBudget();
                 },
-                onRemoveSort: () {
-                  onRemoveSort();
-                },
                 onFilterChanged: (newFilter) {
                   onFilterChanged(newFilter);
+                },
+              ),
+              ServiceSortSection(
+                selectedSort: filterOptions.sort,
+                onSortChanged: (sort) {
+                  onSortChanged(sort);
                 },
               ),
               ServiceResultsSection(

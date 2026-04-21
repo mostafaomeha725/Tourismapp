@@ -5,8 +5,7 @@ extension _ServiceScreenFiltersLogic on _ServiceScreenState {
     return _filterOptions.selectedCity != null ||
         _selectedFilter != 'All' ||
         _isBudgetFilterActive(minPrice, maxPrice) ||
-        _isBudgetApplied ||
-        _filterOptions.sort != PackagesSortOption.newest;
+        _isBudgetApplied;
   }
 
   Future<void> _loadPackagesWithFilters(

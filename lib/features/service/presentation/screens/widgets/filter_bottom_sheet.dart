@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
-import 'package:tourismapp/features/service/domain/usecases/get_packages_usecase.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_budget_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_header.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_location_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
-import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_sort_section.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final FilterOptions initialOptions;
@@ -34,7 +32,6 @@ class FilterBottomSheet extends StatefulWidget {
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   late String? _selectedCity;
   late RangeValues _budgetRange;
-  late PackagesSortOption _selectedSort;
 
   late double _minBudget;
   late double _maxBudget;
@@ -47,7 +44,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         ? widget.minBudget + 1
         : widget.maxBudget;
     _selectedCity = widget.initialOptions.selectedCity;
-    _selectedSort = widget.initialOptions.sort;
     final start = widget.initialOptions.budgetRange.start.clamp(
       _minBudget,
       _maxBudget,
@@ -79,7 +75,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               setState(() {
                 _selectedCity = null;
                 _budgetRange = RangeValues(_minBudget, _maxBudget);
-                _selectedSort = PackagesSortOption.newest;
               });
             },
           ),
@@ -94,17 +89,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               final bool isSelected = _selectedCity == cityName;
               setState(() {
                 _selectedCity = isSelected ? null : cityName;
-              });
-            },
-          ),
-
-          SizedBox(height: 28.h),
-
-          FilterBottomSheetSortSection(
-            selectedSort: _selectedSort,
-            onSortSelected: (sortOption) {
-              setState(() {
-                _selectedSort = sortOption;
               });
             },
           ),
@@ -134,7 +118,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 FilterOptions(
                   selectedCity: _selectedCity,
                   budgetRange: _budgetRange,
-                  sort: _selectedSort,
+                  sort: widget.initialOptions.sort,
                 ),
               );
               GoRouter.of(context).pop();

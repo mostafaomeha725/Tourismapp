@@ -18,7 +18,6 @@ class ServiceFiltersSection extends StatelessWidget {
   final VoidCallback onRemoveCategory;
   final VoidCallback onRemovePlace;
   final VoidCallback onRemoveBudget;
-  final VoidCallback onRemoveSort;
   final ValueChanged<String> onFilterChanged;
 
   const ServiceFiltersSection({
@@ -34,22 +33,8 @@ class ServiceFiltersSection extends StatelessWidget {
     required this.onRemoveCategory,
     required this.onRemovePlace,
     required this.onRemoveBudget,
-    required this.onRemoveSort,
     required this.onFilterChanged,
   });
-
-  String _sortLabel() {
-    switch (filterOptions.sort.apiValue) {
-      case 'price_asc':
-        return 'Price: Low to High';
-      case 'price_desc':
-        return 'Price: High to Low';
-      case 'alphabetical':
-        return 'Alphabetical';
-      default:
-        return 'Newest';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,12 +109,6 @@ class ServiceFiltersSection extends StatelessWidget {
                         '\$${filterOptions.budgetRange.start.toInt()} – \$${filterOptions.budgetRange.end.toInt()}',
                     icon: Icons.attach_money,
                     onRemove: onRemoveBudget,
-                  ),
-                if (filterOptions.sort.apiValue != 'newest')
-                  ActiveChip(
-                    label: _sortLabel(),
-                    icon: Icons.sort,
-                    onRemove: onRemoveSort,
                   ),
               ],
             ),

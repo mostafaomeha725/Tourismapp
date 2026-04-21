@@ -121,7 +121,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
           onRemoveCategory: () => _onRemoveCategory(state),
           onRemovePlace: () => _onRemovePlace(state),
           onRemoveBudget: () => _onRemoveBudget(state, minPrice, maxPrice),
-          onRemoveSort: () => _onRemoveSort(state),
+          onSortChanged: (sort) => _onSortChanged(state, sort),
           onFilterChanged: (newFilter) => _onFilterChanged(state, newFilter),
           onPageChanged: (page) => _onPageChanged(state, page),
           onReviewSubmitted: _onReviewSubmitted,

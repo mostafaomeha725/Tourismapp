@@ -39,9 +39,12 @@ extension _ServiceScreenInteractions on _ServiceScreenState {
     );
   }
 
-  Future<void> _onRemoveSort(PackagesState state) async {
+  Future<void> _onSortChanged(
+    PackagesState state,
+    PackagesSortOption sort,
+  ) async {
     _withStateUpdate(() {
-      _filterOptions = _filterOptions.copyWith(sort: PackagesSortOption.newest);
+      _filterOptions = _filterOptions.copyWith(sort: sort);
     });
     await _loadPackagesWithFilters(
       state,
