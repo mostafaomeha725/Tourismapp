@@ -354,4 +354,176 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get favoriteUpdateFailed => 'تعذر تحديث حالة المفضلة';
+
+  @override
+  String get typing => 'جاري الكتابة...';
+
+  @override
+  String get failedToLoadFavorites => 'فشل في تحميل المفضلة';
+
+  @override
+  String get noDescriptionAvailable => 'لا يوجد وصف متاح';
+
+  @override
+  String get nameEmailPhoneRequired =>
+      'الاسم والبريد الإلكتروني ورقم الهاتف مطلوبة';
+
+  @override
+  String get passwordMinLength => 'يجب أن تكون كلمة المرور 8 أحرف على الأقل';
+
+  @override
+  String get passwordConfirmationMismatch => 'تأكيد كلمة المرور غير متطابق';
+
+  @override
+  String get updating => 'جاري التحديث...';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get phone => 'الهاتف';
+
+  @override
+  String get privacyInfoCollectTitle => 'المعلومات التي نجمعها';
+
+  @override
+  String get privacyInfoCollectDescription =>
+      'نجمع المعلومات التي تقدمها لنا مباشرة عند استخدام التطبيق، وتشمل:';
+
+  @override
+  String get privacyInfoCollectBullets =>
+      'المعلومات الشخصية (الاسم، البريد الإلكتروني، رقم الهاتف)\nبيانات الموقع لتقديم توصيات مناسبة\nسجل الحجوزات والتفضيلات\nبيانات الدفع (تتم معالجتها بأمان عبر مزودي خدمة خارجيين)\nالصور والتقييمات التي تشاركها';
+
+  @override
+  String get privacyUseInfoTitle => 'كيف نستخدم معلوماتك';
+
+  @override
+  String get privacyUseInfoDescription =>
+      'تساعدنا معلوماتك على تقديم خدماتنا وتحسينها:';
+
+  @override
+  String get privacyUseInfoBullets =>
+      'معالجة الحجوزات والمدفوعات\nإرسال تأكيدات الحجز والتحديثات المهمة\nتقديم توصيات مخصصة\nتحسين الخدمات وتطوير ميزات جديدة\nالتواصل حول العروض\nتعزيز الأمان عبر ميزات الطوارئ';
+
+  @override
+  String get privacyDataSecurityTitle => 'أمان البيانات';
+
+  @override
+  String get privacyDataSecurityDescription => 'نتعامل مع أمان بياناتك بجدية:';
+
+  @override
+  String get privacyDataSecurityBullets =>
+      'تشفير البيانات ببروتوكولات SSL/TLS\nمعالجة الدفع عبر مزودين متوافقين مع PCI\nوصول محدود للموظفين المخولين فقط\nمراجعات أمنية وتحديثات دورية\nأنظمة نسخ احتياطي آمنة';
+
+  @override
+  String get privacyInfoSharingTitle => 'مشاركة المعلومات';
+
+  @override
+  String get privacyInfoSharingDescription =>
+      'لا نبيع بياناتك الشخصية. قد نشارك البيانات مع:';
+
+  @override
+  String get privacyInfoSharingBullets =>
+      'مقدمي الخدمات لتنفيذ الحجز\nمعالجي الدفع لإتمام المعاملات\nجهات إنفاذ القانون عند الطلب القانوني\nشركاء التحليلات لتحسين الخدمة (بيانات مجهولة)';
+
+  @override
+  String get privacyCookiesTitle => 'ملفات تعريف الارتباط والتتبع';
+
+  @override
+  String get privacyCookiesDescription =>
+      'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وتحليل الاستخدام وتذكر تفضيلاتك.';
+
+  @override
+  String get privacyChildrenTitle => 'خصوصية الأطفال';
+
+  @override
+  String get privacyChildrenDescription =>
+      'خدماتنا غير مخصصة للأطفال دون 13 عامًا.';
+
+  @override
+  String get privacyContactTitle => 'تواصل معنا';
+
+  @override
+  String get privacyContactDescription =>
+      'إذا كان لديك أي استفسار حول سياسة الخصوصية، تواصل معنا:';
+
+  @override
+  String get termsAcceptanceTitle => 'قبول الشروط';
+
+  @override
+  String get termsAcceptanceDescription =>
+      'باستخدام التطبيق، فإنك توافق على شروط الاستخدام.';
+
+  @override
+  String get termsUseServicesTitle => 'استخدام الخدمات';
+
+  @override
+  String get termsUseServicesDescription =>
+      'توافق على استخدام الخدمات بشكل قانوني ووفقًا لهذه الشروط:';
+
+  @override
+  String get termsUseServicesBullets =>
+      'يجب ألا يقل عمرك عن 18 عامًا للحجز\nأنت مسؤول عن سرية حسابك\nيجب تقديم معلومات دقيقة\nعدم الاستخدام غير القانوني\nعدم إرسال برمجيات ضارة\nعدم تعطيل الخدمة';
+
+  @override
+  String get termsBookingsTitle => 'الحجوزات والمدفوعات';
+
+  @override
+  String get termsBookingsDescription => 'عند إجراء حجز عبر التطبيق:';
+
+  @override
+  String get termsBookingsBullets =>
+      'جميع الحجوزات حسب التوفر والتأكيد\nالأسعار بالدولار الأمريكي وقد تتغير\nالدفع الكامل وقت الحجز\nأنت مسؤول عن رسوم البنك/التحويل\nسياسة الاسترداد حسب كل مزود\nيجوز إلغاء الحجوزات في ظروف استثنائية';
+
+  @override
+  String get termsCancellationTitle => 'سياسة الإلغاء';
+
+  @override
+  String get termsCancellationDescription => 'تختلف سياسة الإلغاء حسب الخدمة:';
+
+  @override
+  String get termsCancellationBullets =>
+      'المرشدون/المصورون: إلغاء قبل 24 ساعة لاسترداد كامل\nالرحلات اليومية: إلغاء قبل 48 ساعة\nالرحلات متعددة الأيام: إلغاء قبل 7 أيام\nالإلغاء المتأخر قد يترتب عليه رسوم\nعدم الحضور غير قابل للاسترداد';
+
+  @override
+  String get termsUserContentTitle => 'المحتوى الذي ينشئه المستخدم';
+
+  @override
+  String get termsUserContentDescription =>
+      'عند نشر تقييمات أو صور أو محتوى آخر:';
+
+  @override
+  String get termsUserContentBullets =>
+      'تمنحنا ترخيص استخدام المحتوى\nتؤكد ملكيتك لحقوق المحتوى\nيجب ألا يكون المحتوى مسيئًا أو مخالفًا\nقد نزيل المحتوى غير المناسب\nأنت مسؤول عن دقة تقييماتك';
+
+  @override
+  String get termsIntellectualTitle => 'حقوق الملكية الفكرية';
+
+  @override
+  String get termsIntellectualDescription =>
+      'جميع محتويات التطبيق محمية بقوانين الملكية الفكرية.';
+
+  @override
+  String get termsEmergencyTitle => 'إخلاء مسؤولية خدمات الطوارئ';
+
+  @override
+  String get termsEmergencyDescription =>
+      'ميزة الطوارئ للتسهيل فقط. في الطوارئ الحقيقية:';
+
+  @override
+  String get termsEmergencyBullets =>
+      'اتصل بالطوارئ المحلية مباشرة\nالميزة تربط بشرطة السياحة وليست إسعافًا طبيًا\nلسنا مسؤولين عن زمن استجابة الجهات';
+
+  @override
+  String get termsChangesTitle => 'تعديل الشروط';
+
+  @override
+  String get termsChangesDescription => 'قد نقوم بتعديل هذه الشروط في أي وقت.';
+
+  @override
+  String get termsGoverningTitle => 'القانون الحاكم';
+
+  @override
+  String get termsGoverningDescription =>
+      'تخضع هذه الشروط لقوانين جمهورية مصر العربية.';
 }

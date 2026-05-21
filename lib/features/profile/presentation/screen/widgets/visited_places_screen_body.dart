@@ -7,6 +7,7 @@ import 'package:tourismapp/features/service/presentation/screens/widgets/paginat
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_state.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/visited_places_card.dart';
+import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/l10n/app_localizations.dart';
 
 class VisitedPlacesScreenBody extends StatelessWidget {
@@ -14,6 +15,8 @@ class VisitedPlacesScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return BlocBuilder<FavouritePlacesCubit, FavouritePlacesState>(
       builder: (context, state) {
         if (state.status == RequestState.loading ||
@@ -25,8 +28,8 @@ class VisitedPlacesScreenBody extends StatelessWidget {
           return Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Text(
-                state.errorMessage ?? 'Failed to load favorites',
+              child: AppText(
+                state.errorMessage ?? loc.failedToLoadFavorites,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.red),
               ),
@@ -38,10 +41,8 @@ class VisitedPlacesScreenBody extends StatelessWidget {
         final favorites = page?.items ?? const [];
         final totalPages = page?.lastPage ?? 1;
         final currentPage = state.currentPage;
-        final loc = AppLocalizations.of(context)!;
-
         if (favorites.isEmpty) {
-          return Center(child: Text(loc.noFavoritePlacesYet));
+          return Center(child: AppText(loc.noFavoritePlacesYet));
         }
 
         return Padding(
@@ -66,7 +67,7 @@ class VisitedPlacesScreenBody extends StatelessWidget {
               return VisitedPlaceCard(
                 title: place.title,
                 description: place.description.trim().isEmpty
-                    ? 'No description available'
+                    ? loc.noDescriptionAvailable
                     : place.description,
                 image: place.mainImage,
                 rating: place.averageRating,

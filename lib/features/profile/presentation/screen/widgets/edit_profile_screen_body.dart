@@ -74,6 +74,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
   }
 
   void _submit() {
+    final loc = AppLocalizations.of(context)!;
     FocusScope.of(context).unfocus();
 
     final name = _nameController.text.trim();
@@ -83,31 +84,25 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
     final passwordConfirmation = _passwordConfirmationController.text.trim();
 
     if (name.isEmpty || email.isEmpty || phone.isEmpty) {
-      CustomSnackBar.showError(
-        context,
-        message: 'Name, email and phone are required',
-      );
+      CustomSnackBar.showError(context, message: loc.nameEmailPhoneRequired);
       return;
     }
 
     if (!_isValidEmail(email)) {
-      CustomSnackBar.showError(context, message: 'Please enter a valid email');
+      CustomSnackBar.showError(context, message: loc.pleaseEnterValidEmail);
       return;
     }
 
     if (password.isNotEmpty || passwordConfirmation.isNotEmpty) {
       if (password.length < 8) {
-        CustomSnackBar.showError(
-          context,
-          message: 'Password must be at least 8 characters',
-        );
+        CustomSnackBar.showError(context, message: loc.passwordMinLength);
         return;
       }
 
       if (password != passwordConfirmation) {
         CustomSnackBar.showError(
           context,
-          message: 'Password confirmation does not match',
+          message: loc.passwordConfirmationMismatch,
         );
         return;
       }
@@ -186,7 +181,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               ),
               SizedBox(height: 16.h),
               EditableTextField(
-                label: 'Email',
+                label: AppLocalizations.of(context)!.emailAddress,
                 controller: _emailController,
                 icon: Icons.email_outlined,
                 inputType: TextInputType.emailAddress,
@@ -203,7 +198,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               ),
               SizedBox(height: 16.h),
               EditableTextField(
-                label: 'Phone Number',
+                label: AppLocalizations.of(context)!.phoneNumber,
                 controller: _phoneController,
                 icon: Icons.phone_outlined,
                 inputType: TextInputType.phone,
@@ -220,14 +215,14 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               ),
               SizedBox(height: 16.h),
               EditableTextField(
-                label: 'Password',
+                label: AppLocalizations.of(context)!.password,
                 controller: _passwordController,
                 icon: Icons.lock_outline,
                 inputType: TextInputType.visiblePassword,
                 isEditable: _isPasswordEditable,
                 focusNode: _passwordFocus,
                 obscureText: true,
-                placeholderText: '••••••••', // 👈 كده هيظهر نقط
+                placeholderText: '••••••••',
                 onEditTap: () {
                   setState(() {
                     _isPasswordEditable = !_isPasswordEditable;
@@ -239,7 +234,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               ),
               SizedBox(height: 16.h),
               EditableTextField(
-                label: 'Confirm Password',
+                label: AppLocalizations.of(context)!.confirmPassword,
                 controller: _passwordConfirmationController,
                 icon: Icons.lock_clock_outlined,
                 inputType: TextInputType.visiblePassword,
@@ -260,8 +255,8 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               SizedBox(height: 32.h),
               AppButton(
                 text: state is UpdateProfileLoading
-                    ? 'Updating...'
-                    : 'Update Profile',
+                    ? AppLocalizations.of(context)!.updating
+                    : AppLocalizations.of(context)!.updateProfile,
                 color: const Color(0xFFdb6000),
                 height: 50.h,
                 textSize: 16.sp,

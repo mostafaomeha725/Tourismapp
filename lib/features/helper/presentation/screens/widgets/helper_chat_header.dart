@@ -55,7 +55,7 @@ class HelperChatHeader extends StatelessWidget {
               ),
               SizedBox(width: 6.w),
               AppText(
-                'Online',
+                loc.online,
                 style: font12w500.copyWith(color: const Color(0xff2DBE60)),
               ),
             ],

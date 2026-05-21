@@ -3,12 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_info_row.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/privacy_section_card.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class PrivacyPolicyScreenBody extends StatelessWidget {
   const PrivacyPolicyScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    List<String> lines(String text) =>
+        text.split('\n').where((e) => e.trim().isNotEmpty).toList();
+
     return SingleChildScrollView(
       //  physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -16,102 +21,71 @@ class PrivacyPolicyScreenBody extends StatelessWidget {
         child: Column(
           children: [
             PrivacySectionCard(
-              title: "Information We Collect",
+              title: loc.privacyInfoCollectTitle,
               icon: Icons.storage_rounded,
               iconColor: const Color(0xFF134FA2),
               iconBgColor: const Color(0xFFE6F0FF),
-              description:
-                  "We collect information that you provide directly to us when using the Tourism App, including:",
-              bulletPoints: const [
-                "Personal information (name, email address, phone number)",
-                "Location data to provide relevant tourist recommendations",
-                "Booking history and preferences",
-                "Payment information (processed securely through third-party providers)",
-                "Photos and reviews you share about your experiences",
-              ],
+              description: loc.privacyInfoCollectDescription,
+              bulletPoints: lines(loc.privacyInfoCollectBullets),
             ),
             SizedBox(height: 20.h),
 
             PrivacySectionCard(
-              title: "How We Use Your Information",
+              title: loc.privacyUseInfoTitle,
               icon: Icons.person_outline_rounded,
               iconColor: const Color(0xFF008545),
               iconBgColor: const Color(0xFFE6F6EC),
-              description:
-                  "Your information helps us provide and improve our services:",
-              bulletPoints: const [
-                "Process bookings and payments for tours, guides, and services",
-                "Send booking confirmations and important updates",
-                "Provide personalized recommendations based on your preferences",
-                "Improve our services and develop new features",
-                "Communicate with you about promotions and special offers",
-                "Ensure safety through our emergency contact features",
-              ],
+              description: loc.privacyUseInfoDescription,
+              bulletPoints: lines(loc.privacyUseInfoBullets),
             ),
             SizedBox(height: 20.h),
 
             PrivacySectionCard(
-              title: "Data Security",
+              title: loc.privacyDataSecurityTitle,
               icon: Icons.lock_outline_rounded,
               iconColor: const Color(0xFF9C27B0),
               iconBgColor: const Color(0xFFFAF0FA),
-              description:
-                  "We take the security of your personal information seriously:",
-              bulletPoints: const [
-                "All data is encrypted using industry-standard SSL/TLS protocols",
-                "Payment information is processed through PCI-compliant providers",
-                "Access to personal data is restricted to authorized personnel only",
-                "Regular security audits and updates to protect against threats",
-                "Secure backup systems to prevent data loss",
-              ],
+              description: loc.privacyDataSecurityDescription,
+              bulletPoints: lines(loc.privacyDataSecurityBullets),
             ),
             SizedBox(height: 20.h),
 
             PrivacySectionCard(
-              title: "Information Sharing",
+              title: loc.privacyInfoSharingTitle,
               icon: Icons.visibility_outlined,
               iconColor: const Color(0xFFD97706),
               iconBgColor: const Color(0xFFFFF9E5),
-              description:
-                  "We do not sell your personal information. We may share data with:",
-              bulletPoints: const [
-                "Service providers (tour guides, photographers) to fulfill your bookings",
-                "Payment processors to complete transactions securely",
-                "Law enforcement when required by law or to protect safety",
-                "Analytics partners to improve our services (anonymized data only)",
-              ],
-            ),
-            SizedBox(height: 20.h),
-
-            const PrivacySectionCard(
-              title: "Cookies and Tracking",
-              description:
-                  "We use cookies and similar technologies to enhance your experience, analyze usage patterns, and remember your preferences. You can control cookie settings through your browser.",
-            ),
-            SizedBox(height: 20.h),
-
-            const PrivacySectionCard(
-              title: "Children's Privacy",
-              description:
-                  "Our services are not intended for children under 13. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately.",
+              description: loc.privacyInfoSharingDescription,
+              bulletPoints: lines(loc.privacyInfoSharingBullets),
             ),
             SizedBox(height: 20.h),
 
             PrivacySectionCard(
-              title: "Contact Us",
-              description:
-                  "If you have questions about this Privacy Policy or wish to exercise your rights, please contact us:",
+              title: loc.privacyCookiesTitle,
+              description: loc.privacyCookiesDescription,
+            ),
+            SizedBox(height: 20.h),
+
+            PrivacySectionCard(
+              title: loc.privacyChildrenTitle,
+              description: loc.privacyChildrenDescription,
+            ),
+            SizedBox(height: 20.h),
+
+            PrivacySectionCard(
+              title: loc.privacyContactTitle,
+              description: loc.privacyContactDescription,
               extraContent: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ContactInfoRow(
-                    label: "Email",
+                    label: loc.emailAddress,
                     value: "privacy@tourismapp.com",
                   ),
                   SizedBox(height: 8.h),
-                  ContactInfoRow(label: "Address", value: "Cairo, Egypt"),
+                  ContactInfoRow(label: loc.address, value: "Cairo, Egypt"),
                   SizedBox(height: 8.h),
-                  ContactInfoRow(label: "Phone", value: "+20 123 456 7890"),
+                  ContactInfoRow(label: loc.phone, value: "+20 123 456 7890"),
                 ],
               ),
             ),

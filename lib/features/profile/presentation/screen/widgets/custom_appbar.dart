@@ -25,7 +25,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
+                    icon: Icon(
+                      Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_forward_ios
+                          : Icons.arrow_back_ios,
+                    ),
                     onPressed: () => GoRouter.of(context).pop(),
                   ),
                 )

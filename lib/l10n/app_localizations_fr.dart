@@ -361,4 +361,182 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get favoriteUpdateFailed =>
       'Impossible de mettre à jour l\'état des favoris';
+
+  @override
+  String get typing => 'Écriture en cours...';
+
+  @override
+  String get failedToLoadFavorites => 'Échec du chargement des favoris';
+
+  @override
+  String get noDescriptionAvailable => 'Aucune description disponible';
+
+  @override
+  String get nameEmailPhoneRequired =>
+      'Le nom, l\'e-mail et le téléphone sont requis';
+
+  @override
+  String get passwordMinLength =>
+      'Le mot de passe doit contenir au moins 8 caractères';
+
+  @override
+  String get passwordConfirmationMismatch =>
+      'La confirmation du mot de passe ne correspond pas';
+
+  @override
+  String get updating => 'Mise à jour...';
+
+  @override
+  String get address => 'Adresse';
+
+  @override
+  String get phone => 'Téléphone';
+
+  @override
+  String get privacyInfoCollectTitle => 'Informations que nous collectons';
+
+  @override
+  String get privacyInfoCollectDescription =>
+      'Nous collectons les informations que vous nous fournissez directement, notamment :';
+
+  @override
+  String get privacyInfoCollectBullets =>
+      'Informations personnelles (nom, e-mail, téléphone)\nDonnées de localisation pour des recommandations pertinentes\nHistorique de réservations et préférences\nInformations de paiement (traitées de manière sécurisée)\nPhotos et avis que vous partagez';
+
+  @override
+  String get privacyUseInfoTitle => 'Comment nous utilisons vos informations';
+
+  @override
+  String get privacyUseInfoDescription =>
+      'Vos informations nous aident à fournir et améliorer nos services :';
+
+  @override
+  String get privacyUseInfoBullets =>
+      'Traiter les réservations et paiements\nEnvoyer les confirmations et mises à jour\nFournir des recommandations personnalisées\nAméliorer les services et créer de nouvelles fonctionnalités\nCommuniquer sur les promotions\nAssurer la sécurité via les fonctionnalités d\'urgence';
+
+  @override
+  String get privacyDataSecurityTitle => 'Sécurité des données';
+
+  @override
+  String get privacyDataSecurityDescription =>
+      'Nous prenons la sécurité de vos données au sérieux :';
+
+  @override
+  String get privacyDataSecurityBullets =>
+      'Chiffrement des données via SSL/TLS\nPaiement traité par des prestataires conformes PCI\nAccès limité au personnel autorisé\nAudits et mises à jour de sécurité réguliers\nSystèmes de sauvegarde sécurisés';
+
+  @override
+  String get privacyInfoSharingTitle => 'Partage des informations';
+
+  @override
+  String get privacyInfoSharingDescription =>
+      'Nous ne vendons pas vos données personnelles. Nous pouvons les partager avec :';
+
+  @override
+  String get privacyInfoSharingBullets =>
+      'Prestataires de services pour exécuter les réservations\nProcesseurs de paiement\nAutorités légales si requis\nPartenaires analytiques (données anonymisées)';
+
+  @override
+  String get privacyCookiesTitle => 'Cookies et suivi';
+
+  @override
+  String get privacyCookiesDescription =>
+      'Nous utilisons des cookies pour améliorer votre expérience et mémoriser vos préférences.';
+
+  @override
+  String get privacyChildrenTitle => 'Vie privée des enfants';
+
+  @override
+  String get privacyChildrenDescription =>
+      'Nos services ne sont pas destinés aux enfants de moins de 13 ans.';
+
+  @override
+  String get privacyContactTitle => 'Contactez-nous';
+
+  @override
+  String get privacyContactDescription =>
+      'Pour toute question sur cette politique, contactez-nous :';
+
+  @override
+  String get termsAcceptanceTitle => 'Acceptation des conditions';
+
+  @override
+  String get termsAcceptanceDescription =>
+      'En utilisant l\'application, vous acceptez les Conditions d\'utilisation.';
+
+  @override
+  String get termsUseServicesTitle => 'Utilisation des services';
+
+  @override
+  String get termsUseServicesDescription =>
+      'Vous acceptez d\'utiliser nos services légalement et selon ces conditions :';
+
+  @override
+  String get termsUseServicesBullets =>
+      'Avoir au moins 18 ans pour réserver\nResponsable de la confidentialité du compte\nFournir des informations exactes\nPas d\'usage illégal\nPas de malware ou code nuisible\nNe pas perturber le service';
+
+  @override
+  String get termsBookingsTitle => 'Réservations et paiements';
+
+  @override
+  String get termsBookingsDescription =>
+      'Lors d\'une réservation via l\'application :';
+
+  @override
+  String get termsBookingsBullets =>
+      'Réservations soumises à disponibilité et confirmation\nPrix en USD susceptibles de changer\nPaiement intégral au moment de la réservation\nFrais bancaires à votre charge\nRemboursements selon la politique du prestataire\nAnnulation possible en cas exceptionnel';
+
+  @override
+  String get termsCancellationTitle => 'Politique d\'annulation';
+
+  @override
+  String get termsCancellationDescription =>
+      'La politique d\'annulation varie selon le service :';
+
+  @override
+  String get termsCancellationBullets =>
+      'Guides/Photographes : annulation 24h avant\nExcursions : annulation 48h avant\nVoyages multi-jours : annulation 7 jours avant\nLes annulations tardives peuvent inclure des frais\nLes absences ne sont pas remboursables';
+
+  @override
+  String get termsUserContentTitle => 'Contenu généré par l\'utilisateur';
+
+  @override
+  String get termsUserContentDescription =>
+      'Lorsque vous publiez des avis, photos ou autres contenus :';
+
+  @override
+  String get termsUserContentBullets =>
+      'Vous nous accordez une licence d\'utilisation\nVous confirmez détenir les droits\nLe contenu ne doit pas être offensant\nNous pouvons supprimer le contenu inapproprié\nVous êtes responsable de l\'exactitude';
+
+  @override
+  String get termsIntellectualTitle => 'Droits de propriété intellectuelle';
+
+  @override
+  String get termsIntellectualDescription =>
+      'Tout le contenu de l\'application est protégé par les lois de propriété intellectuelle.';
+
+  @override
+  String get termsEmergencyTitle => 'Clause de non-responsabilité urgence';
+
+  @override
+  String get termsEmergencyDescription =>
+      'La fonctionnalité d\'urgence est fournie à titre de commodité. En cas d\'urgence réelle :';
+
+  @override
+  String get termsEmergencyBullets =>
+      'Appelez directement les services d\'urgence locaux\nFonction reliée à la police touristique, pas au SAMU\nNous ne sommes pas responsables des délais des autorités';
+
+  @override
+  String get termsChangesTitle => 'Modifications des conditions';
+
+  @override
+  String get termsChangesDescription =>
+      'Nous pouvons modifier ces conditions à tout moment.';
+
+  @override
+  String get termsGoverningTitle => 'Droit applicable';
+
+  @override
+  String get termsGoverningDescription =>
+      'Ces conditions sont régies par les lois de l\'Égypte.';
 }

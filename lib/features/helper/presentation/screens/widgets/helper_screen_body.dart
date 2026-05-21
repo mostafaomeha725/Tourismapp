@@ -5,6 +5,7 @@ import 'package:tourismapp/features/helper/presentation/cubit/helper_chat_cubit.
 import 'package:tourismapp/features/helper/presentation/screens/widgets/helper_chat_header.dart';
 import 'package:tourismapp/features/helper/presentation/screens/widgets/helper_chat_input_bar.dart';
 import 'package:tourismapp/features/helper/presentation/screens/widgets/helper_chat_message_bubble.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class HelperScreenBody extends StatefulWidget {
   const HelperScreenBody({super.key});
@@ -67,7 +68,7 @@ class _HelperScreenBodyState extends State<HelperScreenBody> {
                     ...state.messages,
                     if (state is HelperChatLoading)
                       HelperChatUiMessage(
-                        text: 'Typing...',
+                        text: AppLocalizations.of(context)!.typing,
                         isFromUser: false,
                         createdAt: DateTime.now(),
                       ),
