@@ -61,7 +61,7 @@ class TourGuideInfoCard extends StatelessWidget {
                 ),
                 SizedBox(width: 8.w),
                 AppText(
-                  '(${formatRatingCompact(package.averageRating)} • ${package.reviewsCount} reviews)',
+                  '(${formatRatingCompact(package.averageRating)} • ${package.reviewsCount} ${loc.reviewsTitle.toLowerCase()})',
                   style: font14w500.copyWith(color: Colors.grey),
                 ),
               ],
@@ -99,7 +99,7 @@ class TourGuideInfoCard extends StatelessWidget {
                     : null,
                 child: InfoItemCard(
                   icon: Icons.location_on_outlined,
-                  title: 'Location',
+                  title: loc.location,
                   value: package.placeTitle,
                   widthFactor: 0.5,
                 ),

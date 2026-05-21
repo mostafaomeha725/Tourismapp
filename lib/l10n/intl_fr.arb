@@ -113,4 +113,6 @@
   "perPerson": "par personne",
   "whatsIncluded": "Ce qui est inclus",
   "bookNow": "Réserver maintenant"
+  ,"noIncludedItemsYet": "Aucun élément inclus disponible pour le moment"
+  ,"failedToLoadPackageDetails": "Échec du chargement des détails du forfait"
 }

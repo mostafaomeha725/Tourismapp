@@ -7,11 +7,12 @@ extension _BookDetailsScreenBodyStateContent on _BookDetailsScreenBodyState {
     }
 
     if (state.status.isError || state.package == null) {
+      final loc = AppLocalizations.of(context)!;
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: AppText(
-            state.errorMessage ?? 'Failed to load package details',
+            state.errorMessage ?? loc.failedToLoadPackageDetails,
             style: font14w500.copyWith(color: Colors.red),
             alignment: AlignmentDirectional.center,
             overflow: TextOverflow.visible,

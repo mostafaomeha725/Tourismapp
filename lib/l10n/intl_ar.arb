@@ -113,4 +113,6 @@
   "perPerson": "للفرد",
   "whatsIncluded": "ما الذي تشمله",
   "bookNow": "احجز الآن"
+  ,"noIncludedItemsYet": "لا توجد عناصر مشمولة متاحة حالياً"
+  ,"failedToLoadPackageDetails": "فشل في تحميل تفاصيل الباقة"
 }

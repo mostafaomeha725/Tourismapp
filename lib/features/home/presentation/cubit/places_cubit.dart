@@ -17,7 +17,7 @@ class PlacesCubit extends Cubit<PlacesState> {
       return;
     }
     _isEasyLoadingVisible = true;
-    showLoading(status: 'Loading tourist places...');
+    showLoading();
   }
 
   void _hidePlacesLoading() {

@@ -343,4 +343,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get bookNow => 'Réserver maintenant';
+
+  @override
+  String get noIncludedItemsYet =>
+      'Aucun élément inclus disponible pour le moment';
+
+  @override
+  String get failedToLoadPackageDetails =>
+      'Échec du chargement des détails du forfait';
 }

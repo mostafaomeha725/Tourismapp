@@ -341,4 +341,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookNow => 'Book now';
+
+  @override
+  String get noIncludedItemsYet => 'No included items provided yet';
+
+  @override
+  String get failedToLoadPackageDetails => 'Failed to load package details';
 }

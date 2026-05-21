@@ -741,6 +741,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Book now'**
   String get bookNow;
+
+  /// No description provided for @noIncludedItemsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No included items provided yet'**
+  String get noIncludedItemsYet;
+
+  /// No description provided for @failedToLoadPackageDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load package details'**
+  String get failedToLoadPackageDetails;
 }
 
 class _AppLocalizationsDelegate

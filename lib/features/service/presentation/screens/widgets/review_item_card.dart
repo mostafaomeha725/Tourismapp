@@ -4,6 +4,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/core/widgets/rating_stars.dart';
 import 'package:tourismapp/features/service/domain/entities/review_entity.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class ReviewItemCard extends StatelessWidget {
   final ReviewEntity review;
@@ -20,6 +21,7 @@ class ReviewItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateText = _formatDate(review.createdAt);
+    final loc = AppLocalizations.of(context)!;
 
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -56,7 +58,7 @@ class ReviewItemCard extends StatelessWidget {
               SizedBox(width: 10.w),
               Expanded(
                 child: AppText(
-                  review.clientName.isEmpty ? 'Anonymous' : review.clientName,
+                  review.clientName.isEmpty ? loc.guestUser : review.clientName,
                   style: font14w700,
                   maxLines: 1,
                 ),

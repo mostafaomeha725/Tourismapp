@@ -47,7 +47,7 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
               : place.title;
           final location = placeLocation.isNotEmpty
               ? placeLocation
-              : 'Unknown location';
+              : loc.location;
           final hasCoordinates = place.lat != null && place.lng != null;
           final placeQueryParts = <String>[
             if (title.isNotEmpty) title,

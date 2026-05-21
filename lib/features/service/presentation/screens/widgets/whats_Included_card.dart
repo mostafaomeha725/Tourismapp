@@ -13,6 +13,8 @@ class WhatsIncludedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
@@ -21,13 +23,13 @@ class WhatsIncludedCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            "What's Included",
+            loc.whatsIncluded,
             style: font18w700.copyWith(color: Colors.black87),
           ),
           SizedBox(height: 16.h),
           if (whatsIncluded.isEmpty)
             AppText(
-              'No included items provided yet',
+              loc.noIncludedItemsYet,
               style: font14w500.copyWith(color: Colors.black54),
             )
           else

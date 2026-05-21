@@ -14,6 +14,7 @@ import 'package:tourismapp/features/home/presentation/screens/widgets/custom_nav
 import 'package:tourismapp/features/home/presentation/screens/widgets/custom_nav_bar_screens.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/home_drawer.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/show_emergency_sheet.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -80,12 +81,14 @@ class _CustomNavBarState extends State<CustomNavBar>
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) => sl<LogoutCubit>(),
       child: BlocListener<LogoutCubit, LogoutState>(
         listener: (context, state) {
           if (state is LogoutLoading) {
-            showLoading(status: 'Signing out...');
+            showLoading(status: loc.logout);
           } else if (state is LogoutFailure) {
             showError(state.message);
           } else if (state is LogoutSuccess) {

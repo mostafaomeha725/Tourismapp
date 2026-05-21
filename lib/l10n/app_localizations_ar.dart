@@ -339,4 +339,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookNow => 'احجز الآن';
+
+  @override
+  String get noIncludedItemsYet => 'لا توجد عناصر مشمولة متاحة حالياً';
+
+  @override
+  String get failedToLoadPackageDetails => 'فشل في تحميل تفاصيل الباقة';
 }

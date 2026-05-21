@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/core/widgets/rating_stars.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class ReviewSummaryCard extends StatelessWidget {
   final double averageRating;
@@ -16,6 +17,8 @@ class ReviewSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
@@ -39,7 +42,7 @@ class ReviewSummaryCard extends StatelessWidget {
           ),
           const Spacer(),
           AppText(
-            '$reviewsCount reviews',
+            '$reviewsCount ${loc.reviewsTitle.toLowerCase()}',
             style: font12w500.copyWith(color: Colors.grey.shade700),
           ),
         ],

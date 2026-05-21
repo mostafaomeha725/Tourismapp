@@ -129,4 +129,6 @@
   "perPerson": "per person",
   "whatsIncluded": "What's Included",
   "bookNow": "Book now"
+  ,"noIncludedItemsYet": "No included items provided yet"
+  ,"failedToLoadPackageDetails": "Failed to load package details"
 }
