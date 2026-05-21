@@ -54,7 +54,7 @@ class RegisterFormFields extends StatelessWidget {
                   child: const Icon(Icons.person),
                 ),
                 radius: 22.r,
-                validator: RegisterValidators.firstName,
+                validator: (value) => RegisterValidators.firstName(value, loc),
               ),
             ),
             SizedBox(width: 12.w),
@@ -69,7 +69,7 @@ class RegisterFormFields extends StatelessWidget {
                   child: const Icon(Icons.person),
                 ),
                 radius: 22.r,
-                validator: RegisterValidators.lastName,
+                validator: (value) => RegisterValidators.lastName(value, loc),
               ),
             ),
           ],
@@ -86,7 +86,7 @@ class RegisterFormFields extends StatelessWidget {
             child: const Icon(Icons.phone),
           ),
           radius: 22.r,
-          validator: RegisterValidators.phone,
+          validator: (value) => RegisterValidators.phone(value, loc),
         ),
         SizedBox(height: 18.h),
         AppFormField(
@@ -100,7 +100,7 @@ class RegisterFormFields extends StatelessWidget {
             child: const Icon(Icons.email),
           ),
           radius: 22.r,
-          validator: RegisterValidators.email,
+          validator: (value) => RegisterValidators.email(value, loc),
         ),
         SizedBox(height: 18.h),
         AppFormField(
@@ -114,7 +114,7 @@ class RegisterFormFields extends StatelessWidget {
             child: const Icon(Icons.lock),
           ),
           radius: 22.r,
-          validator: RegisterValidators.password,
+          validator: (value) => RegisterValidators.password(value, loc),
           suffixIcon: IconButton(
             icon: Icon(
               obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -138,6 +138,7 @@ class RegisterFormFields extends StatelessWidget {
           validator: (value) => RegisterValidators.confirmPassword(
             value,
             passwordController.text,
+            loc,
           ),
           suffixIcon: IconButton(
             icon: Icon(

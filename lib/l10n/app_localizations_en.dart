@@ -532,4 +532,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get termsGoverningDescription =>
       'These terms are governed by the laws of Egypt.';
+
+  @override
+  String get allBookings => 'All Bookings';
+
+  @override
+  String get cancelBooking => 'Cancel Booking';
+
+  @override
+  String get firstNameRequired => 'First name is required';
+
+  @override
+  String get lastNameRequired => 'Last name is required';
+
+  @override
+  String get lastNameMinLength => 'Last name must be at least 2 characters';
+
+  @override
+  String get phoneNumberRequired => 'Phone number is required';
+
+  @override
+  String get passwordMinLengthSix => 'Password must be at least 6 characters';
+
+  @override
+  String get passwordConfirmationRequired =>
+      'Password confirmation is required';
+
+  @override
+  String get passwordsDoNotMatch => 'Please make sure your passwords match';
+
+  @override
+  String get appTitle => 'tourism app';
+
+  @override
+  String get profileUpdatedSuccessfully => 'Profile updated successfully';
 }

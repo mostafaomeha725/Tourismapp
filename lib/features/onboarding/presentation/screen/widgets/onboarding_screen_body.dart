@@ -7,12 +7,15 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class OnboardingScreenBody extends StatelessWidget {
   const OnboardingScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.w),
       child: Column(
@@ -26,13 +29,13 @@ class OnboardingScreenBody extends StatelessWidget {
           SizedBox(height: 32.h),
 
           AppText(
-            'Explore Egypt',
+            loc.discoverEgypt,
             style: font32w700,
             alignment: AlignmentDirectional.center,
           ),
           SizedBox(height: 12.h),
           AppText(
-            'Discover amazing attractions, plan your trips, and enjoy your adventure across Egypt!',
+            loc.exploreDestinations,
             alignment: AlignmentDirectional.center,
             style: font16w400,
             overflow: TextOverflow.visible,
@@ -41,7 +44,7 @@ class OnboardingScreenBody extends StatelessWidget {
 
           Spacer(),
           AppButton(
-            text: 'GetStarted',
+            text: loc.letsGetStarted,
             onPressed: () {
               GoRouter.of(context).pushReplacement(Routes.authScreen);
             },

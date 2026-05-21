@@ -526,4 +526,37 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get termsGoverningDescription =>
       'تخضع هذه الشروط لقوانين جمهورية مصر العربية.';
+
+  @override
+  String get allBookings => 'كل الحجوزات';
+
+  @override
+  String get cancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get firstNameRequired => 'الاسم الأول مطلوب';
+
+  @override
+  String get lastNameRequired => 'الاسم الأخير مطلوب';
+
+  @override
+  String get lastNameMinLength => 'يجب أن يكون الاسم الأخير حرفين على الأقل';
+
+  @override
+  String get phoneNumberRequired => 'رقم الهاتف مطلوب';
+
+  @override
+  String get passwordMinLengthSix => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get passwordConfirmationRequired => 'تأكيد كلمة المرور مطلوب';
+
+  @override
+  String get passwordsDoNotMatch => 'يرجى التأكد أن كلمتي المرور متطابقتان';
+
+  @override
+  String get appTitle => 'تطبيق سياحي';
+
+  @override
+  String get profileUpdatedSuccessfully => 'تم تحديث الملف الشخصي بنجاح';
 }

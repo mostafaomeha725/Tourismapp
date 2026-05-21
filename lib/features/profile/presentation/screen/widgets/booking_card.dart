@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class BookingCard extends StatelessWidget {
   const BookingCard({
@@ -24,6 +25,8 @@ class BookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     Color statusColor;
     Color statusBgColor;
     IconData statusIcon;
@@ -147,7 +150,7 @@ class BookingCard extends StatelessWidget {
                         width: double.infinity,
                         child: AppButton.icon(
                           onPressed: onCancelTap ?? () {},
-                          text: "Cancel Booking",
+                          text: loc.cancelBooking,
                           color: Colors.white,
                           borderColor: const Color(0xFFF75555),
                           textColor: const Color(0xFFF75555),

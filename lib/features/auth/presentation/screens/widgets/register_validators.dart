@@ -1,62 +1,62 @@
 class RegisterValidators {
   RegisterValidators._();
 
-  static String? firstName(String? value) {
+  static String? firstName(String? value, dynamic loc) {
     final firstName = (value ?? '').trim();
     if (firstName.isEmpty) {
-      return 'First name is required';
+      return loc.firstNameRequired;
     }
     return null;
   }
 
-  static String? lastName(String? value) {
+  static String? lastName(String? value, dynamic loc) {
     final lastName = (value ?? '').trim();
     if (lastName.isEmpty) {
-      return 'Last name is required';
+      return loc.lastNameRequired;
     }
     if (lastName.length < 2) {
-      return 'Last name must be at least 2 characters';
+      return loc.lastNameMinLength;
     }
     return null;
   }
 
-  static String? phone(String? value) {
+  static String? phone(String? value, dynamic loc) {
     final phone = (value ?? '').trim();
     if (phone.isEmpty) {
-      return 'Phone number is required';
+      return loc.phoneNumberRequired;
     }
     return null;
   }
 
-  static String? email(String? value) {
+  static String? email(String? value, dynamic loc) {
     final email = (value ?? '').trim();
     if (email.isEmpty) {
-      return 'Email is required';
+      return loc.emailIsRequired;
     }
     if (!email.contains('@')) {
-      return 'Please enter a valid email';
+      return loc.pleaseEnterValidEmail;
     }
     return null;
   }
 
-  static String? password(String? value) {
+  static String? password(String? value, dynamic loc) {
     final password = value ?? '';
     if (password.isEmpty) {
-      return 'Password is required';
+      return loc.passwordIsRequired;
     }
     if (password.length < 6) {
-      return 'Password must be at least 6 characters';
+      return loc.passwordMinLengthSix;
     }
     return null;
   }
 
-  static String? confirmPassword(String? value, String password) {
+  static String? confirmPassword(String? value, String password, dynamic loc) {
     final confirm = value ?? '';
     if (confirm.isEmpty) {
-      return 'Password confirmation is required';
+      return loc.passwordConfirmationRequired;
     }
     if (confirm != password) {
-      return 'Please make sure your passwords match';
+      return loc.passwordsDoNotMatch;
     }
     return null;
   }

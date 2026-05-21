@@ -106,7 +106,7 @@ class _CustomNavBarState extends State<CustomNavBar>
               preferredSize: Size.fromHeight(80.h),
               child: Builder(
                 builder: (context) => HomeAppbar(
-                  title: 'Tourism App',
+                  title: loc.appTitle,
                   onMenuTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),

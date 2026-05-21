@@ -73,6 +73,25 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
     return value.replaceAll(RegExp(r'\s+'), '');
   }
 
+  String _localizedUpdateProfileSuccessMessage(
+    BuildContext context,
+    String backendMessage,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    final normalized = backendMessage.trim().toLowerCase().replaceAll(
+      RegExp(r'[\.!]+$'),
+      '',
+    );
+
+    if (normalized == 'profile updated successful' ||
+        normalized == 'profile updated successfully' ||
+        normalized.contains('profile updated successful')) {
+      return loc.profileUpdatedSuccessfully;
+    }
+
+    return backendMessage;
+  }
+
   void _submit() {
     final loc = AppLocalizations.of(context)!;
     FocusScope.of(context).unfocus();
@@ -151,7 +170,13 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
             value: state.result.client.phone,
           );
 
-          CustomSnackBar.showSuccess(context, message: state.result.message);
+          CustomSnackBar.showSuccess(
+            context,
+            message: _localizedUpdateProfileSuccessMessage(
+              context,
+              state.result.message,
+            ),
+          );
         } else if (state is UpdateProfileFailure) {
           CustomSnackBar.showError(context, message: state.message);
         }
