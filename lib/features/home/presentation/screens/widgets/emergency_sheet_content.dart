@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class EmergencySheetContent extends StatelessWidget {
   final int counter;
@@ -34,7 +35,7 @@ class EmergencySheetContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText(
-                  'Emergency - Tourism Police',
+                  AppLocalizations.of(context)!.emergencySheetContent,
                   style: font18w700.copyWith(
                     color: Colors.red,
                     fontSize: 18.sp,
@@ -48,7 +49,9 @@ class EmergencySheetContent extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             AppText(
-              'A call will be made to Tourism Police in $counter seconds',
+              AppLocalizations.of(
+                context,
+              )!.callTourismPoliceInSeconds(counter.toString()),
               style: font14w400.copyWith(fontSize: 14.sp),
               overflow: TextOverflow.visible,
             ),
@@ -81,7 +84,7 @@ class EmergencySheetContent extends StatelessWidget {
                   SizedBox(width: 10.w),
                   Expanded(
                     child: AppText(
-                      'Tourism Police Number: 126\nAvailable 24 hours for tourist emergency assistance',
+                      AppLocalizations.of(context)!.tourismPoliceEmergency,
                       style: font14w500.copyWith(fontSize: 14.sp),
                       overflow: TextOverflow.visible,
                     ),
@@ -93,7 +96,7 @@ class EmergencySheetContent extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: AppButton.icon(
-                text: 'Call Now',
+                text: AppLocalizations.of(context)!.callNow,
                 onPressed: onCallNow,
                 height: 42.h,
                 color: Colors.red,
@@ -106,7 +109,7 @@ class EmergencySheetContent extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: AppButton.icon(
-                text: 'Cancel',
+                text: AppLocalizations.of(context)!.cancel,
                 onPressed: onClose,
                 height: 42.h,
                 textColor: Colors.black,

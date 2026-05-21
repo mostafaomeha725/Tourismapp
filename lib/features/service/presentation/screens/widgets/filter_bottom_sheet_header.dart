@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FilterBottomSheetHeader extends StatelessWidget {
   final VoidCallback onReset;
@@ -10,6 +11,7 @@ class FilterBottomSheetHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         Center(
@@ -26,11 +28,11 @@ class FilterBottomSheetHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppText('Filter', style: font20w700),
+            AppText(loc.filter, style: font20w700),
             GestureDetector(
               onTap: onReset,
               child: AppText(
-                'Reset all',
+                loc.resetAll,
                 style: font14w500.copyWith(color: const Color(0xffdb6000)),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/widgets/app_form_field.dart';
 import 'package:tourismapp/features/auth/presentation/screens/widgets/register_validators.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RegisterFormFields extends StatelessWidget {
   final TextEditingController firstNameController;
@@ -37,6 +38,7 @@ class RegisterFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         Row(
@@ -45,7 +47,7 @@ class RegisterFormFields extends StatelessWidget {
               child: AppFormField(
                 maxLines: 1,
                 controller: firstNameController,
-                hintText: 'First name',
+                hintText: loc.firstName,
                 autovalidateMode: _autoValidateMode,
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(left: 16.h, right: 6.h),
@@ -60,7 +62,7 @@ class RegisterFormFields extends StatelessWidget {
               child: AppFormField(
                 controller: lastNameController,
                 maxLines: 1,
-                hintText: 'Last name',
+                hintText: loc.lastName,
                 autovalidateMode: _autoValidateMode,
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(left: 16.h, right: 6.h),
@@ -76,7 +78,7 @@ class RegisterFormFields extends StatelessWidget {
         AppFormField(
           maxLines: 1,
           controller: phoneController,
-          hintText: 'Phone Number',
+          hintText: loc.phoneNumber,
           autovalidateMode: _autoValidateMode,
           keyboardType: TextInputType.phone,
           prefixIcon: Padding(
@@ -90,7 +92,7 @@ class RegisterFormFields extends StatelessWidget {
         AppFormField(
           maxLines: 1,
           controller: emailController,
-          hintText: 'Email Address',
+          hintText: loc.emailAddress,
           autovalidateMode: _autoValidateMode,
           keyboardType: TextInputType.emailAddress,
           prefixIcon: Padding(
@@ -103,7 +105,7 @@ class RegisterFormFields extends StatelessWidget {
         SizedBox(height: 18.h),
         AppFormField(
           controller: passwordController,
-          hintText: 'Password',
+          hintText: loc.password,
           maxLines: 1,
           autovalidateMode: _autoValidateMode,
           obsecureText: obscurePassword,
@@ -124,7 +126,7 @@ class RegisterFormFields extends StatelessWidget {
         SizedBox(height: 18.h),
         AppFormField(
           controller: confirmPasswordController,
-          hintText: 'Re-write password',
+          hintText: loc.reWritePassword,
           autovalidateMode: _autoValidateMode,
           obsecureText: obscureConfirmPassword,
           maxLines: 1,

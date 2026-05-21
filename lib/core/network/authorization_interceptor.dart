@@ -11,10 +11,13 @@ class AuthorizationInterceptor extends Interceptor {
     final prefs = sl<PreferencesStorage>();
 
     final token = prefs.getUserToken();
+    final lang = prefs.getCurrentLanguage();
 
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = "Bearer $token";
     }
+
+    options.headers['Accept-Language'] = lang;
 
     handler.next(options);
   }

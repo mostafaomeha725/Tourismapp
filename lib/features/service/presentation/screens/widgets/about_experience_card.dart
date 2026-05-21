@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/details_card_decoration.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class AboutExperienceCard extends StatelessWidget {
   final String description;
@@ -11,6 +12,7 @@ class AboutExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
@@ -18,7 +20,7 @@ class AboutExperienceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText('About This Experience', style: font18w700),
+          AppText(loc.aboutThisExperience, style: font18w700),
           SizedBox(height: 12.h),
           AppText(
             description,

@@ -32,72 +32,112 @@ class TourismCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-          child: !hasValidImage
-              ? AppImage(
-                  imageUrl: placeholderImageUrl,
-                  width: double.infinity,
-                  height: 180.h,
-                  fit: BoxFit.cover,
-                )
-              : isNetworkImage
-              ? AppImage(
-                  imageUrl: normalizedImageUrl,
-                  width: double.infinity,
-                  height: 180.h,
-                  fit: BoxFit.cover,
-                )
-              : AppAsset(
-                  assetName: normalizedImageUrl,
-                  width: double.infinity,
-                  height: 180.h,
-                  fit: BoxFit.cover,
-                ),
-        ),
-        Positioned(
-          top: 8.h,
-          right: 8.w,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: BorderRadius.circular(12.r),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double totalWidth = constraints.maxWidth - 32.w;
+        final double maxBadgeWidth = hasLocation ? totalWidth / 2 : totalWidth;
+
+        return Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+              child: !hasValidImage
+                  ? AppImage(
+                      imageUrl: placeholderImageUrl,
+                      width: double.infinity,
+                      height: 180.h,
+                      fit: BoxFit.cover,
+                    )
+                  : isNetworkImage
+                  ? AppImage(
+                      imageUrl: normalizedImageUrl,
+                      width: double.infinity,
+                      height: 180.h,
+                      fit: BoxFit.cover,
+                    )
+                  : AppAsset(
+                      assetName: normalizedImageUrl,
+                      width: double.infinity,
+                      height: 180.h,
+                      fit: BoxFit.cover,
+                    ),
             ),
-            child: Row(
-              children: [
-                AppText(text, style: font12w700.copyWith(color: Colors.white)),
-                SizedBox(width: 4.w),
-                if (isicon) Icon(icon, size: 16.sp, color: Colors.white),
-              ],
-            ),
-          ),
-        ),
-        if (hasLocation)
-          Positioned(
-            top: 8.h,
-            left: 8.w,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.location_on, size: 12.sp, color: Colors.white),
-                  SizedBox(width: 4.w),
-                  AppText(
-                    normalizedLocation,
-                    style: font12w700.copyWith(color: Colors.white),
+            Positioned(
+              top: 8.h,
+              right: 8.w,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxBadgeWidth),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 4.h,
                   ),
-                ],
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: AppText(
+                            text,
+                            style: font12w700.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      if (isicon) ...[
+                        SizedBox(width: 4.w),
+                        Icon(icon, size: 16.sp, color: Colors.white),
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-      ],
+            if (hasLocation)
+              Positioned(
+                top: 8.h,
+                left: 8.w,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: maxBadgeWidth),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 12.sp,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 4.w),
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: AppText(
+                              normalizedLocation,
+                              style: font12w700.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }

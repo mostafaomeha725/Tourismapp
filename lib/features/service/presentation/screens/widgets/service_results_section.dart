@@ -10,6 +10,7 @@ import 'package:tourismapp/features/service/domain/entities/package_entity.dart'
 import 'package:tourismapp/core/utils/open_map.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/pagination_widget.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/tourism_card.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class ServiceResultsSection extends StatelessWidget {
   final RequestState status;
@@ -35,6 +36,7 @@ class ServiceResultsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     bool ensureAuthenticated() {
       if (AuthService.isLoggedIn) {
         return true;
@@ -55,7 +57,7 @@ class ServiceResultsSection extends StatelessWidget {
       return Column(
         children: [
           AppText(
-            errorMessage ?? 'An error occurred. Please try again later.',
+            errorMessage ?? loc.anErrorOccurred,
             style: font14w400.copyWith(color: Colors.red),
             alignment: AlignmentDirectional.center,
             overflow: TextOverflow.visible,
@@ -65,7 +67,7 @@ class ServiceResultsSection extends StatelessWidget {
             onPressed: () {
               onRetry();
             },
-            child: const Text('Retry'),
+            child: Text(loc.retry),
           ),
         ],
       );
@@ -83,13 +85,13 @@ class ServiceResultsSection extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             AppText(
-              'No results found',
+              loc.noResultsFound,
               style: font16w700.copyWith(color: Colors.grey[500]),
               alignment: AlignmentDirectional.center,
             ),
             SizedBox(height: 6.h),
             AppText(
-              'Try adjusting your filters',
+              loc.tryAdjustingYourFilters,
               style: font14w400.copyWith(color: Colors.grey[400]),
               alignment: AlignmentDirectional.center,
             ),
@@ -138,13 +140,9 @@ class ServiceResultsSection extends StatelessWidget {
 
               final url = item.link?.trim();
               if (url == null || url.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Link is not available for this package yet.',
-                    ),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(loc.linkNotAvailable)));
                 return;
               }
 
@@ -155,9 +153,7 @@ class ServiceResultsSection extends StatelessWidget {
                   return;
                 }
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Could not open the booking link.'),
-                  ),
+                  SnackBar(content: Text(loc.couldNotOpenBookingLink)),
                 );
               }
             },

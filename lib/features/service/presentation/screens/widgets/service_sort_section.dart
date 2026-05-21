@@ -4,6 +4,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/bouncing_widgets.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/service/domain/usecases/get_packages_usecase.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class ServiceSortSection extends StatelessWidget {
   final PackagesSortOption selectedSort;
@@ -22,16 +23,17 @@ class ServiceSortSection extends StatelessWidget {
     PackagesSortOption.alphabetical,
   ];
 
-  String _label(PackagesSortOption option) {
+  String _label(BuildContext context, PackagesSortOption option) {
+    final loc = AppLocalizations.of(context)!;
     switch (option) {
       case PackagesSortOption.newest:
-        return 'Newest';
+        return loc.newest;
       case PackagesSortOption.priceAsc:
-        return 'Price: Low to High';
+        return loc.priceLowToHigh;
       case PackagesSortOption.priceDesc:
-        return 'Price: High to Low';
+        return loc.priceHighToLow;
       case PackagesSortOption.alphabetical:
-        return 'Alphabetical';
+        return loc.alphabetical;
     }
   }
 
@@ -50,13 +52,15 @@ class ServiceSortSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'Sort by',
+            loc.sortBy,
             style: font14w700.copyWith(color: const Color(0xFF222222)),
           ),
           SizedBox(height: 10.h),
@@ -101,7 +105,7 @@ class ServiceSortSection extends StatelessWidget {
                           ),
                           SizedBox(width: 6.w),
                           AppText(
-                            _label(option),
+                            _label(context, option),
                             style: font12w700.copyWith(
                               color: isSelected
                                   ? Colors.white

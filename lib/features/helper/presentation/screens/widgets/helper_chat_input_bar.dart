@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/light_colors.dart';
 import 'package:tourismapp/core/widgets/app_form_field.dart';
 import 'package:tourismapp/core/widgets/bouncing_widgets.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class HelperChatInputBar extends StatelessWidget {
   final TextEditingController controller;
@@ -18,6 +19,7 @@ class HelperChatInputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.all(12.w),
       child: Row(
@@ -25,7 +27,7 @@ class HelperChatInputBar extends StatelessWidget {
           Expanded(
             child: AppFormField(
               controller: controller,
-              hintText: 'Type your message...',
+              hintText: loc.typeYourMessage,
               onFieldSubmitted: (_) => onSend(),
               maxLines: 3,
               minLines: 1,

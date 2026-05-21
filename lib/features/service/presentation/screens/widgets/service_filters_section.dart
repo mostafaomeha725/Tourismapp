@@ -5,6 +5,7 @@ import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/active_chip.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_tap.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class ServiceFiltersSection extends StatelessWidget {
   final bool hasActiveFilters;
@@ -38,6 +39,8 @@ class ServiceFiltersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         GestureDetector(
@@ -61,7 +64,7 @@ class ServiceFiltersSection extends StatelessWidget {
                 ),
                 SizedBox(width: 8.w),
                 AppText(
-                  'Filter',
+                  loc.filter,
                   style: font14w700.copyWith(
                     color: hasActiveFilters ? Colors.white : Colors.black87,
                   ),
@@ -89,7 +92,7 @@ class ServiceFiltersSection extends StatelessWidget {
               spacing: 8.w,
               runSpacing: 6.h,
               children: [
-                if (selectedFilter != 'All')
+                if (selectedFilter != 'All' && selectedFilter != loc.all)
                   ActiveChip(
                     label: selectedFilter,
                     icon: Icons.category_outlined,

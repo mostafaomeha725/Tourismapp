@@ -4,6 +4,7 @@ import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/update_profile_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_appbar.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/edit_profile_screen_body.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -12,7 +13,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(title: 'Edit Profile'),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.editProfile),
       body: BlocProvider(
         create: (_) => sl<UpdateProfileCubit>(),
         child: const EditProfileScreenBody(),

@@ -11,6 +11,7 @@ import 'package:tourismapp/core/widgets/app_form_field.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class LoginScreenBody extends StatefulWidget {
   const LoginScreenBody({super.key});
@@ -53,17 +54,18 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginLoading) {
-          showLoading(status: 'Signing in...');
+          showLoading(status: loc.signingIn);
         } else if (state is LoginFailure) {
           showError(state.message);
         } else if (state is LoginSuccess) {
           showSuccess(
             state.result.message.isNotEmpty
                 ? state.result.message
-                : 'Login successful.',
+                : loc.loginSuccessful,
           );
           GoRouter.of(context).pushReplacement(Routes.customNavBar);
         }
@@ -84,7 +86,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   SizedBox(height: 4.h),
 
                   AppText(
-                    'Begin your journey',
+                    loc.beginYourJourney,
                     style: font20w700,
                     alignment: AlignmentDirectional.center,
                   ),
@@ -92,7 +94,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
                   AppFormField(
                     controller: emailcontroller,
-                    hintText: 'Email Address',
+                    hintText: loc.emailAddress,
                     autovalidateMode: hasSubmitted
                         ? AutovalidateMode.onUserInteraction
                         : AutovalidateMode.disabled,
@@ -106,10 +108,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     validator: (value) {
                       final email = (value ?? '').trim();
                       if (email.isEmpty) {
-                        return 'Email is required';
+                        return loc.emailIsRequired;
                       }
                       if (!email.contains('@')) {
-                        return 'Please enter a valid email';
+                        return loc.pleaseEnterValidEmail;
                       }
                       return null;
                     },
@@ -120,7 +122,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   AppFormField(
                     maxLines: 1,
                     controller: passwordcontroller,
-                    hintText: 'Password',
+                    hintText: loc.password,
                     autovalidateMode: hasSubmitted
                         ? AutovalidateMode.onUserInteraction
                         : AutovalidateMode.disabled,
@@ -132,7 +134,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     radius: 22.r,
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return 'Password is required';
+                        return loc.passwordIsRequired;
                       }
                       return null;
                     },
@@ -154,7 +156,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   SizedBox(height: 22.h),
 
                   AppButton(
-                    text: isLoading ? 'Please wait...' : 'Sign in',
+                    text: isLoading ? loc.pleaseWait : loc.signIn,
                     color: const Color(0xffdb6000),
                     onPressed: isLoading ? null : _submitLogin,
                     height: 50.h,
@@ -167,7 +169,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppText(
-                        'Don’t have an account ?  ',
+                        '${loc.dontHaveAnAccount}  ',
                         style: font14w500.copyWith(color: Colors.grey),
                       ),
                       GestureDetector(
@@ -175,7 +177,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                           GoRouter.of(context).push(Routes.registerScreen);
                         },
                         child: AppText(
-                          'Register now',
+                          loc.registerNow,
                           style: font14w700.copyWith(
                             color: _highlightColor,
                             decoration: TextDecoration.underline,

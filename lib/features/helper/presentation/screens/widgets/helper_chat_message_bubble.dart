@@ -6,6 +6,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/helper/presentation/cubit/helper_chat_cubit.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class HelperChatMessageBubble extends StatelessWidget {
   final HelperChatUiMessage message;
@@ -14,8 +15,14 @@ class HelperChatMessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String displayText =
+        (message.text ==
+            'Welcome! I am your Egypt Tourism Assistant. Ask me about places, itineraries, costs, and transport.')
+        ? AppLocalizations.of(context)!.welcomeAssistantMessage
+        : message.text;
+
     final isUser = message.isFromUser;
-    final hasArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(message.text);
+    final hasArabic = RegExp(r'[\u0600-\u06FF]').hasMatch(displayText);
     final isRtlContent = isUser ? true : hasArabic;
     final textDirection = isRtlContent ? TextDirection.rtl : TextDirection.ltr;
     final textAlign = isRtlContent ? TextAlign.right : TextAlign.left;
@@ -64,7 +71,7 @@ class HelperChatMessageBubble extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppText(
-                        message.text,
+                        displayText,
                         alignment: textAlignment,
                         overflow: TextOverflow.visible,
                         textAlign: textAlign,

@@ -8,6 +8,7 @@ import 'package:tourismapp/features/service/domain/entities/package_entity.dart'
 import 'package:tourismapp/features/service/presentation/screens/widgets/bouncy_tap.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/info_item_card.dart';
 import 'package:tourismapp/core/utils/open_map.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class TourGuideInfoCard extends StatelessWidget {
   final PackageEntity package;
@@ -16,6 +17,7 @@ class TourGuideInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final hasLocation = package.placeTitle.trim().isNotEmpty;
     final locationUrl = package.locationLink?.trim();
     final hasLocationLink = locationUrl != null && locationUrl.isNotEmpty;
@@ -75,7 +77,7 @@ class TourGuideInfoCard extends StatelessWidget {
                     style: font28w500.copyWith(color: const Color(0xffdb6000)),
                   ),
                   TextSpan(
-                    text: '  per person',
+                    text: '  ${loc.perPerson}',
                     style: font14w400.copyWith(color: Colors.grey),
                   ),
                 ],

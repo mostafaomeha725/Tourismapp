@@ -4,6 +4,7 @@ import 'package:tourismapp/core/di/services_locator.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/custom_appbar.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/visited_places_screen_body.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FavouritePlacesScreen extends StatelessWidget {
   const FavouritePlacesScreen({super.key});
@@ -12,7 +13,9 @@ class FavouritePlacesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(title: 'Favourite places'),
+      appBar: CustomAppBar(
+        title: AppLocalizations.of(context)!.favouritePlaces,
+      ),
       body: BlocProvider(
         create: (_) => sl<FavouritePlacesCubit>()..loadFavorites(page: 1),
         child: const VisitedPlacesScreenBody(),

@@ -6,6 +6,8 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
       return const Center(child: CircularProgressIndicator());
     }
 
+    final loc = AppLocalizations.of(context)!;
+
     if (state is PlacesFailure) {
       return Column(
         children: [
@@ -18,7 +20,7 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
           SizedBox(height: 10.h),
           TextButton(
             onPressed: () => context.read<PlacesCubit>().loadPlaces(),
-            child: const Text('Retry'),
+            child: Text(loc.retry),
           ),
         ],
       );
@@ -26,7 +28,7 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
 
     if (state is PlacesEmpty) {
       return AppText(
-        'No places available right now',
+        loc.noPlacesAvailable,
         style: font14w400.copyWith(color: Colors.grey[600]),
         alignment: AlignmentDirectional.center,
       );
@@ -64,7 +66,7 @@ extension _TourismPlaceScreenStateContent on TourismPlaceScreen {
           final canOpenMap = placeSearchUrl != null || coordinatesUrl != null;
 
           return TourismCard(
-            text: 'Wander Places',
+            text: loc.wanderPlaces,
             imageUrl: imageUrl,
             title: place.title,
             description: description,

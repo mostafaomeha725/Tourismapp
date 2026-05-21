@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/core/theme/styles.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -63,7 +64,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                       AppText(title, style: font18w700),
                       SizedBox(height: 2.h),
                       AppText(
-                        subtitle ?? "Discover Egypt",
+                        subtitle ?? AppLocalizations.of(context)!.discoverEgypt,
                         style: font12w400.copyWith(color: Colors.black54),
                       ),
                     ],

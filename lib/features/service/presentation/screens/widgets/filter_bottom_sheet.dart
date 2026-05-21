@@ -6,6 +6,7 @@ import 'package:tourismapp/features/service/presentation/screens/widgets/filter_
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_header.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet_location_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final FilterOptions initialOptions;
@@ -109,7 +110,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           SizedBox(height: 28.h),
 
           AppButton(
-            text: 'Apply Filters',
+            text: AppLocalizations.of(context)!.applyFilters,
             color: const Color(0xffdb6000),
             height: 52.h,
             radius: 22.r,

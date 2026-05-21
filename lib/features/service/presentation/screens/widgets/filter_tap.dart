@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_item_widget.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FilterTabs extends StatelessWidget {
   final String selectedFilter;
@@ -17,6 +18,7 @@ class FilterTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tabs = filters;
+    final loc = AppLocalizations.of(context)!;
 
     return Container(
       padding: EdgeInsets.all(6.r),
@@ -31,7 +33,7 @@ class FilterTabs extends StatelessWidget {
             return Padding(
               padding: EdgeInsetsDirectional.only(end: 6.w),
               child: FilterItemWidget(
-                title: tab,
+                title: tab == 'All' ? loc.all : tab,
                 icon: null,
                 isSelected: selectedFilter == tab,
                 onTap: () => onFilterChanged(tab),

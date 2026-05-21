@@ -4,6 +4,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/details_card_decoration.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/include_item_row.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class WhatsIncludedCard extends StatelessWidget {
   final List<String> whatsIncluded;

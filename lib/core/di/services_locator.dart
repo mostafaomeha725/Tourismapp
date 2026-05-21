@@ -44,6 +44,7 @@ import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
 import 'package:tourismapp/features/home/presentation/cubit/drawer_navigation_cubit.dart';
 import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.dart';
 import 'package:tourismapp/features/service/presentation/cubit/submit_review_cubit.dart';
+import 'package:tourismapp/core/localization/cubit/locale_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
 
 final sl = GetIt.instance;
@@ -77,6 +78,10 @@ class ServiceLocator {
   /// AUTH
   /// =============================
   void _initAuth() {
+    if (!sl.isRegistered<LocaleCubit>()) {
+      sl.registerFactory(() => LocaleCubit(sl()));
+    }
+
     if (!sl.isRegistered<AuthRemoteDataSource>()) {
       sl.registerLazySingleton<AuthRemoteDataSource>(
         () => AuthRemoteDataSourceImpl(sl()),

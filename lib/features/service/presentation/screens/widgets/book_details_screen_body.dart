@@ -16,6 +16,7 @@ import 'package:tourismapp/features/service/domain/usecases/toggle_favorite_usec
 import 'package:tourismapp/features/service/presentation/cubit/package_details_cubit.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/book_details_content_section.dart';
 import 'package:tourismapp/core/utils/open_map.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 part 'book_details_screen_body_interactions.dart';
 part 'book_details_screen_body_state_content.dart';

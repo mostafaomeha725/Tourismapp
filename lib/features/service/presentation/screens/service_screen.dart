@@ -8,6 +8,7 @@ import 'package:tourismapp/features/service/presentation/cubit/packages_cubit.da
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_bottom_sheet.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/filter_option.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/service_screen_body.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 part 'widgets/service_screen_filters_logic.dart';
 part 'widgets/service_screen_interactions.dart';
@@ -37,9 +38,13 @@ class _ServiceScreenState extends State<ServiceScreen> {
     setState(updater);
   }
 
-  void _handlePaginationSideEffects(PackagesState state) {
+  void _handlePaginationSideEffects(PackagesState state, BuildContext context) {
     if (state.isPageChangeLoading && state.loadingPageNumber != null) {
-      showLoading(status: 'Loading page ${state.loadingPageNumber}...');
+      showLoading(
+        status: AppLocalizations.of(
+          context,
+        )!.loadingPage(state.loadingPageNumber!),
+      );
     } else {
       hideLoading();
     }
@@ -83,7 +88,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<PackagesCubit, PackagesState>(
       listener: (context, state) {
-        _handlePaginationSideEffects(state);
+        _handlePaginationSideEffects(state, context);
 
         if (!_didSetInitialRange && state.status.isSuccess) {
           _didSetInitialRange = true;

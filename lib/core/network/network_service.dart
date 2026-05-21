@@ -39,10 +39,12 @@ class NetworkService {
     final prefs = sl<PreferencesStorage>();
 
     final token = prefs.getUserToken();
+    final lang = prefs.getCurrentLanguage();
 
     dio.options.headers = {
       "Accept": "application/json",
       "Accept-Encoding": "gzip, deflate",
+      "Accept-Language": lang,
 
       if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",
     };

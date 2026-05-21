@@ -7,6 +7,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class AuthScreenBody extends StatelessWidget {
   const AuthScreenBody({super.key});
@@ -23,13 +24,13 @@ class AuthScreenBody extends StatelessWidget {
           SizedBox(height: 4.h),
 
           AppText(
-            'Let’s get started!',
+            AppLocalizations.of(context)!.letsGetStarted,
             style: font20w700,
             alignment: AlignmentDirectional.center,
           ),
           Spacer(),
           AppText(
-            'Start your travel journey with exclusive tips, guides, and offers.',
+            AppLocalizations.of(context)!.startYourTravelJourney,
             style: font16w400,
             alignment: AlignmentDirectional.center,
             textAlign: TextAlign.center,
@@ -37,7 +38,7 @@ class AuthScreenBody extends StatelessWidget {
           ),
           Spacer(),
           AppButton(
-            text: 'Login',
+            text: AppLocalizations.of(context)!.login,
             color: Color(0xffdb6000),
             onPressed: () {
               GoRouter.of(context).push(Routes.loginScreen);
@@ -48,7 +49,7 @@ class AuthScreenBody extends StatelessWidget {
           SizedBox(height: 12.h),
 
           AppButton(
-            text: 'Sign Up',
+            text: AppLocalizations.of(context)!.signUpAction,
             textColor: Color(0xffdb6000),
             borderColor: Color(0xffdb6000),
             color: Colors.white,

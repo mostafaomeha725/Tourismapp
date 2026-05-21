@@ -11,6 +11,8 @@ import 'package:tourismapp/features/service/presentation/screens/widgets/paginat
 import 'package:tourismapp/features/service/presentation/screens/widgets/review_item_card.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/review_summary_card.dart';
 
+import 'package:tourismapp/l10n/app_localizations.dart';
+
 class PackageReviewsCard extends StatefulWidget {
   final int packageId;
 
@@ -47,6 +49,7 @@ class _PackageReviewsCardState extends State<PackageReviewsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BlocBuilder<PackageReviewsCubit, PackageReviewsState>(
       builder: (context, state) {
         if (state.status == RequestState.success && state.reviews.isEmpty) {
@@ -60,14 +63,14 @@ class _PackageReviewsCardState extends State<PackageReviewsCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText('Ratings & Reviews', style: font18w700),
+              AppText(loc.ratingsAndReviews, style: font18w700),
               SizedBox(height: 12.h),
               if (state.status == RequestState.loading ||
                   state.status == RequestState.init) ...[
                 const Center(child: CircularProgressIndicator()),
               ] else if (state.status == RequestState.error) ...[
                 AppText(
-                  state.errorMessage ?? 'Failed to load reviews',
+                  state.errorMessage ?? loc.failedToLoadReviews,
                   style: font14w500.copyWith(color: Colors.red),
                   overflow: TextOverflow.visible,
                 ),

@@ -11,6 +11,7 @@ import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:tourismapp/features/auth/presentation/screens/widgets/register_form_fields.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RegisterScreenBody extends StatefulWidget {
   const RegisterScreenBody({super.key});
@@ -78,17 +79,18 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterLoading) {
-          showLoading(status: 'Creating account...');
+          showLoading(status: loc.creatingAccount);
         } else if (state is RegisterFailure) {
           showError(state.message);
         } else if (state is RegisterSuccess) {
           showSuccess(
             state.result.message.isNotEmpty
                 ? state.result.message
-                : 'Registration successful.',
+                : loc.registrationSuccessful,
           );
           GoRouter.of(context).pushReplacement(Routes.customNavBar);
         }
@@ -109,7 +111,7 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                   SizedBox(height: 4.h),
 
                   AppText(
-                    'Begin your journey',
+                    loc.beginYourJourney,
                     style: font20w700,
                     alignment: AlignmentDirectional.center,
                   ),
@@ -148,7 +150,7 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                   SizedBox(height: 24.h),
 
                   AppButton(
-                    text: isLoading ? 'Please wait...' : 'Sign up',
+                    text: isLoading ? loc.pleaseWait : loc.signUp,
                     height: 50.h,
                     radius: 22.r,
                     color: const Color(0xffdb6000),
@@ -161,7 +163,7 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppText(
-                        'Already have an account? ',
+                        '${loc.alreadyHaveAnAccount} ',
                         style: font14w500.copyWith(color: Colors.grey),
                       ),
                       GestureDetector(
@@ -169,7 +171,7 @@ class _RegisterScreenBodyState extends State<RegisterScreenBody> {
                           GoRouter.of(context).pop();
                         },
                         child: AppText(
-                          'Sign in',
+                          loc.signIn,
                           style: font14w700.copyWith(
                             color: _highlightColor,
                             decoration: TextDecoration.underline,

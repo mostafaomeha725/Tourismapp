@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class BookingsDateSection extends StatelessWidget {
   final DateTime now;
@@ -22,10 +23,11 @@ class BookingsDateSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText('Select Date', style: font16w500),
+        AppText(loc.selectDate, style: font16w500),
         SizedBox(height: 16.h),
         Container(
           decoration: BoxDecoration(

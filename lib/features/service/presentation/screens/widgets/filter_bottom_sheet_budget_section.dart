@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FilterBottomSheetBudgetSection extends StatelessWidget {
   final RangeValues budgetRange;
@@ -19,12 +20,13 @@ class FilterBottomSheetBudgetSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppText('Budget', style: font16w700),
+            AppText(loc.budget, style: font16w700),
             AppText(
               '\$${budgetRange.start.toInt()}  –  \$${budgetRange.end.toInt()}',
               style: font14w500.copyWith(color: const Color(0xffdb6000)),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class BookingsTimeSlotsSection extends StatelessWidget {
   final List<String> timeSlots;
@@ -17,10 +18,11 @@ class BookingsTimeSlotsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText('Select Time', style: font16w500),
+        AppText(loc.selectTime, style: font16w500),
         SizedBox(height: 16.h),
         Wrap(
           spacing: 8.w,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class FilterBottomSheetLocationSection extends StatelessWidget {
   final List<Map<String, dynamic>> places;
@@ -19,10 +20,11 @@ class FilterBottomSheetLocationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText('Location', style: font16w700),
+        AppText(loc.location, style: font16w700),
         SizedBox(height: 12.h),
         if (isLoading)
           Row(
@@ -35,14 +37,14 @@ class FilterBottomSheetLocationSection extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               AppText(
-                'Loading locations...',
+                loc.loadingLocations,
                 style: font12w700.copyWith(color: Colors.grey[700]),
               ),
             ],
           )
         else if (places.isEmpty)
           AppText(
-            'No locations available',
+            loc.noLocationsAvailable,
             style: font12w700.copyWith(color: Colors.grey[600]),
           )
         else

@@ -8,6 +8,7 @@ import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_snack_bar.dart';
 import 'package:tourismapp/features/auth/presentation/cubit/update_profile_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/editable_text_field.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class EditProfileScreenBody extends StatefulWidget {
   const EditProfileScreenBody({super.key});
@@ -168,7 +169,7 @@ class _EditProfileScreenBodyState extends State<EditProfileScreenBody> {
               // EditableProfileImage(image: Assets.egyptsplash, onEditTap: () {}),
               SizedBox(height: 16.h),
               EditableTextField(
-                label: 'Full Name',
+                label: AppLocalizations.of(context)!.fullName,
                 controller: _nameController,
                 icon: Icons.person_outline,
                 inputType: TextInputType.name,

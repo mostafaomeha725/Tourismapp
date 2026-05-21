@@ -4,6 +4,7 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/arrorw_button.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/pagination_number_chip.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class PaginationWidget extends StatefulWidget {
   final int totalPages;
@@ -85,6 +86,7 @@ class _PaginationWidgetState extends State<PaginationWidget> {
     final canGoPrevious = widget.currentPage > 1;
     final canGoNext = widget.currentPage < widget.totalPages;
     final isCompactPagination = widget.totalPages <= 3;
+    final loc = AppLocalizations.of(context)!;
 
     final pageChips = List.generate(widget.totalPages, (index) {
       final pageNum = index + 1;
@@ -105,7 +107,7 @@ class _PaginationWidgetState extends State<PaginationWidget> {
           SizedBox(
             width: double.infinity,
             child: AppText(
-              'Page ${widget.currentPage} of ${widget.totalPages}',
+              loc.pageOf(widget.currentPage, widget.totalPages),
               style: font12w700.copyWith(color: const Color(0xFF64748B)),
               alignment: AlignmentDirectional.center,
               textAlign: TextAlign.center,

@@ -7,6 +7,7 @@ import 'package:tourismapp/features/service/presentation/screens/widgets/paginat
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_cubit.dart';
 import 'package:tourismapp/features/profile/presentation/cubit/favourite_places_state.dart';
 import 'package:tourismapp/features/profile/presentation/screen/widgets/visited_places_card.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class VisitedPlacesScreenBody extends StatelessWidget {
   const VisitedPlacesScreenBody({super.key});
@@ -37,9 +38,10 @@ class VisitedPlacesScreenBody extends StatelessWidget {
         final favorites = page?.items ?? const [];
         final totalPages = page?.lastPage ?? 1;
         final currentPage = state.currentPage;
+        final loc = AppLocalizations.of(context)!;
 
         if (favorites.isEmpty) {
-          return const Center(child: Text('No favorite places yet'));
+          return Center(child: Text(loc.noFavoritePlacesYet));
         }
 
         return Padding(

@@ -10,6 +10,7 @@ import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/features/home/presentation/cubit/places_cubit.dart';
 import 'package:tourismapp/core/utils/open_map.dart';
 import 'package:tourismapp/features/home/presentation/screens/widgets/tourism_card.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 part 'widgets/tourism_place_screen_query.dart';
 part 'widgets/tourism_place_screen_state_content.dart';
@@ -21,6 +22,7 @@ class TourismPlaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BlocBuilder<PlacesCubit, PlacesState>(
       builder: (context, state) {
         return SafeArea(
@@ -30,10 +32,10 @@ class TourismPlaceScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 16.h),
-                  AppText('Discover Tourist Places', style: font20w700),
+                  AppText(loc.discoverTouristPlaces, style: font20w700),
                   SizedBox(height: 4.h),
                   AppText(
-                    'Explore the most beautiful destinations in Egypt',
+                    loc.exploreDestinations,
                     overflow: TextOverflow.visible,
                     style: font14w400.copyWith(color: Colors.grey[600]),
                   ),

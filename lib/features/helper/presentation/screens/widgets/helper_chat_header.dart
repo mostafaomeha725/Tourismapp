@@ -5,11 +5,14 @@ import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/app_asset.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 
+import 'package:tourismapp/l10n/app_localizations.dart';
+
 class HelperChatHeader extends StatelessWidget {
   const HelperChatHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(15.w),
       margin: EdgeInsets.all(12.w),
@@ -31,10 +34,10 @@ class HelperChatHeader extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText('Tourist Assistant', style: font18w700),
+              AppText(loc.touristAssistant, style: font18w700),
               SizedBox(height: 3.h),
               AppText(
-                'Ask me about tourism in Egypt',
+                loc.askMeAboutTourism,
                 style: font12w400.copyWith(color: Colors.grey),
               ),
             ],

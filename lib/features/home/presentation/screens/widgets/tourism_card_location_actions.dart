@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class TourismCardLocationActions extends StatelessWidget {
   final bool hasLocation;
@@ -39,7 +40,7 @@ class TourismCardLocationActions extends StatelessWidget {
         ],
         if (showMapButton)
           AppButton(
-            text: 'View on map',
+            text: AppLocalizations.of(context)!.viewOnMap,
             textSize: 16.sp,
             color: const Color(0xffdb6000),
             onPressed: onViewMap,

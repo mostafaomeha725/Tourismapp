@@ -77,8 +77,10 @@ extension _BookDetailsScreenBodyStateContent on _BookDetailsScreenBodyState {
                   return;
                 }
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Could not open the booking link.'),
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.couldNotOpenBookingLink,
+                    ),
                   ),
                 );
               }

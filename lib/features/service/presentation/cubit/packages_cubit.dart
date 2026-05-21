@@ -38,12 +38,12 @@ class PackagesCubit extends Cubit<PackagesState> {
     this.resolvePackageBookingLinkUseCase,
   ) : super(const PackagesState.initial());
 
-  void _showServicesLoading() {
+  void _showServicesLoading({String? message}) {
     if (_isEasyLoadingVisible) {
       return;
     }
     _isEasyLoadingVisible = true;
-    showLoading(status: 'Loading services...');
+    showLoading(status: message);
   }
 
   void _hideServicesLoading() {

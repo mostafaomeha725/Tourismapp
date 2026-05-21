@@ -135,26 +135,4 @@ class AppButton extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  List<Object?> get props => [
-    text,
-    onPressed,
-    radius,
-    contentPadding,
-    color,
-    textColor,
-    hoveColor,
-    textSize,
-    textWeight,
-    elevation,
-    letterSpacing,
-    height,
-    child,
-    side,
-    gapLeadingText,
-  ];
-
-  @override
-  bool? get stringify => false;
 }
