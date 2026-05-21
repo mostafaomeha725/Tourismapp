@@ -165,27 +165,30 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
                   SizedBox(height: 12.h),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppText(
-                        '${loc.dontHaveAnAccount}  ',
-                        style: font14w500.copyWith(color: Colors.grey),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          GoRouter.of(context).push(Routes.registerScreen);
-                        },
-                        child: AppText(
-                          loc.registerNow,
-                          style: font14w700.copyWith(
-                            color: _highlightColor,
-                            decoration: TextDecoration.underline,
-                            decorationColor: _highlightColor,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppText(
+                          '${loc.dontHaveAnAccount}  ',
+                          style: font14w500.copyWith(color: Colors.grey),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            GoRouter.of(context).push(Routes.registerScreen);
+                          },
+                          child: AppText(
+                            loc.registerNow,
+                            style: font14w700.copyWith(
+                              color: _highlightColor,
+                              decoration: TextDecoration.underline,
+                              decorationColor: _highlightColor,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

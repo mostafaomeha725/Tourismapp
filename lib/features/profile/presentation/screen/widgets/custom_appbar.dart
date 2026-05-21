@@ -27,8 +27,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: IconButton(
                     icon: Icon(
                       Directionality.of(context) == TextDirection.rtl
-                          ? Icons.arrow_forward_ios
-                          : Icons.arrow_back_ios,
+                          ? Icons.arrow_back_ios
+                          : Icons.arrow_forward_ios,
                     ),
                     onPressed: () => GoRouter.of(context).pop(),
                   ),
