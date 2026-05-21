@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RateServiceDialogActions extends StatelessWidget {
   final VoidCallback onSubmit;
@@ -14,12 +15,14 @@ class RateServiceDialogActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: AppButton(
-            text: 'Submit Review',
+            text: loc.submitReview,
             onPressed: onSubmit,
             height: 48.h,
             color: Colors.orange,
@@ -32,7 +35,7 @@ class RateServiceDialogActions extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: AppButton(
-            text: 'Cancel',
+            text: loc.cancel,
             onPressed: onCancel,
             height: 48.h,
             textColor: Colors.black,

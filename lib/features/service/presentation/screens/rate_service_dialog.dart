@@ -8,6 +8,7 @@ import 'package:tourismapp/features/service/presentation/screens/widgets/rate_se
 import 'package:tourismapp/features/service/presentation/screens/widgets/rate_service_dialog_comment_section.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/rate_service_dialog_header.dart';
 import 'package:tourismapp/features/service/presentation/screens/widgets/rate_service_dialog_rating_section.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RateServiceDialog extends StatefulWidget {
   final int packageId;
@@ -34,8 +35,10 @@ class _RateServiceDialogState extends State<RateServiceDialog> {
   }
 
   Future<void> _submitReview(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+
     if (_rating <= 0) {
-      showError('Please choose a rating first');
+      showError(loc.chooseYourRating);
       return;
     }
 
@@ -52,8 +55,10 @@ class _RateServiceDialogState extends State<RateServiceDialog> {
       create: (_) => sl<SubmitReviewCubit>(),
       child: BlocListener<SubmitReviewCubit, SubmitReviewState>(
         listener: (context, state) {
+          final loc = AppLocalizations.of(context)!;
+
           if (state is SubmitReviewLoading) {
-            showLoading(status: 'Submitting review...');
+            showLoading(status: loc.submitReview);
           } else if (state is SubmitReviewSuccess) {
             showSuccess(state.result.message);
             Navigator.of(context).pop(true);

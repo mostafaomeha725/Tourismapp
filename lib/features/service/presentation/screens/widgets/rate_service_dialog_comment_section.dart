@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RateServiceDialogCommentSection extends StatelessWidget {
   final TextEditingController controller;
@@ -10,11 +11,13 @@ class RateServiceDialogCommentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText(
-          'Notes (Optional)',
+          loc.notesOptional,
           style: font14w700.copyWith(color: Colors.grey.shade700),
         ),
         SizedBox(height: 8.h),
@@ -28,7 +31,7 @@ class RateServiceDialogCommentSection extends StatelessWidget {
             maxLines: 3,
             style: TextStyle(fontSize: 14.sp),
             decoration: InputDecoration(
-              hintText: 'Share your experience with this service...',
+              hintText: loc.shareExperience,
               hintStyle: font12w400.copyWith(color: Colors.grey.shade400),
               border: InputBorder.none,
               contentPadding: EdgeInsets.all(15.w),

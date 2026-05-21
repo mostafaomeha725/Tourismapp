@@ -9,6 +9,7 @@ import 'package:tourismapp/core/routes/route_paths.dart';
 import 'package:tourismapp/core/services/auth_service.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
+import 'package:tourismapp/core/widgets/custom_snack_bar.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 
 import 'package:tourismapp/features/service/domain/entities/package_entity.dart';

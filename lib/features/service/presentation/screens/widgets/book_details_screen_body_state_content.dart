@@ -51,7 +51,8 @@ extension _BookDetailsScreenBodyStateContent on _BookDetailsScreenBodyState {
           right: 20.w,
           left: 20.w,
           child: AppButton(
-            text: 'book now - \$${package.price.toInt()}',
+            text:
+                '${AppLocalizations.of(context)!.bookNow} - \$${package.price.toInt()}',
             onPressed: () async {
               if (!AuthService.isLoggedIn) {
                 GoRouter.of(context).push(Routes.authScreen);
@@ -60,12 +61,9 @@ extension _BookDetailsScreenBodyStateContent on _BookDetailsScreenBodyState {
 
               final url = package.link?.trim();
               if (url == null || url.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Link is not available for this package yet.',
-                    ),
-                  ),
+                CustomSnackBar.showError(
+                  context,
+                  message: AppLocalizations.of(context)!.linkNotAvailable,
                 );
                 return;
               }
@@ -76,12 +74,11 @@ extension _BookDetailsScreenBodyStateContent on _BookDetailsScreenBodyState {
                 if (!context.mounted) {
                   return;
                 }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      AppLocalizations.of(context)!.couldNotOpenBookingLink,
-                    ),
-                  ),
+                CustomSnackBar.showError(
+                  context,
+                  message: AppLocalizations.of(
+                    context,
+                  )!.couldNotOpenBookingLink,
                 );
               }
             },

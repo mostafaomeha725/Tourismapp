@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RateServiceDialogRatingSection extends StatelessWidget {
   final int rating;
@@ -15,10 +16,12 @@ class RateServiceDialogRatingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         AppText(
-          'Choose your rating',
+          loc.chooseYourRating,
           alignment: AlignmentDirectional.center,
           style: font14w500.copyWith(color: Colors.black54),
         ),

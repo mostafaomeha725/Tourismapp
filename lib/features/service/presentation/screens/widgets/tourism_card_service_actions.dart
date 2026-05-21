@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/widgets/custom_button.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
 import 'package:tourismapp/core/theme/styles.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class TourismCardServiceActions extends StatelessWidget {
   final double? price;
@@ -23,6 +24,8 @@ class TourismCardServiceActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Row(
@@ -52,7 +55,7 @@ class TourismCardServiceActions extends StatelessWidget {
             Expanded(
               flex: 10,
               child: AppButton.icon(
-                text: 'evaluate',
+                text: loc.evaluate,
                 onPressed: () async {
                   await onEvaluate();
                 },
@@ -72,7 +75,7 @@ class TourismCardServiceActions extends StatelessWidget {
             Expanded(
               flex: 10,
               child: AppButton(
-                text: 'book',
+                text: loc.book,
                 onPressed: onBook,
                 height: 42.h,
                 color: Colors.orange,

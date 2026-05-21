@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourismapp/core/theme/styles.dart';
 import 'package:tourismapp/core/widgets/custom_text.dart';
+import 'package:tourismapp/l10n/app_localizations.dart';
 
 class RateServiceDialogHeader extends StatelessWidget {
   final String title;
@@ -15,13 +16,15 @@ class RateServiceDialogHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Stack(
       children: [
         Center(
           child: Column(
             children: [
               AppText(
-                'Rate Service',
+                loc.rateService,
                 style: font20w700,
                 alignment: AlignmentDirectional.center,
               ),
