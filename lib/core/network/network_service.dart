@@ -435,34 +435,7 @@ class NetworkService {
         ),
       );
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.badResponse) {
-        return Left(Failure(e.response!.data['message']));
-        // return Left(_l)(e.message);
-      } else if (e.type == DioExceptionType.connectionTimeout) {
-        // safePrint('check your connection');
-        return Left(
-          Failure(
-            _t(
-              en: 'Check your connection',
-              ar: 'تحقق من اتصالك بالإنترنت',
-              fr: 'Vérifiez votre connexion',
-            ),
-          ),
-        );
-      } else if (e.type == DioExceptionType.receiveTimeout) {
-        return Left(
-          Failure(
-            _t(
-              en: 'Unable to connect to the server',
-              ar: 'تعذر الاتصال بالخادم',
-              fr: 'Impossible de se connecter au serveur',
-            ),
-          ),
-        );
-      } else {
-        return Left(Failure(e.message ?? ""));
-        // return const Left("Check internet connection");
-      }
+      return handleDioExceoptions(e);
     } catch (e) {
       return Left(Failure(e.toString()));
     }
