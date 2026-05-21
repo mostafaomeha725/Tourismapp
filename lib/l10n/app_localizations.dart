@@ -753,6 +753,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load package details'**
   String get failedToLoadPackageDetails;
+
+  /// No description provided for @addedToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to favorites'**
+  String get addedToFavorites;
+
+  /// No description provided for @removedFromFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get removedFromFavorites;
+
+  /// No description provided for @favoriteUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update favorite status'**
+  String get favoriteUpdateFailed;
 }
 
 class _AppLocalizationsDelegate

@@ -345,4 +345,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get failedToLoadPackageDetails => 'فشل في تحميل تفاصيل الباقة';
+
+  @override
+  String get addedToFavorites => 'تمت الإضافة إلى المفضلة';
+
+  @override
+  String get removedFromFavorites => 'تمت الإزالة من المفضلة';
+
+  @override
+  String get favoriteUpdateFailed => 'تعذر تحديث حالة المفضلة';
 }

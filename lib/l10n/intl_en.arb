@@ -131,4 +131,7 @@
   "bookNow": "Book now"
   ,"noIncludedItemsYet": "No included items provided yet"
   ,"failedToLoadPackageDetails": "Failed to load package details"
+  ,"addedToFavorites": "Added to favorites"
+  ,"removedFromFavorites": "Removed from favorites"
+  ,"favoriteUpdateFailed": "Could not update favorite status"
 }

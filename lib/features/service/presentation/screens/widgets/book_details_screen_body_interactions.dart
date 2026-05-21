@@ -38,9 +38,10 @@ extension _BookDetailsScreenBodyInteractions on _BookDetailsScreenBodyState {
     result.fold(
       (failure) {
         _withStateUpdate(() => _isFavoriteLoading = false);
-        ScaffoldMessenger.of(
+        CustomSnackBar.showError(
           context,
-        ).showSnackBar(SnackBar(content: Text(failure.message)));
+          message: AppLocalizations.of(context)!.favoriteUpdateFailed,
+        );
       },
       (response) {
         _withStateUpdate(() {
@@ -48,9 +49,12 @@ extension _BookDetailsScreenBodyInteractions on _BookDetailsScreenBodyState {
           _favoriteSyncedPackageId = widget.packageId;
           _isFavorite = response.isFavorite;
         });
-        ScaffoldMessenger.of(
+        CustomSnackBar.showSuccess(
           context,
-        ).showSnackBar(SnackBar(content: Text(response.message)));
+          message: response.isFavorite
+              ? AppLocalizations.of(context)!.addedToFavorites
+              : AppLocalizations.of(context)!.removedFromFavorites,
+        );
       },
     );
   }

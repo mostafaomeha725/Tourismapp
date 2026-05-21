@@ -347,4 +347,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToLoadPackageDetails => 'Failed to load package details';
+
+  @override
+  String get addedToFavorites => 'Added to favorites';
+
+  @override
+  String get removedFromFavorites => 'Removed from favorites';
+
+  @override
+  String get favoriteUpdateFailed => 'Could not update favorite status';
 }

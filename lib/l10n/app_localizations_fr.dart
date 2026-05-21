@@ -351,4 +351,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get failedToLoadPackageDetails =>
       'Échec du chargement des détails du forfait';
+
+  @override
+  String get addedToFavorites => 'Ajouté aux favoris';
+
+  @override
+  String get removedFromFavorites => 'Retiré des favoris';
+
+  @override
+  String get favoriteUpdateFailed =>
+      'Impossible de mettre à jour l\'état des favoris';
 }

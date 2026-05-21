@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:tourismapp/core/di/services_locator.dart';
+import 'package:tourismapp/core/enums/app_enums.dart';
+import 'package:tourismapp/core/cache/preferences_storage.dart';
 
 /// ===============================
 /// CONFIGURATION
@@ -25,8 +28,23 @@ void configureEasyLoading() {
 /// LOADING
 /// ===============================
 void showLoading({String? status}) {
+  String localizedDefaultLoading() {
+    final currentLanguage = sl<PreferencesStorage>().getString(
+      key: PreferencesKeys.currentLanguage,
+    );
+
+    switch (currentLanguage) {
+      case 'ar':
+        return 'جاري التحميل...';
+      case 'fr':
+        return 'Chargement...';
+      default:
+        return 'Loading...';
+    }
+  }
+
   EasyLoading.show(
-    status: status ?? "Loading...",
+    status: status ?? localizedDefaultLoading(),
     maskType: EasyLoadingMaskType.black,
   );
 }

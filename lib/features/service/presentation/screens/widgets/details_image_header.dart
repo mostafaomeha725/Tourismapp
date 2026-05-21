@@ -68,9 +68,14 @@ class DetailsImageHeader extends StatelessWidget {
           Positioned(
             top: 30.h,
             left: 20.w,
-            child: _buildCircleIcon(Icons.arrow_back_ios_new, () {
-              GoRouter.of(context).pop();
-            }),
+            child: _buildCircleIcon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.arrow_forward_ios
+                  : Icons.arrow_back_ios_new,
+              () {
+                GoRouter.of(context).pop();
+              },
+            ),
           ),
         ],
       ),

@@ -115,4 +115,7 @@
   "bookNow": "Réserver maintenant"
   ,"noIncludedItemsYet": "Aucun élément inclus disponible pour le moment"
   ,"failedToLoadPackageDetails": "Échec du chargement des détails du forfait"
+  ,"addedToFavorites": "Ajouté aux favoris"
+  ,"removedFromFavorites": "Retiré des favoris"
+  ,"favoriteUpdateFailed": "Impossible de mettre à jour l'état des favoris"
 }
